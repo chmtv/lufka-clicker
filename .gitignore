@@ -1,0 +1,8 @@
+*.blend
+*.xlsx
+"windows export"/
+export/
+movie/
+android/
+.mono/
+.godot/
