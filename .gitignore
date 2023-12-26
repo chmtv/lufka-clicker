@@ -1,6 +1,7 @@
 *.blend
 *.xlsx
 "windows export"/
+Topek.pck
 export/
 movie/
 android/
