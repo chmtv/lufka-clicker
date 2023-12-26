@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c4milucethk7v"]
+[gd_scene load_steps=34 format=3 uid="uid://c4milucethk7v"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://dgxxlxt4mn1iw" path="res://Scenes/palenie/apple.tscn" id="11_wxpln"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="12_yp0fg"]
 [ext_resource type="PackedScene" path="res://Scenes/FPS Counter.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://bg4rl3cjkvce2" path="res://Sprites/burnProgress2D.tres" id="14_8aw48"]
+[ext_resource type="Script" path="res://Scripts/scaleXBasedOnViewport.gd" id="15_dc6li"]
 [ext_resource type="PackedScene" uid="uid://ctrfds0jrtqpr" path="res://Scenes/palenie/lufka.tscn" id="17_8vf6j"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
@@ -51,6 +53,9 @@ _data = {
 bg_color = Color(0.321569, 0.45098, 0.301961, 1)
 
 [sub_resource type="FontFile" id="FontFile_5ynlr"]
+face_index = null
+embolden = null
+transform = null
 cache/0/32/0/ascent = 0.0
 cache/0/32/0/descent = 0.0
 cache/0/32/0/underline_position = 0.0
@@ -213,6 +218,30 @@ speed_scale = 8.0
 libraries = {
 "": SubResource("AnimationLibrary_gry3a")
 }
+
+[node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.019
+anchor_top = 0.2
+anchor_right = 1.611
+anchor_bottom = 0.857
+offset_left = -0.052
+offset_top = 29.3584
+offset_right = 0.0119934
+offset_bottom = 29.7594
+value = 100.0
+texture_progress = ExtResource("14_8aw48")
+script = ExtResource("15_dc6li")
+
+[node name="Panel" type="Panel" parent="Game Manager/Burn Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.027
+anchor_right = 1.0
+anchor_bottom = 1.541
+offset_top = 0.00338173
+offset_bottom = 12.9905
 
 [node name="ShopOpen" type="Button" parent="Game Manager"]
 z_index = 1
@@ -423,8 +452,9 @@ offset_bottom = -0.0799999
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraAxis/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraAxis" method="_on_Rotation_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
+[connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
+[connection signal="button_up" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_release"]
 [connection signal="pressed" from="Game Manager/Burn Button" to="Game Manager/Burn Button" method="_on_pressed"]
-[connection signal="timeout" from="Game Manager/Burn Button/Burn Percentage Drain" to="Game Manager" method="_on_burn_percentage_drain_timeout"]
 [connection signal="pressed" from="Game Manager/ShopOpen" to="Game Manager/MenuToggler" method="_on_shop_open_pressed"]
 [connection signal="pressed" from="Game Manager/UpgradeShopContainer/ShopClose" to="Game Manager/MenuToggler" method="_on_shop_close_pressed"]
 [connection signal="timeout" from="Game Manager/Upg Button Disable" to="Game Manager" method="_on_Upg_Button_Disable_timeout"]

@@ -3,7 +3,8 @@ extends Node3D
 var thc : float = 999999999999
 var opalanie : float = 0.0
 var burnPercentage = 0.3
-var burnPctPerClick = 0.01
+var isBurning = false
+var burnPctPerSec = 2.015
 var burnPctDrainPerSec = 0.01
 var burnPctMinimum = 0.25
 var THCpS = 0.1
@@ -240,7 +241,7 @@ func getTHC():
 
 @onready var thcLabel = get_node("CanvasLayer/THC Points Label")
 @onready var burnPctLabel = get_node("CanvasLayer/Percentage")
-
+@onready var burnProgressBar = get_node("Burn Button/Burn Progress")
 
 func _on_BuildingBuy(index):
 	thc = buildings[index].buy(thc)
@@ -379,6 +380,13 @@ func refreshBuildingsList():
 		if thc/2 > buildings[i].cost:
 			buildingButtonList.append(button)
 func _process(delta):
+	if isBurning:
+		var added = burnPercentage + burnPctPerSec * delta
+		burnPercentage = min(added, 1)
+	else:
+		var drained = burnPercentage - burnPctDrainPerSec * delta
+		burnPercentage = max(burnPctMinimum, drained)
+	burnChange()
 	elapsedTime += delta
 	THCpSToDisplay = THCpS
 	addOpalanie(burnPercentage*delta*0.01)
@@ -402,12 +410,12 @@ func burnChange():
 	buildingsVisualManager.burnPercentage = burnPercentage
 func refreshBurnPctLabel():
 	burnPctLabel.text = str(burnPercentage * 100) + "%"
+	burnProgressBar.value = burnPercentage * 100
 func _on_burn_press():
-	burnPercentage = min(burnPercentage + burnPctPerClick, 1)
-	burnChange()
-func _on_burn_percentage_drain_timeout():
-	burnPercentage = max(burnPctMinimum, burnPercentage - burnPctDrainPerSec)
-	burnChange()
+	isBurning = true
+	# burnPercentage = min(burnPercentage + burnPctPerClick, 1)
+	# 
+ 
 
 func addTHC(amount):
 	globalTHCpSLabel.text = thcWithNumberAffix(THCpS) + " THCpS"
@@ -457,3 +465,9 @@ func _on_SaveTimer_timeout():
 
 
 
+
+
+func handle_Burn_Button_hold():
+	isBurning = true
+func handle_Burn_Button_release():
+	isBurning = false

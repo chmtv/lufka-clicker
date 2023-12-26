@@ -1,6 +1,8 @@
 extends Button
 
 signal burning(delta)
+signal isBurning
+signal isNotBurning
 signal burnPress;
 
 var burnPercentage = 0.0
@@ -9,7 +11,7 @@ var fireLight
 var burnSoundNode
 @onready var smokeSpawner = get_node("Palenie/Smoke Spawner")
 @onready var pressAnimation = get_node("Button Press Anim")
-
+@onready var progressBar = get_node("Burn Progress")
 
 func _ready():
 	particles = get_node("Palenie/BurnParticles")
@@ -20,8 +22,10 @@ func _ready():
 
 var isPressed = false
 func handleButtonDown():
+	emit_signal("isBurning")
 	isPressed = true
 func handleButtonUp():
+	emit_signal("isNotBurning")
 	isPressed = false
 func _on_pressed():
 	emit_signal("burnPress")
