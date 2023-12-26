@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://bipauiou02208"]
+
+[ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="1"]
+[ext_resource type="Script" path="res://Scenes/ShopButtonResize.gd" id="1_en4fg"]
+[ext_resource type="Script" path="res://Scripts/UpgradeBuying.gd" id="2"]
+
+[node name="BuildingPanel" type="Panel"]
+custom_minimum_size = Vector2(144, 20)
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.203
+offset_bottom = 0.0319977
+mouse_filter = 1
+script = ExtResource("1_en4fg")
+
+[node name="Buy Button" type="Button" parent="."]
+layout_mode = 0
+anchor_left = 0.691
+anchor_top = 0.034
+anchor_right = 0.993
+anchor_bottom = 0.966
+offset_left = 0.0239944
+offset_top = 0.0139999
+offset_right = -0.0479889
+offset_bottom = -0.0139999
+theme = ExtResource("1")
+text = "1"
+script = ExtResource("2")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.695
+anchor_bottom = 0.38
+offset_left = 1.0
+offset_right = 0.0319901
+offset_bottom = 0.0108232
+
+[node name="THCpS" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.517
+anchor_right = 0.695
+anchor_bottom = 1.0
+offset_top = -4.993
+offset_right = 0.0319901
+text = "1 THCpS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Buy Button" to="Buy Button" method="_on_Buy_Button_pressed"]

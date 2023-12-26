@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cg1ikgmcvq448"]
+
+[ext_resource type="Script" path="res://SmokeVoxel.gd" id="1_st3jy"]
+
+[sub_resource type="FogMaterial" id="FogMaterial_clsv0"]
+density = 3.2222
+emission = Color(0.568627, 0.568627, 0.568627, 1)
+height_falloff = 0.678469
+edge_fade = 0.0554785
+
+[node name="Smoke Voxel" type="FogVolume"]
+size = Vector3(0.5, 0.5, 0.5)
+shape = 0
+material = SubResource("FogMaterial_clsv0")
+script = ExtResource("1_st3jy")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
