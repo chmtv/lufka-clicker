@@ -1,7 +1,7 @@
 extends Node3D
 
 # var thc : float = 999999999999
-var thc : float = 0
+var thc : float = 999999999
 var opalanie : float = 0.0
 var burnPercentage = 0.3
 var isBurning = false
@@ -64,7 +64,8 @@ func saveGame():
 	saveFile.store_line(JSON.new().stringify(saveData))
 func loadGame():
 	# Uncomment the return to make the game NOT load the save file
-	# return
+	return
+	
 	var saveFile = FileAccess.open(saveFilePath, FileAccess.READ)
 	if not saveFile:
 		return
@@ -191,6 +192,10 @@ class Building:
 	var upgradeAdditiveMultiplier = 1
 	var upgradeMultiplicativeMultiplier = 1
 	var index = 0
+	# These properties are used for the progress bar, they show which level upgrade for this building
+	# was bought last and at which level is the next one
+	var lastUpgLv = 0
+	var nextUpgLv = 1
 		
 	# buys and returns the new currency amount
 	func buy(thc):
@@ -210,7 +215,7 @@ class Building:
 	func recalculateTHCpS():
 		THCpS = baseTHCpS * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier
 		THCpSWhileBurning = baseTHCpSWhileBurning * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier
-	func _init(_name = "", _cost = 0, _THCpS = 0, _THCpSWhileBurning = 0, afterBuyFn = "", _costExponent = 1.2, _THCpSExponent = 1):
+	func _init(_name = "", _cost = 0, _THCpS = 0, _THCpSWhileBurning = 0, afterBuyFn = "", _costExponent = 1.2, _THCpSExponent = 1, _defaultNextUpgLv = 5):
 		
 		baseCost = _cost
 		name = _name
@@ -219,16 +224,17 @@ class Building:
 		costExponent = _costExponent
 		THCpSExponent = _THCpSExponent
 		afterBuyFnRef = afterBuyFn
+		nextUpgLv = _defaultNextUpgLv
 		recalculateCost()
 		recalculateTHCpS()
 
 var buildings = [
-	Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.3), # 0
-	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2), # 1
-	Building.new("Lufka", 500, 45, 0, afterBuyRef, 1.16), # 2
+	Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.3, 5), # 0
+	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2, 5), # 1
+	Building.new("Lufka", 500, 45, 0, afterBuyRef, 1.16, 5), # 2
 	# Building.new("Jedzenie", 1000, 10, 0, afterBuyRef, 1.2), # 3
-	Building.new("Wodospad", 10000, 480, 0, afterBuyRef, 1.151), # 4
-	Building.new("Wiadro", 800000, 25, 0, afterBuyRef, 1.15),	# 5
+	Building.new("Wodospad", 10000, 480, 0, afterBuyRef, 1.151, 5), # 4
+	Building.new("Wiadro", 800000, 25, 0, afterBuyRef, 1.15, 5),	# 5
 	Building.new("Bongo", 1000000, 75, 0, afterBuyRef, 1.2),	# 6
 	Building.new("Waporyzator", 20000000, 125, 0, afterBuyRef, 1.2),	# 7
 	Building.new("Bongo grawitacyjne", 20000000, 125, 0, afterBuyRef, 1.2),	# 8
@@ -281,6 +287,11 @@ func updateBuildingShop():
 			
 			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
 		currentButton.get_node("Buy Button").text = thcWithNumberAffix(building.cost)
+		# Set the progress bar
+		currentButton.get_node("Upgrade Progress").min_value = building.lastUpgLv
+		currentButton.get_node("Upgrade Progress").max_value = building.nextUpgLv
+		currentButton.get_node("Upgrade Progress").value = building.level
+		
 		currentButton.get_node("LevelPanel/Level").text = str(building.level)
 		currentButton.get_node("Buy Button").connect(
 			"BuildingBuy",
@@ -360,6 +371,11 @@ func buyUpgrade(index, isMapUpgrade = false):
 			globalAdditiveMultiplier += curUpg.globalMultiplier
 		curUpg.bought = true
 		refreshUpgradeEffects()
+		# Set the upgraded building's last upgrade level (for progress bar calculation)
+		buildings[curUpg.buildingID].lastUpgLv = curUpg.buildingLevel
+		# Set the next upgrade level if it exists (on the next upgrade lmao)
+		if Upgrades.upgrades[index+1].buildingID == curUpg.buildingID:
+			buildings[curUpg.buildingID].nextUpgLv = Upgrades.upgrades[index+1].buildingLevel
 		updateBuildingShop()
 		updateMapsMenu()
 		updateUpgradesShop()

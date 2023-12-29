@@ -1,7 +1,7 @@
-[gd_scene load_steps=34 format=3 uid="uid://c4milucethk7v"]
+[gd_scene load_steps=35 format=3 uid="uid://c4milucethk7v"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
-[ext_resource type="Script" path="res://Scripts/SubViewportResize.gd" id="2_26dat"]
+[ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
 [ext_resource type="AudioStream" uid="uid://cjndly60qrtv1" path="res://burn.ogg" id="5"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://Scripts/shopIcons.gd" id="16_pkvfo"]
 [ext_resource type="PackedScene" uid="uid://ctrfds0jrtqpr" path="res://Scenes/palenie/lufka.tscn" id="17_8vf6j"]
 [ext_resource type="Script" path="res://Scripts/MenuToggle.gd" id="17_f0ukf"]
+[ext_resource type="Script" path="res://Scenes/buildingProgressBars.gd" id="17_su7yk"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
@@ -53,6 +54,9 @@ _data = {
 bg_color = Color(0.321569, 0.45098, 0.301961, 1)
 
 [sub_resource type="FontFile" id="FontFile_5ynlr"]
+face_index = null
+embolden = null
+transform = null
 cache/0/32/0/ascent = 0.0
 cache/0/32/0/descent = 0.0
 cache/0/32/0/underline_position = 0.0
@@ -278,6 +282,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 0
 mouse_filter = 2
 tab_alignment = 1
+script = ExtResource("17_su7yk")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/S"]
 layout_mode = 1
