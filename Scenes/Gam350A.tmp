@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
 [ext_resource type="AudioStream" uid="uid://cjndly60qrtv1" path="res://burn.ogg" id="5"]
-[ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
+[ext_resource type="Script" path="res://Scripts/BuildingVisuals.gd" id="6_q28dy"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
 [ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
 [ext_resource type="Texture2D" uid="uid://crfxjfdqsqi46" path="res://Sprites/Maps/piwnica.jpg" id="10_35qj5"]
@@ -133,13 +133,13 @@ size_2d_override = Vector2i(600, 800)
 render_target_update_mode = 4
 script = ExtResource("2_26dat")
 
-[node name="`" type="Node3D" parent="Game Manager/SubViewportContainer/SubViewport"]
+[node name="CameraAxis" type="Node3D" parent="Game Manager/SubViewportContainer/SubViewport"]
 script = ExtResource("3_ef5wr")
 
-[node name="Camera3D" type="Camera3D" parent="Game Manager/SubViewportContainer/SubViewport/`"]
-transform = Transform3D(-0.662123, -0.256308, 0.704201, 0, 0.939693, 0.34202, -0.749395, 0.22646, -0.622192, -4.25761, 3.44984, -27.7992)
+[node name="Camera3D" type="Camera3D" parent="Game Manager/SubViewportContainer/SubViewport/CameraAxis"]
+transform = Transform3D(-0.662123, -0.256308, 0.704201, 0, 0.939693, 0.34202, -0.749395, 0.22646, -0.622192, -4.25761, 3.44984, -14.1522)
 
-[node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/`"]
+[node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/CameraAxis"]
 wait_time = 5.0
 
 [node name="TextureRect" type="TextureRect" parent="Game Manager"]
@@ -183,7 +183,7 @@ spot_range = 42.449
 spot_angle = 12.27
 
 [node name="Buildings" type="Node3D" parent="Game Manager/Burn Button"]
-script = ExtResource("6_ekn02")
+script = ExtResource("6_q28dy")
 
 [node name="Apple" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_wxpln")]
 
@@ -439,7 +439,7 @@ offset_top = 1.0
 offset_right = -0.00799942
 offset_bottom = -0.0799999
 
-[connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/`/Rotation" to="Game Manager/SubViewportContainer/SubViewport/`" method="_on_Rotation_timeout"]
+[connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraAxis/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraAxis" method="_on_Rotation_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]

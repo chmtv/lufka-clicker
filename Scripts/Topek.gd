@@ -37,8 +37,10 @@ func cracklingPercentage(totalPercentage):
 func _process(delta):
 	var cracklingPct = cracklingPercentage(burnPercentage)
 	# burnSoundNode.pitch_scale = lerp(1.0, 3.0, cracklingPct)
-	burnSoundNode.volume_db = lerp(-11, -23, 1 - cracklingPct)
-	if burnPercentage > 0.7 and !burnSoundNode.playing:
+	burnSoundNode.volume_db = lerp(0, -11, 1 - cracklingPct)
+	if isPressed and !burnSoundNode.playing: # Old, based on burning %:        burnPercentage > 0.7 and !burnSoundNode.playing:
 		burnSoundNode.playing = true
+	elif !burnSoundNode.playing:
+		burnSoundNode.playing = false
 
 

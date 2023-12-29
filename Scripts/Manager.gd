@@ -1,10 +1,11 @@
 extends Node3D
 
-var thc : float = 999999999999
+# var thc : float = 999999999999
+var thc : float = 0
 var opalanie : float = 0.0
 var burnPercentage = 0.3
 var isBurning = false
-var burnPctPerSec = 2.015
+var burnPctPerSec = 0.015
 var burnPctDrainPerSec = 0.01
 var burnPctMinimum = 0.25
 var THCpS = 0.1
@@ -38,6 +39,7 @@ func thcWithNumberAffix(_thc):
 		"Undec",
 		"Duodec"
 	]
+	# Create the initial string from the rounded thc amount
 	var result = str(_thc)
 	for i in affixes.size():
 		if _thc / pow(10, 3*(i)) > 1:
@@ -61,8 +63,8 @@ func saveGame():
 	var saveFile = FileAccess.open(saveFilePath, FileAccess.WRITE)
 	saveFile.store_line(JSON.new().stringify(saveData))
 func loadGame():
-	# Uncomment this to make the game NOT load the save file
-	return
+	# Uncomment the return to make the game NOT load the save file
+	# return
 	var saveFile = FileAccess.open(saveFilePath, FileAccess.READ)
 	if not saveFile:
 		return
@@ -223,10 +225,10 @@ class Building:
 var buildings = [
 	Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.3), # 0
 	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2), # 1
-	Building.new("Lufka", 750, 100, 0, afterBuyRef, 1.17), # 2
+	Building.new("Lufka", 500, 45, 0, afterBuyRef, 1.16), # 2
 	# Building.new("Jedzenie", 1000, 10, 0, afterBuyRef, 1.2), # 3
-	Building.new("Wodospad", 10000, 1250, 0, afterBuyRef, 1.15), # 4
-	Building.new("Wiadro", 30000, 25, 0, afterBuyRef, 1.2),	# 5
+	Building.new("Wodospad", 10000, 480, 0, afterBuyRef, 1.151), # 4
+	Building.new("Wiadro", 800000, 25, 0, afterBuyRef, 1.15),	# 5
 	Building.new("Bongo", 1000000, 75, 0, afterBuyRef, 1.2),	# 6
 	Building.new("Waporyzator", 20000000, 125, 0, afterBuyRef, 1.2),	# 7
 	Building.new("Bongo grawitacyjne", 20000000, 125, 0, afterBuyRef, 1.2),	# 8
@@ -330,6 +332,17 @@ func refreshUpgradeEffects():
 		buildings[curUpg.buildingID].upgradeAdditiveMultiplier += curUpg.additiveMultiplier
 		buildings[curUpg.buildingID].upgradeMultiplicativeMultiplier += curUpg.multiplicativeMultiplier
 		buildings[curUpg.buildingID].recalculateTHCpS()
+		# Drunk code niggggggaaaaaaaaaaaaaaaaaaaa
+		# if(Upgrades.upgrades[boughtUpgradesIds[i]].burnRateMultiplier):
+			# Bumbaclot ;dddddddddddddddddddddddd
+			# Jestem tak najebany ze nie wiem co robie
+			# Kurwa ja pierdodle
+			# Kilo dopow moim bagu z twojom starom w hotelu
+			# dKIuuuuuuurwa piiiiiiiwnica u Ziemniaka
+			# Dziennie 20 mocarzuw
+			# Ja kurwa nir ewiem co ja robie jestem tak najebany czego ja kurwa koduje
+			# Kurwa 3 piwa w 5 sekund kurwa
+				# burnPercentage *= boughtUpgrades[i].burnRateMultiplier
 	recalculateTHCpS()
 # Adds an upgrade to the bought upgrades list and updates the bought property
 func buyUpgrade(index, isMapUpgrade = false):
@@ -380,6 +393,7 @@ func refreshBuildingsList():
 		if thc/2 > buildings[i].cost:
 			buildingButtonList.append(button)
 func _process(delta):
+	# Code for changing the burn percentage based on the percentage
 	if isBurning:
 		var added = burnPercentage + burnPctPerSec * delta
 		burnPercentage = min(added, 1)
@@ -418,7 +432,8 @@ func _on_burn_press():
  
 
 func addTHC(amount):
-	globalTHCpSLabel.text = thcWithNumberAffix(THCpS) + " THCpS"
+	# Change the THCps label's text
+	globalTHCpSLabel.text = "THCpS: " + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" + thcWithNumberAffix(THCpS) + ")" + " "
 	
 	thc += amount
 	

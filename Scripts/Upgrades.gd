@@ -8,6 +8,7 @@ class Upgrade:
 	var bought = false
 	var globalMultiplier = 1
 	var buildingLevel = 0
+	var burnRateMultplier = 1
 	func afterBuy():
 		pass
 	func _init(_name = "Brak nazwy", _description = "", _buildingID = 0 ,_cost = 0, _additiveMultiplier = 0, _multiplicativeMultiplier = 0, _buildingLevel = 0):
@@ -49,7 +50,14 @@ class MapUpgrade extends Upgrade:
 		cost = _cost
 		globalMultiplier = _multiplier
 		mapPath = _mapPath
-
+class BurnRateUpgrade extends Upgrade:
+	# Additive upgrade to burn the burn button hold rate, increasing and decreasing
+	func _init(_name, _descritption, _cost, _burnRateMultiplier, _burnDrainMultiplier):
+		name = _name
+		description = _descritption
+		cost = _cost
+		# Kurw ale sie najebalem jak to pisaleeeeem jaa pierddollllllleeeeeeeeeeeeeeeeee
+		# burnRateMultiplier = _burnRateMultiplier
 enum BuildingIds {
 	Zapalniczka,
 	Jablko,
@@ -62,14 +70,29 @@ enum BuildingIds {
 }
 
 var upgrades = [
+	# Zapalniczka
 	AdditiveMultiplierUpgrade.new("Mechanizm zapalający", "Przycisk zapalniczki zrobiony z lżejszego plastiku dodaje wygody", BuildingIds.Zapalniczka, 10, 0.5, 5),
 	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 50, 0.5, 10),
-	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 50, 0.5, 25),
-	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie I", "", BuildingIds.Jablko, 20, 0.5, 10),
-	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie II", "", BuildingIds.Jablko, 200, 0.5, 25),
-	MultiplicativeMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 1, 15),
-	MultiplicativeMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 0.5, 30),
-	
+	AdditiveMultiplierUpgrade.new("Lepszy gaz", "Płyn do zapalniczki o starannie dobranych proporcjach wytwarza większy płomień", BuildingIds.Zapalniczka, 500, 0.5, 25),
+	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 2000, 0.5, 50),
+	AdditiveMultiplierUpgrade.new("Zapalniczka V", "", BuildingIds.Zapalniczka, 2000, 0.5, 75),
+	# Jabłko
+	AdditiveMultiplierUpgrade.new("Precyzyjne cięcie I", "", BuildingIds.Jablko, 20, 0.5, 5),
+	AdditiveMultiplierUpgrade.new("Precyzyjne cięcie II", "", BuildingIds.Jablko, 200, 0.5, 15),
+	AdditiveMultiplierUpgrade.new("Jablko III", "", BuildingIds.Jablko, 2000, 1, 25),
+	AdditiveMultiplierUpgrade.new("Jablko IV", "", BuildingIds.Jablko, 2000, 2, 50),
+	# Lufka
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 0.5, 5),
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 0.5, 10),
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 1, 15),
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 1, 20),
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 2, 25),
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 2, 50),
+	# Wodospad
+	AdditiveMultiplierUpgrade.new("Wodospad I", "", BuildingIds.Butla, 2000, 2, 5),
+	AdditiveMultiplierUpgrade.new("Wodospad II", "", BuildingIds.Butla, 2000, 2, 15),
+	AdditiveMultiplierUpgrade.new("Wodospad III", "", BuildingIds.Butla, 2000, 3, 20),
+	AdditiveMultiplierUpgrade.new("Wodospad IV", "", BuildingIds.Butla, 2000, 2, 30)
 
 ]
 
