@@ -28,7 +28,7 @@ func handleButtonUp():
 	emit_signal("isNotBurning")
 	isPressed = false
 func _on_pressed():
-	emit_signal("burnPress")
+	# emit_signal("burnPress")
 	pressAnimation.play("burnPress")
 
 func cracklingPercentage(totalPercentage):
@@ -37,10 +37,16 @@ func cracklingPercentage(totalPercentage):
 func _process(delta):
 	var cracklingPct = cracklingPercentage(burnPercentage)
 	# burnSoundNode.pitch_scale = lerp(1.0, 3.0, cracklingPct)
-	burnSoundNode.volume_db = lerp(0, -11, 1 - cracklingPct)
+	burnSoundNode.volume_db = lerp(0, -11, 1 - cracklingPct) if isBurning else 0
+	if isPressed:
+		var mousePos = get_global_mouse_position()
+		var burnParticles = preload("res://Scenes/Particles/burnParticles.tscn").instantiate()
+		burnParticles.position = mousePos
+		get_tree().root.add_child(burnParticles)
+	
 	if isPressed and !burnSoundNode.playing: # Old, based on burning %:        burnPercentage > 0.7 and !burnSoundNode.playing:
 		burnSoundNode.playing = true
-	elif !burnSoundNode.playing:
+	elif !isPressed:
 		burnSoundNode.playing = false
 
 

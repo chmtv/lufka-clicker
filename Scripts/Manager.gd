@@ -1,7 +1,15 @@
 extends Node3D
 
+@export var godmode : bool
+func enableGodmode():
+	godmode = true
+	thc = 999999999999999
+func disableGodmode():
+	godmode = false
+	thc = 0
+	loadGame()
 # var thc : float = 999999999999
-var thc : float = 999999999
+var thc : float = 0
 var opalanie : float = 0.0
 var burnPercentage = 0.3
 var isBurning = false
@@ -14,6 +22,7 @@ var THCpSWhileBurning = 0
 @onready var upgradesScrollContainer = get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer")
 @onready var burnButton = get_node("Burn Button")
 @onready var buildingsVisualManager = get_node("Burn Button/Buildings")
+@onready var NoUpgLabel = get_node("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
 var THCpSToDisplay
 var elapsedTime = 0
 
@@ -52,6 +61,8 @@ func thcWithNumberAffix(_thc):
 
 const saveFilePath = "user://lufkaClicker.sav"
 func saveGame():
+	if godmode:
+		return
 	var buildingLevels = []
 	for building in buildings:
 		buildingLevels.append(building.level)
@@ -63,8 +74,8 @@ func saveGame():
 	var saveFile = FileAccess.open(saveFilePath, FileAccess.WRITE)
 	saveFile.store_line(JSON.new().stringify(saveData))
 func loadGame():
-	# Uncomment the return to make the game NOT load the save file
-	return
+	if godmode:
+		return
 	
 	var saveFile = FileAccess.open(saveFilePath, FileAccess.READ)
 	if not saveFile:
@@ -263,16 +274,11 @@ func afterBuildingBuy():
 	updateUpgradesShop()
 	
 	
-
-func updateBuildingShop():
-	# Reset the VBox to its' initial state
-	for n in buildingVBox.get_children():
-		buildingVBox.remove_child(n)
-		n.queue_free()
-	# Generate and place all the building buttons
+func makeBuildingShop():
+	var button = preload("res://Scenes/BuildingButton.tscn")
 	for i in buildings.size():
 		var building = buildings[i]
-		var currentButton = preload("res://Scenes/BuildingButton.tscn").instantiate()
+		var currentButton = button.instantiate()
 		currentButton.get_node("Buy Button").index = i
 		currentButton.get_node("Name").text = building.name
 		var thcDifference = building.baseTHCpS * building.upgradeAdditiveMultiplier * building.upgradeMultiplicativeMultiplier
@@ -288,16 +294,52 @@ func updateBuildingShop():
 			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
 		currentButton.get_node("Buy Button").text = thcWithNumberAffix(building.cost)
 		# Set the progress bar
-		currentButton.get_node("Upgrade Progress").min_value = building.lastUpgLv
-		currentButton.get_node("Upgrade Progress").max_value = building.nextUpgLv
-		currentButton.get_node("Upgrade Progress").value = building.level
-		
+		var progressBar = currentButton.get_node("Upgrade Progress")
+		progressBar.min_value = building.lastUpgLv
+		progressBar.max_value = building.nextUpgLv
+		progressBar.value = building.level
 		currentButton.get_node("LevelPanel/Level").text = str(building.level)
 		currentButton.get_node("Buy Button").connect(
 			"BuildingBuy",
 			_on_BuildingBuy)
 		buildingVBox.add_child(currentButton)
 		updateUpgradesShop()
+func updateBuildingShop():
+	# Reset the VBox to its' initial state
+	#for n in buildingVBox.get_children():
+	#	buildingVBox.remove_child(n)
+	#	n.queue_free()
+	# Generate and place all the building buttons
+	var buildingNodes = buildingVBox.get_children()
+	for i in buildingNodes.size():
+		var building = buildings[i]
+		var currentButton = buildingVBox.get_child(i)
+		currentButton.get_node("Buy Button").index = i
+		currentButton.get_node("Name").text = building.name
+		var thcDifference = building.baseTHCpS * building.upgradeAdditiveMultiplier * building.upgradeMultiplicativeMultiplier
+		var thcDiffStr = thcWithNumberAffix(thcDifference)
+		var THCpSLabel = currentButton.get_node("THCpS")
+		THCpSLabel.text = "[center]" + thcWithNumberAffix(building.THCpS) + ("\n[color=#555555] (+%s)" % thcDiffStr) + "[/color] \n " + "[/center]"
+		
+		if building.THCpSWhileBurning:
+			THCpSLabel.clear()
+			thcDifference = building.baseTHCpSWhileBurning * building.upgradeAdditiveMultiplier * building.upgradeMultiplicativeMultiplier
+			thcDiffStr = thcWithNumberAffix(thcDifference)
+			
+			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
+		currentButton.get_node("Buy Button").text = thcWithNumberAffix(building.cost)
+		# Set the progress bar
+		var progressBar = currentButton.get_node("Upgrade Progress")
+		progressBar.min_value = building.lastUpgLv
+		progressBar.max_value = building.nextUpgLv
+		progressBar.value = building.level
+		currentButton.get_node("LevelPanel/Level").text = str(building.level)
+		currentButton.get_node("Buy Button").connect(
+			"BuildingBuy",
+			_on_BuildingBuy)
+		buildingVBox.add_child(currentButton)
+		updateUpgradesShop()
+	
 # UPGRADES CODE
 func updateUpgradesShop():
 	var upgScrollContainer = get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer")
@@ -333,6 +375,8 @@ func updateUpgradesShop():
 					"UpgradeBuy",
 					_on_UpgradeBuy)
 				upgradeVBox.add_child(currentButton)
+	# Change the visibility of the "no upgrades" text based on upg vbox child count
+	NoUpgLabel.visible = true if ( upgradeVBox.get_child_count() == 0 ) else false
 func refreshUpgradeEffects():
 	for i in buildings.size():
 		buildings[i].upgradeAdditiveMultiplier = 1.0
@@ -362,6 +406,11 @@ func buyUpgrade(index, isMapUpgrade = false):
 		curUpg = Upgrades.mapUpgrades[index]
 	else:
 		curUpg = Upgrades.upgrades[index]
+		# Set the upgraded building's last upgrade level (for progress bar calculation)
+		buildings[curUpg.buildingID].lastUpgLv = curUpg.buildingLevel
+		# Set the next upgrade level if it exists (on the next upgrade lmao)
+		if Upgrades.upgrades[index+1].buildingID == curUpg.buildingID:
+			buildings[curUpg.buildingID].nextUpgLv = Upgrades.upgrades[index+1].buildingLevel
 	if(thc >= curUpg.cost):
 		thc -= curUpg.cost
 		boughtUpgradesIds.append(index)
@@ -371,11 +420,6 @@ func buyUpgrade(index, isMapUpgrade = false):
 			globalAdditiveMultiplier += curUpg.globalMultiplier
 		curUpg.bought = true
 		refreshUpgradeEffects()
-		# Set the upgraded building's last upgrade level (for progress bar calculation)
-		buildings[curUpg.buildingID].lastUpgLv = curUpg.buildingLevel
-		# Set the next upgrade level if it exists (on the next upgrade lmao)
-		if Upgrades.upgrades[index+1].buildingID == curUpg.buildingID:
-			buildings[curUpg.buildingID].nextUpgLv = Upgrades.upgrades[index+1].buildingLevel
 		updateBuildingShop()
 		updateMapsMenu()
 		updateUpgradesShop()
@@ -394,9 +438,17 @@ func recalculateTHCpS():
 	THCpS = THCpS * globalAdditiveMultiplier * burnPercentage
 func _ready():
 	leafTexture = load("res://Sprites/cannabis.png")
+	# Godmode (disabled on release build)
+	print("godmode", godmode)
+	if godmode:
+		enableGodmode()
+	if not OS.is_debug_build():
+		disableGodmode()
+	
 	loadGame()
 	recalculateTHCpS()
-	updateBuildingShop()
+	makeBuildingShop()
+	# updateBuildingShop()
 	updateUpgradesShop()
 	updateMapsMenu()
 	refreshBuildingsList()
@@ -442,10 +494,9 @@ func refreshBurnPctLabel():
 	burnPctLabel.text = str(burnPercentage * 100) + "%"
 	burnProgressBar.value = burnPercentage * 100
 func _on_burn_press():
-	isBurning = true
+	pass
+	# Old code for pressing the button to gain burning instead of holding the button
 	# burnPercentage = min(burnPercentage + burnPctPerClick, 1)
-	# 
- 
 
 func addTHC(amount):
 	# Change the THCps label's text

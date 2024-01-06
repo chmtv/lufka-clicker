@@ -4,10 +4,15 @@ signal BuildingBuy(index)
 var index = 0
 
 func _on_Buy_Button_pressed():
-	# showSmoke()
+	# Spawn weed explosion
+	var mousePos = get_global_mouse_position()
+	var weedExplosion = preload("res://Scenes/Particles/weedExplosion.tscn").instantiate()
+	weedExplosion.position = mousePos
+	get_tree().root.add_child(weedExplosion)
 	emit_signal("BuildingBuy", index)
 
 var smokePresent = false
+
 
 func showSmoke():
 	var smoke = load("res://Scenes/buttonSmoke.tscn").instantiate()

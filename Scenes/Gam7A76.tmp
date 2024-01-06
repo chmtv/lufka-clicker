@@ -1,0 +1,485 @@
+[gd_scene load_steps=38 format=3 uid="uid://c4milucethk7v"]
+
+[ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
+[ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
+[ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
+[ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
+[ext_resource type="AudioStream" uid="uid://cjndly60qrtv1" path="res://burn.ogg" id="5"]
+[ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
+[ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
+[ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
+[ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
+[ext_resource type="Texture2D" uid="uid://crfxjfdqsqi46" path="res://Sprites/Maps/piwnica.jpg" id="10_35qj5"]
+[ext_resource type="PackedScene" uid="uid://ds4ylnrjh3lds" path="res://Scenes/palenie/wodospad.tscn" id="10_71f1s"]
+[ext_resource type="PackedScene" uid="uid://dgx4nx4ogr6pp" path="res://Scenes/palenie/wiadro.tscn" id="11_f0xfi"]
+[ext_resource type="Material" uid="uid://b8n20xpwoyx1m" path="res://plastic.tres" id="11_kydvk"]
+[ext_resource type="PackedScene" uid="uid://dgxxlxt4mn1iw" path="res://Scenes/palenie/apple.tscn" id="11_wxpln"]
+[ext_resource type="PackedScene" path="res://Scenes/FPS Counter.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://bg4rl3cjkvce2" path="res://Sprites/burnProgress2D.tres" id="14_8aw48"]
+[ext_resource type="Script" path="res://Scripts/scaleXBasedOnViewport.gd" id="15_dc6li"]
+[ext_resource type="Script" path="res://Scripts/shopIcons.gd" id="16_pkvfo"]
+[ext_resource type="PackedScene" uid="uid://ctrfds0jrtqpr" path="res://Scenes/palenie/lufka.tscn" id="17_8vf6j"]
+[ext_resource type="Script" path="res://Scripts/MenuToggle.gd" id="17_f0ukf"]
+[ext_resource type="Script" path="res://Scenes/buildingProgressBars.gd" id="17_su7yk"]
+[ext_resource type="PackedScene" uid="uid://ckb51kbklr6dd" path="res://Scenes/SlidingMenu.tscn" id="21_indd3"]
+[ext_resource type="PackedScene" uid="uid://bojlxrdjj5nid" path="res://Scenes/Options Menu UI.tscn" id="22_3evpn"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
+viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
+
+[sub_resource type="CanvasItemMaterial" id="1"]
+light_mode = 1
+
+[sub_resource type="InputEventKey" id="InputEventKey_tlbce"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_48k6b"]
+events = [SubResource("InputEventKey_tlbce")]
+
+[sub_resource type="Animation" id="Animation_jyt2w"]
+resource_name = "burnPress"
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.6, 1, 1.03, 1.03, 1.03, 0.8, 1, 0.98, 0.98, 0.98, 1, 1, 1, 1, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gry3a"]
+_data = {
+"burnPress": SubResource("Animation_jyt2w")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eca77"]
+bg_color = Color(0.321569, 0.45098, 0.301961, 1)
+
+[sub_resource type="FontFile" id="FontFile_5ynlr"]
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/32/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/32/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/32/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="Animation" id="Animation_8a8p8"]
+resource_name = "shopSlide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 500), Vector2(0, 66)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wfajm"]
+_data = {
+"shopSlide": SubResource("Animation_8a8p8")
+}
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_siwkp"]
+color = Color(0.258824, 0.258824, 0.258824, 0.584314)
+vertical = true
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpwt7"]
+panorama = ExtResource("10_35qj5")
+
+[sub_resource type="Sky" id="Sky_wmc3w"]
+sky_material = SubResource("PanoramaSkyMaterial_jpwt7")
+
+[sub_resource type="Environment" id="Environment_fsece"]
+background_mode = 2
+sky = SubResource("Sky_wmc3w")
+fog_density = 0.0001
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+volumetric_fog_emission = Color(1, 1, 1, 1)
+volumetric_fog_emission_energy = 0.3
+volumetric_fog_length = 30.0
+volumetric_fog_detail_spread = 0.5
+volumetric_fog_temporal_reprojection_amount = 0.5
+
+[node name="Node2D" type="Node3D"]
+
+[node name="Game Manager" type="Node3D" parent="."]
+script = ExtResource("3")
+godmode = true
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
+anchors_preset = -1
+anchor_top = 0.277
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.912
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Game Manager/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(109, 141)
+size_2d_override = Vector2i(600, 800)
+render_target_update_mode = 4
+script = ExtResource("2_26dat")
+
+[node name="`" type="Node3D" parent="Game Manager/SubViewportContainer/SubViewport"]
+script = ExtResource("3_ef5wr")
+
+[node name="Camera3D" type="Camera3D" parent="Game Manager/SubViewportContainer/SubViewport/`"]
+transform = Transform3D(-0.662123, -0.256308, 0.704201, 0, 0.939693, 0.34202, -0.749395, 0.22646, -0.622192, -4.25761, 3.44984, -27.7992)
+
+[node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/`"]
+wait_time = 5.0
+
+[node name="TextureRect" type="TextureRect" parent="Game Manager"]
+z_index = -6
+z_as_relative = false
+anchors_preset = -1
+anchor_top = 0.266
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.0960007
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_default_cursor_shape = 13
+texture = SubResource("ViewportTexture_k3jkr")
+stretch_mode = 3
+
+[node name="Burn Button" type="Button" parent="Game Manager"]
+material = SubResource("1")
+anchors_preset = -1
+anchor_top = 0.113
+anchor_right = 1.0
+anchor_bottom = 0.266
+offset_top = 0.0719986
+offset_bottom = -0.0960007
+focus_mode = 0
+mouse_default_cursor_shape = 1
+theme = ExtResource("9")
+keep_pressed_outside = true
+shortcut = SubResource("Shortcut_48k6b")
+shortcut_in_tooltip = false
+text = "Pal"
+script = ExtResource("2")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Game Manager/Burn Button"]
+transform = Transform3D(1, 5.96046e-08, 2.6054e-15, 0, -4.37114e-08, 1, 5.96046e-08, -1, -4.37114e-08, -1.90735e-06, 14.5767, 0.691341)
+light_energy = 1.161
+light_volumetric_fog_energy = 16.0
+light_specular = 3.409
+spot_range = 42.449
+spot_angle = 12.27
+
+[node name="Buildings" type="Node3D" parent="Game Manager/Burn Button"]
+script = ExtResource("6_ekn02")
+
+[node name="Lighter" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("7_bq0rx")]
+
+[node name="Apple" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_wxpln")]
+
+[node name="Lufka" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("17_8vf6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.96063, 0.79544, -7.86973)
+
+[node name="Bonio" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("9_wa3p7")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13, 0, 0)
+
+[node name="Wodospad" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("10_71f1s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89007, 1.99949, 5.79968)
+
+[node name="Circle" parent="Game Manager/Burn Button/Buildings/Wodospad/wodospad" index="2"]
+surface_material_override/0 = ExtResource("11_kydvk")
+
+[node name="Wiadro" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_f0xfi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5)
+
+[node name="Burn Sound" type="AudioStreamPlayer" parent="Game Manager/Burn Button"]
+stream = ExtResource("5")
+volume_db = -68.883
+
+[node name="Burn Percentage Drain" type="Timer" parent="Game Manager/Burn Button"]
+wait_time = 0.3
+autostart = true
+
+[node name="Button Press Anim" type="AnimationPlayer" parent="Game Manager/Burn Button"]
+root_node = NodePath("../Buildings")
+speed_scale = 8.0
+libraries = {
+"": SubResource("AnimationLibrary_gry3a")
+}
+
+[node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.019
+anchor_top = 0.753
+anchor_right = 1.611
+anchor_bottom = 0.924
+offset_left = 2.948
+offset_top = -0.761623
+offset_right = 3.01199
+offset_bottom = -0.756191
+value = 100.0
+texture_progress = ExtResource("14_8aw48")
+script = ExtResource("15_dc6li")
+
+[node name="ShopOpen" type="Button" parent="Game Manager"]
+z_index = 1
+anchors_preset = -1
+anchor_left = 0.597
+anchor_top = 0.93
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0319977
+offset_top = -0.0800171
+offset_right = 1.0
+action_mode = 0
+text = "Ulepszenia"
+
+[node name="UpgradeShopContainer" type="Control" parent="Game Manager"]
+z_index = 2
+layout_mode = 3
+anchor_top = 0.344
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 433.952
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UpgradeShop" type="TabContainer" parent="Game Manager/UpgradeShopContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 20.0
+mouse_filter = 0
+theme = ExtResource("9")
+theme_override_styles/panel = SubResource("StyleBoxFlat_eca77")
+tab_alignment = 1
+clip_tabs = false
+use_hidden_tabs_for_min_size = true
+script = ExtResource("16_pkvfo")
+
+[node name="S" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+mouse_filter = 2
+tab_alignment = 1
+script = ExtResource("17_su7yk")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/S"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 6.10352e-05
+size_flags_horizontal = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/S/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 15
+
+[node name="U" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+mouse_filter = 2
+tab_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 6.10352e-05
+size_flags_horizontal = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 15
+
+[node name="NoUpgLabel" type="Label" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
+layout_mode = 2
+anchor_right = 1.046
+anchor_bottom = 0.468
+offset_right = 0.0319977
+offset_bottom = -0.0280075
+text = "Brak ulepszen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="M" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+visible = false
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/M"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 6.10352e-05
+size_flags_horizontal = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/M/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 15
+
+[node name="ShopClose" type="Button" parent="Game Manager/UpgradeShopContainer"]
+z_index = 3
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.17
+anchor_right = 1.0
+anchor_bottom = 0.17
+offset_left = -30.316
+offset_top = 7.86856
+offset_right = -9.31601
+offset_bottom = 32.6986
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.152941, 0, 1)
+theme_override_fonts/font = SubResource("FontFile_5ynlr")
+theme_override_font_sizes/font_size = 16
+action_mode = 0
+text = "X"
+
+[node name="MenuToggler" type="Node" parent="Game Manager"]
+script = ExtResource("17_f0ukf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Game Manager/MenuToggler"]
+root_node = NodePath("../../UpgradeShopContainer")
+libraries = {
+"": SubResource("AnimationLibrary_wfajm")
+}
+
+[node name="Upg Button Disable" type="Timer" parent="Game Manager"]
+autostart = true
+
+[node name="SaveTimer" type="Timer" parent="Game Manager"]
+wait_time = 2.0
+autostart = true
+
+[node name="CanvasLayer" type="Panel" parent="Game Manager"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.109
+offset_bottom = 0.0720005
+
+[node name="THC Points Label" type="Label" parent="Game Manager/CanvasLayer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.007
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -0.308
+offset_right = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Global THCpS Label" type="Label" parent="Game Manager/CanvasLayer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.507
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -0.00800323
+offset_bottom = 2.0
+mouse_filter = 1
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Percentage" type="Label" parent="Game Manager/CanvasLayer"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.514
+anchor_top = 0.563
+anchor_right = 0.993
+anchor_bottom = 0.969
+offset_left = -0.0159988
+offset_top = -0.0159988
+offset_right = 0.00799561
+offset_bottom = -0.00799942
+text = "30%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="Game Manager/CanvasLayer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.479
+anchor_top = 0.045
+anchor_right = 0.507
+anchor_bottom = 0.955
+offset_left = 3.024
+offset_top = 0.0200001
+offset_right = 2.992
+offset_bottom = -0.0200005
+theme_override_styles/separator = SubResource("StyleBoxLine_siwkp")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Game Manager"]
+environment = SubResource("Environment_fsece")
+
+[node name="FPS Counter" parent="." instance=ExtResource("14")]
+visible = false
+anchors_preset = -1
+anchor_right = 0.257
+anchor_bottom = 0.055
+offset_top = 1.0
+offset_right = -0.00799942
+offset_bottom = -0.0799999
+
+[node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
+
+[node name="MenuToggle" parent="Options SlidingMenu" index="0"]
+text = "Opcje"
+
+[node name="Panel" parent="Options SlidingMenu" index="1"]
+offset_top = 457.376
+offset_bottom = 453.0
+
+[node name="Options Menu UI" parent="Options SlidingMenu/Panel" index="1" instance=ExtResource("22_3evpn")]
+layout_mode = 1
+
+[connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/`/Rotation" to="Game Manager/SubViewportContainer/SubViewport/`" method="_on_Rotation_timeout"]
+[connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
+[connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
+[connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
+[connection signal="button_up" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_release"]
+[connection signal="pressed" from="Game Manager/ShopOpen" to="Game Manager/MenuToggler" method="_on_shop_open_pressed"]
+[connection signal="pressed" from="Game Manager/UpgradeShopContainer/ShopClose" to="Game Manager/MenuToggler" method="_on_shop_close_pressed"]
+[connection signal="timeout" from="Game Manager/Upg Button Disable" to="Game Manager" method="_on_Upg_Button_Disable_timeout"]
+[connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
+
+[editable path="Game Manager/Burn Button/Buildings/Wodospad"]
+[editable path="Game Manager/Burn Button/Buildings/Wodospad/wodospad"]
+[editable path="Options SlidingMenu"]

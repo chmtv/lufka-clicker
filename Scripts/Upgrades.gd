@@ -126,11 +126,13 @@ var mapUpgrades = [
 	MapUpgrade.new("Staromieście", "", 10000, 0.2, "staromiescie.jpg"),
 	MapUpgrade.new("Spiżarnia", "", 20000, 0.2, "spizarnia.jpg"),
 	MapUpgrade.new("Piekło", "", 50000, 0.5, "piejlo.jpg"),
-	MapUpgrade.new("Narnia", "", 700000, 0.3, "mostkiReal.jpg"),
+	MapUpgrade.new("Mostki", "", 700000, 0.3, "mostki.jpg"),
 	MapUpgrade.new("Diamentowy Las", "", 10000000, 0.3, "Diamentowylas.jpg"),
 	MapUpgrade.new("Speluna", "", 80000000, 0.3, "speluna.jpg"),
 	MapUpgrade.new("Dom Pompki", "", 200000000, 0.3, "lilpump.jpg"),
-	MapUpgrade.new("Plac za Gurkom", "", 0.1, 0.4, "placZaGorka.jpg")
+	MapUpgrade.new("DRB Górka", "", 1000000, 0.4, "drbgorka.jpg"),
+	MapUpgrade.new("Parapet", "", 10000000, 0.4, "parapet.jpg"),
+	MapUpgrade.new("Taras u Wolana", "", 10000000, 0.4, "wolan.jpg"),
 ]
 
 # wynajmuje ogrodki dzialkowe i sadze tam skuna

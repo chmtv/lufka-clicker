@@ -19,7 +19,7 @@ config/icon="res://Topek.icon.png"
 
 [autoload]
 
-Discord="*res://addons/discord_game_sdk/discord.gd"
+Globals="*res://globals.gd"
 
 [display]
 
@@ -31,6 +31,7 @@ window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/stretch/scale=0.6
 window/handheld/orientation=1
+mouse_cursor/custom_image="res://Sprites/lufcursor.png"
 
 [editor]
 

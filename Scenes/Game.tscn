@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
 [ext_resource type="AudioStream" uid="uid://cjndly60qrtv1" path="res://burn.ogg" id="5"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
+[ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
 [ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
 [ext_resource type="Texture2D" uid="uid://crfxjfdqsqi46" path="res://Sprites/Maps/piwnica.jpg" id="10_35qj5"]
@@ -20,20 +21,11 @@
 [ext_resource type="PackedScene" uid="uid://ctrfds0jrtqpr" path="res://Scenes/palenie/lufka.tscn" id="17_8vf6j"]
 [ext_resource type="Script" path="res://Scripts/MenuToggle.gd" id="17_f0ukf"]
 [ext_resource type="Script" path="res://Scenes/buildingProgressBars.gd" id="17_su7yk"]
+[ext_resource type="PackedScene" uid="uid://ckb51kbklr6dd" path="res://Scenes/SlidingMenu.tscn" id="21_indd3"]
+[ext_resource type="PackedScene" uid="uid://bojlxrdjj5nid" path="res://Scenes/Options Menu UI.tscn" id="22_3evpn"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
-
-[sub_resource type="CanvasItemMaterial" id="1"]
-light_mode = 1
-
-[sub_resource type="InputEventKey" id="InputEventKey_tlbce"]
-device = -1
-keycode = 32
-unicode = 32
-
-[sub_resource type="Shortcut" id="Shortcut_48k6b"]
-events = [SubResource("InputEventKey_tlbce")]
 
 [sub_resource type="Animation" id="Animation_jyt2w"]
 resource_name = "burnPress"
@@ -54,9 +46,6 @@ _data = {
 bg_color = Color(0.321569, 0.45098, 0.301961, 1)
 
 [sub_resource type="FontFile" id="FontFile_5ynlr"]
-face_index = null
-embolden = null
-transform = null
 cache/0/32/0/ascent = 0.0
 cache/0/32/0/descent = 0.0
 cache/0/32/0/underline_position = 0.0
@@ -118,6 +107,7 @@ volumetric_fog_temporal_reprojection_amount = 0.5
 
 [node name="Game Manager" type="Node3D" parent="."]
 script = ExtResource("3")
+godmode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 anchors_preset = -1
@@ -163,7 +153,6 @@ texture = SubResource("ViewportTexture_k3jkr")
 stretch_mode = 3
 
 [node name="Burn Button" type="Button" parent="Game Manager"]
-material = SubResource("1")
 anchors_preset = -1
 anchor_top = 0.113
 anchor_right = 1.0
@@ -171,10 +160,8 @@ anchor_bottom = 0.266
 offset_top = 0.0719986
 offset_bottom = -0.0960007
 focus_mode = 0
+mouse_default_cursor_shape = 1
 theme = ExtResource("9")
-keep_pressed_outside = true
-shortcut = SubResource("Shortcut_48k6b")
-shortcut_in_tooltip = false
 text = "Pal"
 script = ExtResource("2")
 
@@ -188,6 +175,8 @@ spot_angle = 12.27
 
 [node name="Buildings" type="Node3D" parent="Game Manager/Burn Button"]
 script = ExtResource("6_ekn02")
+
+[node name="Lighter" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("7_bq0rx")]
 
 [node name="Apple" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_wxpln")]
 
@@ -203,7 +192,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89007, 1.99949, 5.79968)
 [node name="Circle" parent="Game Manager/Burn Button/Buildings/Wodospad/wodospad" index="2"]
 surface_material_override/0 = ExtResource("11_kydvk")
 
-[node name="Palenie" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_f0xfi")]
+[node name="Wiadro" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_f0xfi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5)
 
 [node name="Burn Sound" type="AudioStreamPlayer" parent="Game Manager/Burn Button"]
@@ -320,6 +309,16 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 15
 
+[node name="NoUpgLabel" type="Label" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
+layout_mode = 2
+anchor_right = 1.046
+anchor_bottom = 0.468
+offset_right = 0.0319977
+offset_bottom = -0.0280075
+text = "Brak ulepszen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="M" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
 visible = false
 layout_mode = 2
@@ -377,8 +376,7 @@ autostart = true
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.109
-offset_top = -4.0
-offset_bottom = 0.0959988
+offset_bottom = 0.0720005
 
 [node name="THC Points Label" type="Label" parent="Game Manager/CanvasLayer"]
 layout_mode = 1
@@ -444,12 +442,23 @@ offset_top = 1.0
 offset_right = -0.00799942
 offset_bottom = -0.0799999
 
+[node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
+
+[node name="MenuToggle" parent="Options SlidingMenu" index="0"]
+text = "Opcje"
+
+[node name="Panel" parent="Options SlidingMenu" index="1"]
+offset_top = 457.376
+offset_bottom = 453.0
+
+[node name="Options Menu UI" parent="Options SlidingMenu/Panel" index="1" instance=ExtResource("22_3evpn")]
+layout_mode = 1
+
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/`/Rotation" to="Game Manager/SubViewportContainer/SubViewport/`" method="_on_Rotation_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
 [connection signal="button_up" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_release"]
-[connection signal="pressed" from="Game Manager/Burn Button" to="Game Manager/Burn Button" method="_on_pressed"]
 [connection signal="pressed" from="Game Manager/ShopOpen" to="Game Manager/MenuToggler" method="_on_shop_open_pressed"]
 [connection signal="pressed" from="Game Manager/UpgradeShopContainer/ShopClose" to="Game Manager/MenuToggler" method="_on_shop_close_pressed"]
 [connection signal="timeout" from="Game Manager/Upg Button Disable" to="Game Manager" method="_on_Upg_Button_Disable_timeout"]
@@ -457,3 +466,4 @@ offset_bottom = -0.0799999
 
 [editable path="Game Manager/Burn Button/Buildings/Wodospad"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad/wodospad"]
+[editable path="Options SlidingMenu"]

@@ -56,5 +56,4 @@ func _input(event):
 
 
 func _on_Rotation_timeout():
-	print("chmtb")
 	shouldRotate = true
