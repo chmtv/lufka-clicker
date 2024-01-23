@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    
+</head>
+
+<body>
+    <div id="vidContainer">
+        <video id="video" src="./res/video.webm"></video>
+    </div>
+    <main id="text" onload=revealText>
+        <h3>ChemSoft prezentuje</h3>
+        <h1>Lufka Clicker</h1>
+        <a id="download" href="https://github.com/chmtv/lufka-clicker/releases/tag/Alpha">Pobierz (Android)</a>
+    </main>
+</body>
+<script>
+    // Play video after a delay
+    setTimeout(() => {
+        document.getElementById("video").play();
+    }, 2000)
+
+    // Play the "presents" text animation
+    function playAnimations() {
+        let textEls = document.getElementById("text").children;
+        let downloadBut = document.getElementById("download")
+        textEls[0].style.animation = "text-reveal 2s linear 0s 1 normal forwards";
+        setTimeout(() => {textEls[1].style.animation = "text-reveal 2s linear 0s 1 normal forwards"}, 2500)
+        setTimeout(() => {downloadBut.style.animation = "unhide 1s linear 0s 1 normal forwards"}, 5000)
+    }
+    function Start() {
+        playAnimations()
+    }
+    document.getElementById("video").oncanplaythrough = Start();
+</script>
+</html>
