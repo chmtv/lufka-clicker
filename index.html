@@ -10,7 +10,7 @@
 
 <body>
     <div id="vidContainer">
-        <video id="video" src="./res/video.webm"></video>
+        <video preload id="video" src="./res/video.webm"></video>
     </div>
     <main id="text" onload=revealText>
         <h3>ChemSoft prezentuje</h3>
@@ -20,8 +20,12 @@
 </body>
 <script>
     videoEl = document.getElementById("video");
+    videoEl.src = './res/video.webm';
+    videoEl.load();
+    Start();
     setTimeout(() => {
-        setInterval(() => {videoEl.play()}, 100);
+        videoEl.play();
+        
     }, 2000)
 
     function playAnimations() {
@@ -36,7 +40,7 @@ function Start() {
 }
 setInterval(() => {
     if(videoEl.readyState >= 4 && videoEl.currentTime > 0) {
-       Start();
+       
     }
 }, 100);
     
