@@ -21,7 +21,7 @@
 <script>
     videoEl = document.getElementById("video");
     setTimeout(() => {
-        videoEl.play();
+        setInterval(() => {videoEl.play()}, 100);
     }, 2000)
 
     function playAnimations() {
@@ -35,7 +35,7 @@ function Start() {
     playAnimations()
 }
 setInterval(() => {
-    if(videoEl.readyState >= 4) {
+    if(videoEl.readyState >= 4 && videoEl.currentTime > 0) {
        Start();
     }
 }, 100);
