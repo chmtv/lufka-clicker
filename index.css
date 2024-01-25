@@ -91,6 +91,9 @@ body {
     height:50px;
     color: white;
 }
+svg {
+    color: white;
+}
 header {
     position:absolute;
     padding: 0;
