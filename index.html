@@ -9,40 +9,56 @@
 </head>
 
 <body>
+    <header>
+        <h2 id="presents">ChemSoft Prezentuje</h2>
+        <img class="downArrow" src="./res/downArrow.svg" onclick="downButton();"/>
+    </header>
     <div id="vidContainer">
         <video preload id="video" src="./res/video.webm"></video>
     </div>
     <main id="text" onload=revealText>
-        <h3>ChemSoft prezentuje</h3>
+        <h3>Podróż przez świat jarania czeka na Ciebie</h3>
         <h1>Lufka Clicker</h1>
         <a id="download" href="https://github.com/chmtv/lufka-clicker/releases/tag/Alpha">Pobierz (Android)</a>
     </main>
+    <header>spierdalaj</header>
 </body>
 <script>
+    document.getElementById("presents").style.animation = "text-reveal 2s linear 0s 1 normal forwards";
     videoEl = document.getElementById("video");
-    videoEl.src = './res/video.webm';
-    videoEl.load();
-    Start();
-    setTimeout(() => {
-        videoEl.play();
+    function showcaseStart() {
+        console.log("pierdolca zaraz dsotance")
         
-    }, 2000)
-
-    function playAnimations() {
-    let textEls = document.getElementById("text").children;
-    let downloadBut = document.getElementById("download")
-    textEls[0].style.animation = "text-reveal 2s linear 0s 1 normal forwards";
-    setTimeout(() => {textEls[1].style.animation = "text-reveal 2s linear 0s 1 normal forwards"}, 2500)
-    setTimeout(() => {downloadBut.style.animation = "unhide 1s linear 0s 1 normal forwards"}, 5000)
-}
-function Start() {
-    playAnimations()
-}
-setInterval(() => {
-    if(videoEl.readyState >= 4 && videoEl.currentTime > 0) {
-       
+        setTimeout(() => {
+            videoEl.play();
+            
+        }, 2000);
+        playAnimations();
     }
-}, 100);
-    
+    function downButton() {
+        console.log("scrolling down");
+        videoEl.scrollIntoView({
+            behavior: "smooth"
+        })
+    }
+    function playAnimations() {
+        let textEls = document.getElementById("text").children;
+        let downloadBut = document.getElementById("download")
+        textEls[0].style.animation = "text-reveal 2s linear 0s 1 normal forwards";
+        setTimeout(() => {textEls[1].style.animation = "text-reveal 2s linear 0s 1 normal forwards"}, 2500)
+        setTimeout(() => {downloadBut.style.animation = "unhide 1s linear 0s 1 normal forwards"}, 5000)
+    }
+    function intersection(obs) {
+        if(obs[0].isIntersecting) {
+            showcaseStart();
+        }
+    }
+    let obsOpt = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.7,
+    };
+    let observer = new IntersectionObserver(intersection, obsOpt);
+    observer.observe(document.querySelector("#vidContainer"));
 </script>
 </html>
