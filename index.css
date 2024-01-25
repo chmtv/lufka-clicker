@@ -38,7 +38,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    object-fit: fill;
+    object-fit:cover;
 }
 #text {
     position:absolute;
@@ -47,7 +47,7 @@ body {
     right:0;
     text-align: center;
     
-    white-space: nowrap;
+    
 }
 #text * {
     clip-path: inset(0 100% 0 0);
