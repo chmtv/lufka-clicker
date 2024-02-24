@@ -57,6 +57,7 @@ body {
     text-decoration: none;
     background-color: var(--text-border-col);
     color: #ddd;
+    font-size: 0.5em;
     -webkit-text-stroke: 0 var(--text-border-col);
     padding: 1%;
     border-radius: 7px;
