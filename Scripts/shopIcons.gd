@@ -10,3 +10,9 @@ func _ready():
 	setIcon(0, "res://Sprites/Icons/lufkaIconSmall.png")
 	setIcon(1, "res://Sprites/Icons/upgIconSmall.png")
 	setIcon(2, "res://Sprites/Icons/mapIconSmall.png")
+
+func setUpgradesHightlight(highlighted : bool):
+	if highlighted:
+		setIcon(1, "res://Sprites/Icons/upgHighlightSmall.png")
+	else:
+		setIcon(1, "res://Sprites/Icons/upgIconSmall.png")

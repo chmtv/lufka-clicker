@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Topek"
 run/main_scene="res://Scenes/Game.tscn"
-config/features=PackedStringArray("4.1")
+config/features=PackedStringArray("4.2")
 boot_splash/show_image=false
 boot_splash/image="res://Topek.icon.png"
 config/icon="res://Topek.icon.png"
@@ -35,8 +35,8 @@ mouse_cursor/custom_image="res://Sprites/lufcursor.png"
 
 [editor]
 
-movie_writer/mjpeg_quality=1.0
-movie_writer/movie_file="C:/Users/chmtv/Desktop/topek4/movie/lufka gameplay.avi"
+movie_writer/mjpeg_quality=0.7
+movie_writer/movie_file="C:/Users/chmtv/Desktop/lufka-clicker/movie/lufka gameplay.avi"
 movie_writer/fps=12
 
 [editor_plugins]
@@ -45,7 +45,7 @@ enabled=PackedStringArray()
 
 [global]
 
-touch=false
+touch=true
 android=false
 
 [gui]
@@ -61,10 +61,6 @@ cameraMove={
 ]
 }
 
-[input_devices]
-
-pointing/emulate_touch_from_mouse=true
-
 [mono]
 
 project/assembly_name="Topek"
@@ -75,5 +71,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 quality/filters/msaa=1

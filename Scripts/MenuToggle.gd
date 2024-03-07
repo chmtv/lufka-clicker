@@ -36,8 +36,12 @@ func _physics_(delta):
 	
 
 
-
+@onready var menuOpenPlayer : AudioStreamPlayer = get_node("Menu Open")
+@onready var menuClosePlayer : AudioStreamPlayer = get_node("Menu Close")
 func _on_shop_close_pressed():
 	animationPlayer.play_backwards("shopSlide")
+	menuClosePlayer.play()
+	
 func _on_shop_open_pressed():
+	menuOpenPlayer.play()
 	animationPlayer.play("shopSlide")

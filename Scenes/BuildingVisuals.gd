@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 
 var burnPercentage := 0.25
 
@@ -42,14 +42,15 @@ func refreshModelVisibilities():
 	setPositions(total)
 
 # Array containing positions of building based on the amount of buildings bought
-var dist = 8
+var dist = 16
+@export var rotationSpeed : float = 0.6
 func setPositions(amount):
 	if amount > children.size():
 		return
-	for i in range(0,amount-1):
+	for i in range(0,amount):
 		var angle = 0
 		if i > 0:
-			angle = PI/2*i
+			angle = PI/3*i
 		var pos = Vector3(sin(angle),0,cos(angle)) * dist
 		children[i].position = pos
 
@@ -63,6 +64,8 @@ func _process(delta):
 		# emit_signal("burning", delta)
 		var fireLight = smokeSpawner.get_child(1)
 		fireLight.light_energy = lerp(0.0, 8.0, burnPercentage - 0.25)
+	# Rotate the building models
 	
+	rotate(Vector3(0,1,0), delta * rotationSpeed)
 	
 		

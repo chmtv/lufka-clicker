@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7rh6glygju66"]
+[gd_scene load_steps=4 format=3 uid="uid://bpfm7udjqq5w"]
 
 [ext_resource type="PackedScene" uid="uid://cgbl2wnypqv0" path="res://Scenes/Particles/weedExplosion.tscn" id="1_88fg4"]
 [ext_resource type="Texture2D" uid="uid://bw0r60ljj7qxv" path="res://Sprites/whitePuff00.png" id="2_s7dfs"]

@@ -6,7 +6,7 @@ class Upgrade:
 	var description = ''
 	var buildingID # the index of the building to upgrade
 	var bought = false
-	var globalMultiplier = 1
+	var globalMultiplier = -1
 	var buildingLevel = 0
 	var burnRateMultplier = 1
 	func afterBuy():
@@ -64,7 +64,8 @@ enum BuildingIds {
 	Lufka,
 	Butla,
 	Wiadro,
-	SzBonga,
+	Bongo,
+	Wapo,
 	GravBonga,
 	Pluca
 }
@@ -73,27 +74,42 @@ var upgrades = [
 	# Zapalniczka
 	AdditiveMultiplierUpgrade.new("Mechanizm zapalający", "Przycisk zapalniczki zrobiony z lżejszego plastiku dodaje wygody", BuildingIds.Zapalniczka, 10, 0.5, 5),
 	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 50, 0.5, 10),
-	AdditiveMultiplierUpgrade.new("Lepszy gaz", "Płyn do zapalniczki o starannie dobranych proporcjach wytwarza większy płomień", BuildingIds.Zapalniczka, 500, 0.5, 25),
-	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 2000, 0.5, 50),
-	AdditiveMultiplierUpgrade.new("Zapalniczka V", "", BuildingIds.Zapalniczka, 2000, 0.5, 75),
+	AdditiveMultiplierUpgrade.new("Lepszy gaz", "Płyn do zapalniczki o starannie dobranych proporcjach wytwarza większy płomień", BuildingIds.Zapalniczka, 500, 0.5, 25), # too much
+	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 2000, 2.5, 50),
+	AdditiveMultiplierUpgrade.new("Zapalniczka V", "", BuildingIds.Zapalniczka, 7000, 2.5, 75),
 	# Jabłko
-	AdditiveMultiplierUpgrade.new("Precyzyjne cięcie I", "", BuildingIds.Jablko, 20, 0.5, 5),
-	AdditiveMultiplierUpgrade.new("Precyzyjne cięcie II", "", BuildingIds.Jablko, 200, 0.5, 15),
-	AdditiveMultiplierUpgrade.new("Jablko III", "", BuildingIds.Jablko, 2000, 1, 25),
-	AdditiveMultiplierUpgrade.new("Jablko IV", "", BuildingIds.Jablko, 2000, 2, 50),
+	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie I", "", BuildingIds.Jablko, 20, 1.5, 5),
+	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie II", "", BuildingIds.Jablko, 200, 1.5, 15),
+	MultiplicativeMultiplierUpgrade.new("Jablko III", "", BuildingIds.Jablko, 2000, 2, 25),
+	MultiplicativeMultiplierUpgrade.new("Jablko IV", "", BuildingIds.Jablko, 2000, 2, 50),
 	# Lufka
-	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 0.5, 5),
-	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 0.5, 10),
-	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 1, 15),
-	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 1, 20),
-	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 2, 25),
-	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 2, 50),
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 0.5, 5), # too less
+	AdditiveMultiplierUpgrade.new("Lufka II", "", BuildingIds.Lufka, 2000, 0.5, 10), # way too less - 1.6mg TPS
+	AdditiveMultiplierUpgrade.new("Lufka III", "", BuildingIds.Lufka, 2000, 1, 15),
+	AdditiveMultiplierUpgrade.new("Lufka IV", "", BuildingIds.Lufka, 2000, 1, 20),
+	AdditiveMultiplierUpgrade.new("Lufka V", "", BuildingIds.Lufka, 2000, 2, 25),
+	# AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 2, 50),
 	# Wodospad
-	AdditiveMultiplierUpgrade.new("Wodospad I", "", BuildingIds.Butla, 2000, 2, 5),
-	AdditiveMultiplierUpgrade.new("Wodospad II", "", BuildingIds.Butla, 2000, 2, 15),
-	AdditiveMultiplierUpgrade.new("Wodospad III", "", BuildingIds.Butla, 2000, 3, 20),
-	AdditiveMultiplierUpgrade.new("Wodospad IV", "", BuildingIds.Butla, 2000, 2, 30)
-
+	MultiplicativeMultiplierUpgrade.new("Wodospad I", "", BuildingIds.Butla, 2000, 3, 5),
+	MultiplicativeMultiplierUpgrade.new("Wodospad II", "", BuildingIds.Butla, 4000, 1.66, 15),
+	MultiplicativeMultiplierUpgrade.new("Wodospad III", "", BuildingIds.Butla, 12000, 1.6, 20),
+	MultiplicativeMultiplierUpgrade.new("Wodospad IV", "", BuildingIds.Butla, 30000, 1.25, 30),
+	# Wiadro
+	MultiplicativeMultiplierUpgrade.new("Wiadro I", "", BuildingIds.Wiadro, 20000, 3, 5),
+	MultiplicativeMultiplierUpgrade.new("Wiadro II", "", BuildingIds.Wiadro, 50000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Wiadro III", "", BuildingIds.Wiadro, 100000, 1.66, 25),
+	MultiplicativeMultiplierUpgrade.new("Wiadro IV", "", BuildingIds.Wiadro, 200000, 1.5, 40),
+	# Bongo
+	MultiplicativeMultiplierUpgrade.new("Bongo I", "", BuildingIds.Bongo, 5000000, 3, 7),
+	MultiplicativeMultiplierUpgrade.new("Bongo II", "", BuildingIds.Bongo, 8000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Bongo III", "", BuildingIds.Bongo, 10000000, 2, 30), # Also too cheap TPS=20g, the earlier ones also need fixing ig
+	MultiplicativeMultiplierUpgrade.new("Bongo IV", "", BuildingIds.Bongo, 20000000, 1.5, 75),
+	# Wapo
+	MultiplicativeMultiplierUpgrade.new("Waporyzator I", "", BuildingIds.Wapo, 20000000000, 2, 5),
+	MultiplicativeMultiplierUpgrade.new("Waporyzator II", "", BuildingIds.Wapo, 50000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Waporyzator III", "", BuildingIds.Wapo, 100000000000, 2, 20),
+	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 300000000000, 1.5, 30),
+	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 3000000000000, 2,85),
 ]
 
 # Stare ulepszenia :>
@@ -121,18 +137,18 @@ var upgrades = [
 #	AdditiveMultiplierUpgrade.new("Kammerurlo gówno z cebulą", "", 2, 7000000, 500),
 
 var mapUpgrades = [
-	MapUpgrade.new("Mostki", "", 500, 0.1, "mostki.jpg"),
-	MapUpgrade.new("Altana", "", 2500, 0.2, "altana.jpg"),
-	MapUpgrade.new("Staromieście", "", 10000, 0.2, "staromiescie.jpg"),
-	MapUpgrade.new("Spiżarnia", "", 20000, 0.2, "spizarnia.jpg"),
-	MapUpgrade.new("Piekło", "", 50000, 0.5, "piejlo.jpg"),
-	MapUpgrade.new("Mostki", "", 700000, 0.3, "mostki.jpg"),
-	MapUpgrade.new("Diamentowy Las", "", 10000000, 0.3, "Diamentowylas.jpg"),
-	MapUpgrade.new("Speluna", "", 80000000, 0.3, "speluna.jpg"),
-	MapUpgrade.new("Dom Pompki", "", 200000000, 0.3, "lilpump.jpg"),
-	MapUpgrade.new("DRB Górka", "", 1000000, 0.4, "drbgorka.jpg"),
-	MapUpgrade.new("Parapet", "", 10000000, 0.4, "parapet.jpg"),
-	MapUpgrade.new("Taras u Wolana", "", 10000000, 0.4, "wolan.jpg"),
+	# MapUpgrade.new("Przedmostki", "", 500, 0.5, "przedMostki.jpg"),
+	MapUpgrade.new("Altana", "Lokalna altana przy placu zabaw", 2500, 0.2, "altana.jpg"),
+	MapUpgrade.new("DRB Górka", "Spot w krzakach", 20000, 0.2, "drbgorka.jpg"),
+	MapUpgrade.new("Mostki", "Znana każdemu ćpunowi melina na osiedlu", 50000, 0.3, "mostki.jpg"), # Too cheap 7.5mg/s
+	MapUpgrade.new("Diamentowy Las", "Głębsza część legendarnej meliny", 100000, 0.3, "Diamentowylas.jpg"),
+	# MapUpgrade.new("Staromieście", "", 10000, 0.2, "staromiescie.jpg"),
+	MapUpgrade.new("Spiżarnia", "Upizgany siedzisz w spiżarni", 200000000000, 0.3, "spizarnia.jpg"),
+	MapUpgrade.new("Piekło", "Cmentarz zgonów", 2000000000000, 0.5, "piejlo.jpg"),
+	MapUpgrade.new("Parapet", "Puste mieszkanie do hash-komory", 10000000000000, 0.5, "parapet.jpg"),
+	MapUpgrade.new("Taras u Wolana", "...", 4180000000000000, 0.6, "wolan.jpg"),
+	MapUpgrade.new("Dom Pompki", "...", 41900000000000000, 0.6, "lilpump.jpg"),
+	MapUpgrade.new("Speluna", "...", 420000000000000000, 0.7, "speluna.jpg"),
 ]
 
 # wynajmuje ogrodki dzialkowe i sadze tam skuna

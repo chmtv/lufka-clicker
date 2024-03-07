@@ -1,10 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://c4milucethk7v"]
+[gd_scene load_steps=39 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
-[ext_resource type="AudioStream" uid="uid://cjndly60qrtv1" path="res://burn.ogg" id="5"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
 [ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
@@ -15,14 +14,19 @@
 [ext_resource type="Material" uid="uid://b8n20xpwoyx1m" path="res://plastic.tres" id="11_kydvk"]
 [ext_resource type="PackedScene" uid="uid://dgxxlxt4mn1iw" path="res://Scenes/palenie/apple.tscn" id="11_wxpln"]
 [ext_resource type="PackedScene" path="res://Scenes/FPS Counter.tscn" id="14"]
-[ext_resource type="Texture2D" uid="uid://bg4rl3cjkvce2" path="res://Sprites/burnProgress2D.tres" id="14_8aw48"]
+[ext_resource type="PackedScene" uid="uid://bqnpima4o6jlk" path="res://Scenes/palenie/wapo.tscn" id="14_ndhf2"]
+[ext_resource type="Texture2D" uid="uid://bg4rl3cjkvce2" path="res://Textures/burnProgress2D.tres" id="15_0o5ra"]
 [ext_resource type="Script" path="res://Scripts/scaleXBasedOnViewport.gd" id="15_dc6li"]
+[ext_resource type="AudioStream" uid="uid://dnvwmvtqk4jdy" path="res://burnLouderButQuiet.ogg" id="15_vqn82"]
 [ext_resource type="Script" path="res://Scripts/shopIcons.gd" id="16_pkvfo"]
 [ext_resource type="PackedScene" uid="uid://ctrfds0jrtqpr" path="res://Scenes/palenie/lufka.tscn" id="17_8vf6j"]
 [ext_resource type="Script" path="res://Scripts/MenuToggle.gd" id="17_f0ukf"]
 [ext_resource type="Script" path="res://Scenes/buildingProgressBars.gd" id="17_su7yk"]
-[ext_resource type="PackedScene" uid="uid://ckb51kbklr6dd" path="res://Scenes/SlidingMenu.tscn" id="21_indd3"]
+[ext_resource type="AudioStream" uid="uid://bokoc4op3r5nv" path="res://SFX/menuOpen.ogg" id="20_e8q2b"]
+[ext_resource type="AudioStream" uid="uid://cneabb8lpw17a" path="res://SFX/menuClose.ogg" id="20_tkqao"]
+[ext_resource type="PackedScene" uid="uid://bi0dtlmnlnp6d" path="res://Scenes/SlidingMenu.tscn" id="21_indd3"]
 [ext_resource type="PackedScene" uid="uid://bojlxrdjj5nid" path="res://Scenes/Options Menu UI.tscn" id="22_3evpn"]
+[ext_resource type="AudioStream" uid="uid://cq3g1ohcrm2cl" path="res://SFX/buttonClick.ogg" id="24_o4hox"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
@@ -87,6 +91,7 @@ vertical = true
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpwt7"]
 panorama = ExtResource("10_35qj5")
+filter = false
 
 [sub_resource type="Sky" id="Sky_wmc3w"]
 sky_material = SubResource("PanoramaSkyMaterial_jpwt7")
@@ -107,7 +112,6 @@ volumetric_fog_temporal_reprojection_amount = 0.5
 
 [node name="Game Manager" type="Node3D" parent="."]
 script = ExtResource("3")
-godmode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 anchors_preset = -1
@@ -127,13 +131,13 @@ size_2d_override = Vector2i(600, 800)
 render_target_update_mode = 4
 script = ExtResource("2_26dat")
 
-[node name="`" type="Node3D" parent="Game Manager/SubViewportContainer/SubViewport"]
+[node name="CameraMover" type="Node3D" parent="Game Manager/SubViewportContainer/SubViewport"]
 script = ExtResource("3_ef5wr")
 
-[node name="Camera3D" type="Camera3D" parent="Game Manager/SubViewportContainer/SubViewport/`"]
-transform = Transform3D(-0.662123, -0.256308, 0.704201, 0, 0.939693, 0.34202, -0.749395, 0.22646, -0.622192, -4.25761, 3.44984, -27.7992)
+[node name="Camera3D" type="Camera3D" parent="Game Manager/SubViewportContainer/SubViewport/CameraMover"]
+transform = Transform3D(-0.662123, -0.256308, 0.704201, 0, 0.939693, 0.34202, -0.749395, 0.22646, -0.622192, -4.25761, 16.821, -34.7227)
 
-[node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/`"]
+[node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/CameraMover"]
 wait_time = 5.0
 
 [node name="TextureRect" type="TextureRect" parent="Game Manager"]
@@ -160,8 +164,8 @@ anchor_bottom = 0.266
 offset_top = 0.0719986
 offset_bottom = -0.0960007
 focus_mode = 0
-mouse_default_cursor_shape = 1
 theme = ExtResource("9")
+shortcut_feedback = false
 text = "Pal"
 script = ExtResource("2")
 
@@ -183,9 +187,6 @@ script = ExtResource("6_ekn02")
 [node name="Lufka" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("17_8vf6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.96063, 0.79544, -7.86973)
 
-[node name="Bonio" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("9_wa3p7")]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13, 0, 0)
-
 [node name="Wodospad" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("10_71f1s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89007, 1.99949, 5.79968)
 
@@ -193,10 +194,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89007, 1.99949, 5.79968)
 surface_material_override/0 = ExtResource("11_kydvk")
 
 [node name="Wiadro" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_f0xfi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11)
+
+[node name="Bonio" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("9_wa3p7")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13, 0, 0)
+
+[node name="Wapo" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("14_ndhf2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -9)
+visible = false
 
 [node name="Burn Sound" type="AudioStreamPlayer" parent="Game Manager/Burn Button"]
-stream = ExtResource("5")
+stream = ExtResource("15_vqn82")
 volume_db = -68.883
 
 [node name="Burn Percentage Drain" type="Timer" parent="Game Manager/Burn Button"]
@@ -205,24 +213,24 @@ autostart = true
 
 [node name="Button Press Anim" type="AnimationPlayer" parent="Game Manager/Burn Button"]
 root_node = NodePath("../Buildings")
-speed_scale = 8.0
 libraries = {
 "": SubResource("AnimationLibrary_gry3a")
 }
+speed_scale = 8.0
 
 [node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.019
 anchor_top = 0.753
-anchor_right = 1.611
-anchor_bottom = 0.924
+anchor_right = 0.917
+anchor_bottom = 0.898
 offset_left = 2.948
-offset_top = -0.761623
-offset_right = 3.01199
-offset_bottom = -0.756191
+offset_top = -0.993626
+offset_right = 73.964
+offset_bottom = -0.228785
 value = 100.0
-texture_progress = ExtResource("14_8aw48")
+texture_progress = ExtResource("15_0o5ra")
 script = ExtResource("15_dc6li")
 
 [node name="ShopOpen" type="Button" parent="Game Manager"]
@@ -365,6 +373,12 @@ libraries = {
 "": SubResource("AnimationLibrary_wfajm")
 }
 
+[node name="Menu Close" type="AudioStreamPlayer" parent="Game Manager/MenuToggler"]
+stream = ExtResource("20_tkqao")
+
+[node name="Menu Open" type="AudioStreamPlayer" parent="Game Manager/MenuToggler"]
+stream = ExtResource("20_e8q2b")
+
 [node name="Upg Button Disable" type="Timer" parent="Game Manager"]
 autostart = true
 
@@ -433,6 +447,10 @@ theme_override_styles/separator = SubResource("StyleBoxLine_siwkp")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Game Manager"]
 environment = SubResource("Environment_fsece")
 
+[node name="Buy Sound" type="AudioStreamPlayer" parent="Game Manager"]
+stream = ExtResource("24_o4hox")
+volume_db = 7.319
+
 [node name="FPS Counter" parent="." instance=ExtResource("14")]
 visible = false
 anchors_preset = -1
@@ -454,7 +472,7 @@ offset_bottom = 453.0
 [node name="Options Menu UI" parent="Options SlidingMenu/Panel" index="1" instance=ExtResource("22_3evpn")]
 layout_mode = 1
 
-[connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/`/Rotation" to="Game Manager/SubViewportContainer/SubViewport/`" method="_on_Rotation_timeout"]
+[connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]

@@ -3,7 +3,10 @@ extends Node3D
 @export var godmode : bool
 func enableGodmode():
 	godmode = true
-	thc = 999999999999999
+	# thc = 41900000000000000
+	thc = 999999999
+	burnPctPerSec = 0.5
+	# burnPctDrainPerSec = 1
 func disableGodmode():
 	godmode = false
 	thc = 0
@@ -18,11 +21,13 @@ var burnPctDrainPerSec = 0.01
 var burnPctMinimum = 0.25
 var THCpS = 0.1
 var THCpSWhileBurning = 0
+@onready var worldEnvironment = get_node("WorldEnvironment")
 @onready var globalTHCpSLabel = get_node("CanvasLayer/Global THCpS Label")
 @onready var upgradesScrollContainer = get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer")
 @onready var burnButton = get_node("Burn Button")
 @onready var buildingsVisualManager = get_node("Burn Button/Buildings")
 @onready var NoUpgLabel = get_node("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
+@onready var ShopTabContainer : TabContainer = get_node("UpgradeShopContainer/UpgradeShop")
 var THCpSToDisplay
 var elapsedTime = 0
 
@@ -33,20 +38,34 @@ var globalAdditiveMultiplier = 1
 
 func thcWithNumberAffix(_thc):
 	var affixes = [
-		"µg",
-		"mg", # 1000
-		"g", # 1000 000
-		"kg", # 1000 000 000
-		"t",
-		"Qd",
-		"Qn",
-		"Sx",
-		"Sp",
-		"O",
-		"N",
-		"Dec",
-		"Undec",
-		"Duodec"
+		"µg",         # Microgram
+		"mg",         # Milligram
+		"g",          # Gram
+		"kg",         # Kilogram
+		"t",          # Metric ton
+		"Pg",         # Peta gram (Quadrillion grams)
+		"Eg",         # Exa gram (Quintillion grams)
+		"Zg",         # Zetta gram (Sextillion grams)
+		"Yg",         # Yotta gram (Octillion grams)
+		"Yg",         # Yotta gram (Nonillion grams)
+		"Dg",         # Deka gram (Ten grams) xd ??
+		"Hdag",       # Hecto deka gram (Hundred grams)
+		"Kdag",       # Kilo deka gram (Thousand grams)
+		# old 
+		#"µg",
+		#"mg", # 1000
+		#"g", # 1000 000
+		#"kg", # 1000 000 000
+		#"t",
+		#"Qd",
+		#"Qn",
+		#"Sx",
+		#"Sp",
+		#"O",
+		#"N",
+		#"Dec",
+		#"Undec",
+		#"Duodec"
 	]
 	# Create the initial string from the rounded thc amount
 	var result = str(_thc)
@@ -109,7 +128,8 @@ func loadGame():
 var boughtMaps = [
 	{
 		"name": "Piwnica",
-		"filename":"piwnica.jpg"
+		"filename":"piwnica.jpg",
+		"description": "..."
 	}
 ]
 # The plugin that makes Discord display the played game along with some stats doesn't seem
@@ -125,7 +145,7 @@ var boughtMaps = [
 #	assets.set_large_text("W3333333d")
 #	# assets.set_small_image("rpcicon")
 #	# assets.set_small_text("W3333333d")
-#
+#o
 #	var timestamps = activity.get_timestamps()
 #	timestamps.set_start(OS.get_unix_time() - elapsedTime)
 #
@@ -141,16 +161,17 @@ var currentMapPath = "res://Sprites/Maps/piwnica.jpg"
 var buildingButtonList = []
 var buildingVBoxPath = "UpgradeShopContainer/UpgradeShop/S/ScrollContainer/VBoxContainer"
 @onready var buildingVBox = get_node(buildingVBoxPath)
-func addMap(name, fileName):
+func addMap(name, fileName, description):
 	var map = {
 		"name": name,
-		"filename": fileName
+		"filename": fileName,
+		"description": description
 	}
 	boughtMaps.append(map)
 func changeMap(fileName):
 	var mapTemplate = "res://Sprites/Maps/"
 	currentMapPath = mapTemplate + fileName
-	get_node("WorldEnvironment").environment.sky.sky_material.panorama = load(currentMapPath)
+	worldEnvironment.environment.sky.sky_material.panorama = load(currentMapPath)
 func updateMapsMenu():
 	var mapVBox = get_node("UpgradeShopContainer/UpgradeShop/M/ScrollContainer/VBoxContainer")
 	# Reset the VBox to its' initial state
@@ -162,6 +183,7 @@ func updateMapsMenu():
 		var currentButton = load("res://Scenes/MapChangeButton.tscn").instantiate()
 		currentButton.get_node("Change Button").fileName = boughtMaps[i]["filename"]
 		currentButton.get_node("Name").text = boughtMaps[i].name
+		currentButton.get_node("Description").text = boughtMaps[i].description
 		currentButton.get_node("Change Button").connect(
 			"MapChange", 
 			changeMap)
@@ -200,8 +222,8 @@ class Building:
 	var THCpSExponent
 	var name = ""
 	var afterBuyFnRef
-	var upgradeAdditiveMultiplier = 1
-	var upgradeMultiplicativeMultiplier = 1
+	var upgradeAdditiveMultiplier = 1.0
+	var upgradeMultiplicativeMultiplier = 1.0
 	var index = 0
 	# These properties are used for the progress bar, they show which level upgrade for this building
 	# was bought last and at which level is the next one
@@ -240,16 +262,16 @@ class Building:
 		recalculateTHCpS()
 
 var buildings = [
-	Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.3, 5), # 0
+	Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.31, 5), # 0
 	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2, 5), # 1
-	Building.new("Lufka", 500, 45, 0, afterBuyRef, 1.16, 5), # 2
+	Building.new("Lufka", 600, 50, 0, afterBuyRef, 1.14, 5), # 2
 	# Building.new("Jedzenie", 1000, 10, 0, afterBuyRef, 1.2), # 3
-	Building.new("Wodospad", 10000, 480, 0, afterBuyRef, 1.151, 5), # 4
-	Building.new("Wiadro", 800000, 25, 0, afterBuyRef, 1.15, 5),	# 5
-	Building.new("Bongo", 1000000, 75, 0, afterBuyRef, 1.2),	# 6
-	Building.new("Waporyzator", 20000000, 125, 0, afterBuyRef, 1.2),	# 7
-	Building.new("Bongo grawitacyjne", 20000000, 125, 0, afterBuyRef, 1.2),	# 8
-	Building.new("Sztuczne Płuca", 420000000, 405, 0, afterBuyRef, 1.2), # 9
+	Building.new("Wodospad", 20000, 900, 0, afterBuyRef, 1.14, 5), # 4
+	Building.new("Wiadro", 1250000, 42000, 0, afterBuyRef, 1.09, 5),	# 5
+	Building.new("Bongo", 25000000, 950000, 0, afterBuyRef, 1.12),	# 6
+	Building.new("Waporyzator", 1000000000, 30000000, 0, afterBuyRef, 1.12),	# 7
+	Building.new("Dab pen",942000000000000, 94200000000, 0, afterBuyRef, 1.2),	# 8
+	# Building.new("Bongo grawitacyjne", 420000000, 405, 0, afterBuyRef, 1.2), # 9
 ]
 
 
@@ -265,7 +287,7 @@ func getTHC():
 func _on_BuildingBuy(index):
 	thc = buildings[index].buy(thc)
 	buildingsVisualManager.setModelVisibility(index)
-	recalculateTHCpS()
+	# recalculateTHCpS()
 	_on_Upg_Button_Disable_timeout()
 	
 func afterBuildingBuy():
@@ -297,7 +319,10 @@ func makeBuildingShop():
 		var progressBar = currentButton.get_node("Upgrade Progress")
 		progressBar.min_value = building.lastUpgLv
 		progressBar.max_value = building.nextUpgLv
-		progressBar.value = building.level
+		if(building.lastUpgLv == building.nextUpgLv):
+			progressBar.value = 0
+		else:
+			progressBar.value = building.level
 		currentButton.get_node("LevelPanel/Level").text = str(building.level)
 		currentButton.get_node("Buy Button").connect(
 			"BuildingBuy",
@@ -375,18 +400,27 @@ func updateUpgradesShop():
 					"UpgradeBuy",
 					_on_UpgradeBuy)
 				upgradeVBox.add_child(currentButton)
-	# Change the visibility of the "no upgrades" text based on upg vbox child count
-	NoUpgLabel.visible = true if ( upgradeVBox.get_child_count() == 0 ) else false
+	var visibleUpgradesAmount = upgradeVBox.get_child_count()
+	if visibleUpgradesAmount == 0:
+		NoUpgLabel.visible = true
+		ShopTabContainer.setUpgradesHightlight(false)
+	else:
+		NoUpgLabel.visible = false
+		ShopTabContainer.setUpgradesHightlight(true)
 func refreshUpgradeEffects():
 	for i in buildings.size():
 		buildings[i].upgradeAdditiveMultiplier = 1.0
 		buildings[i].upgradeMultiplicativeMultiplier = 1.0
+		buildings[i].recalculateTHCpS()
 	for i in boughtUpgradesIds.size():
 		var curUpg = Upgrades.upgrades[boughtUpgradesIds[i]]
 		
 		buildings[curUpg.buildingID].upgradeAdditiveMultiplier += curUpg.additiveMultiplier
-		buildings[curUpg.buildingID].upgradeMultiplicativeMultiplier += curUpg.multiplicativeMultiplier
+		if curUpg.multiplicativeMultiplier:
+			buildings[curUpg.buildingID].upgradeMultiplicativeMultiplier *= curUpg.multiplicativeMultiplier
 		buildings[curUpg.buildingID].recalculateTHCpS()
+		# ?????? Kurwa nie działa co ja tu kurwa odjebałem po chuj to tak najebany pisałem w piwnicy ziemniaka jebanej ????????
+		
 		# Drunk code niggggggaaaaaaaaaaaaaaaaaaaa
 		# if(Upgrades.upgrades[boughtUpgradesIds[i]].burnRateMultiplier):
 			# Bumbaclot ;dddddddddddddddddddddddd
@@ -400,6 +434,7 @@ func refreshUpgradeEffects():
 				# burnPercentage *= boughtUpgrades[i].burnRateMultiplier
 	recalculateTHCpS()
 # Adds an upgrade to the bought upgrades list and updates the bought property
+@onready var clickStreamPlayer : AudioStreamPlayer = get_node("Buy Sound")
 func buyUpgrade(index, isMapUpgrade = false):
 	var curUpg
 	if isMapUpgrade:
@@ -408,17 +443,19 @@ func buyUpgrade(index, isMapUpgrade = false):
 		curUpg = Upgrades.upgrades[index]
 		# Set the upgraded building's last upgrade level (for progress bar calculation)
 		buildings[curUpg.buildingID].lastUpgLv = curUpg.buildingLevel
-		# Set the next upgrade level if it exists (on the next upgrade lmao)
+		# Set the next upgrade level if it exists (on the next upgrade lmao) and if there is one (shit doesn't work fuck me)
 		if Upgrades.upgrades[index+1].buildingID == curUpg.buildingID:
 			buildings[curUpg.buildingID].nextUpgLv = Upgrades.upgrades[index+1].buildingLevel
 	if(thc >= curUpg.cost):
 		thc -= curUpg.cost
 		boughtUpgradesIds.append(index)
 		if("mapPath" in curUpg):
-			addMap(curUpg.name, curUpg.mapPath)
-		if(curUpg.globalMultiplier):
+			addMap(curUpg.name, curUpg.mapPath, curUpg.description)
+		if(curUpg.globalMultiplier != -1):
 			globalAdditiveMultiplier += curUpg.globalMultiplier
 		curUpg.bought = true
+		Globals.spawnWeedExplosion()
+		clickStreamPlayer.play()
 		refreshUpgradeEffects()
 		updateBuildingShop()
 		updateMapsMenu()
@@ -426,7 +463,6 @@ func buyUpgrade(index, isMapUpgrade = false):
 
 func _on_UpgradeBuy(index, isMapUpg):
 	buyUpgrade(index, isMapUpg)
-		
 
 func recalculateTHCpS():
 	THCpSWhileBurning = 0
@@ -473,7 +509,6 @@ func _process(delta):
 	THCpSToDisplay = THCpS
 	addOpalanie(burnPercentage*delta*0.01)
 	addTHC(THCpS*delta)
-
 func _on_Topek_burning(delta):
 	THCpSToDisplay = THCpS + THCpSWhileBurning
 	addTHC(THCpSWhileBurning * delta)
@@ -484,11 +519,22 @@ func THCpStext(THCpS):
 func refreshTHCpS():
 	recalculateTHCpS()
 
-# Pressing the button code
 func burnChange():
 	refreshBurnPctLabel()
 	refreshTHCpS()
 	burnButton.burnPercentage = burnPercentage
+	const max_haze = 0.04
+	const burnThreshold = 0.6
+	if burnPercentage > burnThreshold:
+		
+		var density = ( (burnPercentage - burnThreshold)/(1-burnThreshold) ) * max_haze
+		print("Current haze density: ", density)
+		# var tween = get_tree().create_tween()
+		# tween.tween_property(worldEnvironment.environment, "volumetric_fog_density", density, 0.8)
+		worldEnvironment.environment.fog_density = density
+	else:
+		# tween.tween_property(worldEnvironment.environment, "volumetric_fog_density", 0.01, 0.8)
+		worldEnvironment.environment.fog_density = 0.01
 	buildingsVisualManager.burnPercentage = burnPercentage
 func refreshBurnPctLabel():
 	burnPctLabel.text = str(burnPercentage * 100) + "%"

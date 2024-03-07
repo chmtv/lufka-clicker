@@ -9,7 +9,8 @@ custom_minimum_size = Vector2(144, 20)
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.203
-offset_bottom = 0.0319977
+offset_right = 36.0
+offset_bottom = 150.024
 mouse_filter = 1
 script = ExtResource("1_en4fg")
 
@@ -26,6 +27,8 @@ offset_bottom = -0.0139999
 theme = ExtResource("1")
 text = "1"
 script = ExtResource("2")
+
+[node name="Buy Sound" type="AudioStreamPlayer" parent="Buy Button"]
 
 [node name="Name" type="Label" parent="."]
 layout_mode = 1
