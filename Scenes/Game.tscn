@@ -112,6 +112,7 @@ volumetric_fog_temporal_reprojection_amount = 0.5
 
 [node name="Game Manager" type="Node3D" parent="."]
 script = ExtResource("3")
+godmode = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 anchors_preset = -1
@@ -189,6 +190,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.96063, 0.79544, -7.86973)
 
 [node name="Wodospad" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("10_71f1s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89007, 1.99949, 5.79968)
+
+[node name="BurnParticles" parent="Game Manager/Burn Button/Buildings/Wodospad" index="1"]
+visible = false
 
 [node name="Circle" parent="Game Manager/Burn Button/Buildings/Wodospad/wodospad" index="2"]
 surface_material_override/0 = ExtResource("11_kydvk")

@@ -9,6 +9,9 @@
 [node name="Smoke Spawner" parent="." index="0"]
 transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.175789, 9.29329, -0.273483)
 
+[node name="BurnParticles" parent="." index="1"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.183239, 9.26691, -0.229033)
+
 [node name="wiadro" parent="." index="3" instance=ExtResource("2_2ssma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.183283, 0, -0.256067)
 

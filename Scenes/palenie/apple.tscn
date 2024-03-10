@@ -29,4 +29,7 @@ surface_material_override/1 = SubResource("StandardMaterial3D_eq38d")
 [node name="Smoke Spawner" parent="." index="1"]
 transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.107381, 3.0287, -0.101955)
 
+[node name="BurnParticles" parent="." index="2"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -0.0716482, 1.93989, 0.0424292)
+
 [editable path="apple"]

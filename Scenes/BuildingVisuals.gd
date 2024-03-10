@@ -29,6 +29,7 @@ func setOpalanie(amount):
 
 # The building list is assumed to have exactly the same amount of children as there are elements in the
 # model visibilities array
+# Actually it isnt why tf did i write it here what the fuck
 
 func setModelVisibility(index):
 	modelVisibilities[index] = true

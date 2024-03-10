@@ -15,6 +15,9 @@ refraction_scale = 1.0
 [node name="Smoke Spawner" parent="." index="0"]
 transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -5.12269, 1.56084, 2.36604)
 
+[node name="BurnParticles" parent="." index="1"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 2.74184, 1.79657, -5.38431)
+
 [node name="bonio" parent="." index="3" instance=ExtResource("2_nwbsg")]
 transform = Transform3D(-2.37687, 0, -1.83044, 0, 3, 0, 1.83044, 0, -2.37687, 0, 0, 0)
 

@@ -31,4 +31,5 @@ func _on_timer_timeout():
 
 
 func _on_burn_button_burning(delta):
-	isSpawning = true
+	# isSpawning = true
+	pass

@@ -13,6 +13,9 @@ emission_energy_multiplier = 6.67
 
 [node name="Wapo" instance=ExtResource("1_qdwlr")]
 
+[node name="BurnParticles" parent="." index="1"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -0.225217, 5.17325, 1.42792)
+
 [node name="wapo" parent="." index="3" instance=ExtResource("2_2wm2u")]
 transform = Transform3D(0.515, 0, 0, 0, 1, 0, 0, 0, 1, -0.107786, 1.19209e-07, -0.107465)
 

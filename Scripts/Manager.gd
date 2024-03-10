@@ -4,7 +4,7 @@ extends Node3D
 func enableGodmode():
 	godmode = true
 	# thc = 41900000000000000
-	thc = 999999999
+	thc = 999999999999999
 	burnPctPerSec = 0.5
 	# burnPctDrainPerSec = 1
 func disableGodmode():
