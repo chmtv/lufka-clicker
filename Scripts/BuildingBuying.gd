@@ -15,8 +15,7 @@ var smokePresent = false
 func _unhandled_input(event):
 	if event is InputEventScreenTouch and event.pressed == true:
 		# Globals.spawnWeedExplosion(event.position)
-		print("chuj speepneiemrrmaaaaaaaaaa")
-		
+		pass
 
 func showSmoke():
 	var smoke = load("res://Scenes/buttonSmoke.tscn").instantiate()

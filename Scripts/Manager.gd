@@ -5,7 +5,7 @@ extends Node3D
 func enableGodmode():
 	godmode = true
 	# thc = 41900000000000000
-	thc = 99
+	thc = 999999999999
 	burnPctPerSec = 0.5
 	# burnPctDrainPerSec = 1
 func disableGodmode():
@@ -128,6 +128,7 @@ func loadGame():
 
 var boughtMaps = [
 	{
+		"index": 0,
 		"name": "Piwnica",
 		"filename":"piwnica.jpg",
 		"description": "..."
@@ -162,17 +163,26 @@ var currentMapPath = "res://Sprites/Maps/piwnica.jpg"
 var buildingButtonList = []
 var buildingVBoxPath = "UpgradeShopContainer/UpgradeShop/S/ScrollContainer/VBoxContainer"
 @onready var buildingVBox = get_node(buildingVBoxPath)
-func addMap(name, fileName, description):
+func addMap(index, name, fileName, description):
 	var map = {
+		"index": 0,
 		"name": name,
 		"filename": fileName,
 		"description": description
 	}
 	boughtMaps.append(map)
-func changeMap(fileName):
+@onready var nextMapButton = get_node("Burn Button/NextMapViewport/Control/MapPanel")
+func changeMap(map):
+	print("chujdsjsdjsdjisdjisdjisdjisdjijisdjisdjisdjisdifjihaaaaaaaaaaaaaaa")
 	var mapTemplate = "res://Sprites/Maps/"
-	currentMapPath = mapTemplate + fileName
+	currentMapPath = mapTemplate + map.filename
 	worldEnvironment.environment.sky.sky_material.panorama = load(currentMapPath)
+	nextMapButton.get_node("Change Button").map = Upgrades.mapUpgrades[map.index+1]
+func setMapButton(map, button):
+	# button.get_node("Change Button").filename = map["filename"]
+	button.get_node("Change Button").map = map
+	button.get_node("Name").text = map.name
+	button.get_node("Description").text = map.description
 func updateMapsMenu():
 	var mapVBox = get_node("UpgradeShopContainer/UpgradeShop/M/ScrollContainer/VBoxContainer")
 	# Reset the VBox to its' initial state
@@ -182,14 +192,16 @@ func updateMapsMenu():
 	# Generate and place all the bought map buttons
 	for i in boughtMaps.size():
 		var currentButton = load("res://Scenes/MapChangeButton.tscn").instantiate()
-		currentButton.get_node("Change Button").fileName = boughtMaps[i]["filename"]
-		currentButton.get_node("Name").text = boughtMaps[i].name
-		currentButton.get_node("Description").text = boughtMaps[i].description
+		setMapButton(boughtMaps[i], currentButton)
+		
 		currentButton.get_node("Change Button").connect(
 			"MapChange", 
 			changeMap)
 		mapVBox.add_child(currentButton)
+		
+	
 	# Generate the map buy buttons
+	
 	for i in Upgrades.mapUpgrades.size():
 		if !Upgrades.mapUpgrades[i].bought:
 			var currentButton = load("res://Scenes/UpgradeButton.tscn").instantiate()
@@ -360,9 +372,9 @@ func updateBuildingShop():
 		progressBar.max_value = building.nextUpgLv
 		progressBar.value = building.level
 		currentButton.get_node("LevelPanel/Level").text = str(building.level)
-		currentButton.get_node("Buy Button").connect(
-			"BuildingBuy",
-			_on_BuildingBuy)
+		var curBuyButton = currentButton.get_node("Buy Button")
+		if !curBuyButton.is_connected("BuildingBuy", _on_BuildingBuy):
+			curBuyButton.connect("BuildingBuy", _on_BuildingBuy)
 		buildingVBox.add_child(currentButton)
 		updateUpgradesShop()
 	
@@ -451,7 +463,7 @@ func buyUpgrade(index, isMapUpgrade = false):
 		thc -= curUpg.cost
 		boughtUpgradesIds.append(index)
 		if("mapPath" in curUpg):
-			addMap(curUpg.name, curUpg.mapPath, curUpg.description)
+			addMap(index, curUpg.name, curUpg.mapPath, curUpg.description)
 		if(curUpg.globalMultiplier != -1):
 			globalAdditiveMultiplier += curUpg.globalMultiplier
 		curUpg.bought = true

@@ -1,7 +1,12 @@
 extends Button
 
-signal MapChange(fileName)
-var fileName = 0
+signal MapChange(map)
+var map = 0
 
 func _on_Buy_Button_pressed():
-	emit_signal("MapChange", fileName)
+	print("map signal triggered")
+	emit_signal("MapChange", map)
+
+# For testing purposes
+func _on_map_panel_mouse_entered():
+	print("map panel mouse entered")

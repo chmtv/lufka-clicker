@@ -19,5 +19,6 @@ func setScale():
 	var curViewport = get_viewport_rect()
 	var x = curViewport.size.x / prevViewport.size.x
 	# var y = curViewport.size.y / prevViewport.size.y
-	size.x = curViewport.size.x/1.6
+	set_deferred("size.x", curViewport.size.x/1.6)
+	
 	scale = Vector2(x,scale.y)
