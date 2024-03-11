@@ -36,13 +36,19 @@ func _process(delta):
 
 var mouse_sens = 0.3
 var mouseDelta = Vector2(0,0)
-
+var prevTouchPos = Vector2(0,0)
+func stopAutoRotate():
+	shouldRotate = false
+	rotationMultiplier = 0
+	get_node("Rotation").start()
 func _input(event):
 	if event is InputEventMouseMotion and Input.is_action_pressed("cameraMove"):
-		shouldRotate = false
-		rotationMultiplier = 0
-		get_node("Rotation").start()
+		stopAutoRotate()
 		mouseDelta = event.relative
+	elif event is InputEventScreenTouch:
+		stopAutoRotate()
+		# mouseDelta = event.position - prevTouchPos
+		prevTouchPos = event.position
 	else:
 		mouseDelta = Vector2(0,0)
 #var mouse_sens = 1

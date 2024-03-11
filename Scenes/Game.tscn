@@ -113,6 +113,7 @@ volumetric_fog_temporal_reprojection_amount = 0.5
 [node name="Game Manager" type="Node3D" parent="."]
 script = ExtResource("3")
 godmode = true
+godTHCmultiplier = 1.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 anchors_preset = -1

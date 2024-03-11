@@ -1,10 +1,11 @@
 extends Node3D
 
 @export var godmode : bool
+@export var godTHCmultiplier : float = 10.0
 func enableGodmode():
 	godmode = true
 	# thc = 41900000000000000
-	thc = 999999999999999
+	thc = 99
 	burnPctPerSec = 0.5
 	# burnPctDrainPerSec = 1
 func disableGodmode():
@@ -266,11 +267,11 @@ var buildings = [
 	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2, 5), # 1
 	Building.new("Lufka", 600, 50, 0, afterBuyRef, 1.14, 5), # 2
 	# Building.new("Jedzenie", 1000, 10, 0, afterBuyRef, 1.2), # 3
-	Building.new("Wodospad", 20000, 900, 0, afterBuyRef, 1.14, 5), # 4
-	Building.new("Wiadro", 1250000, 42000, 0, afterBuyRef, 1.09, 5),	# 5
-	Building.new("Bongo", 25000000, 950000, 0, afterBuyRef, 1.12),	# 6
-	Building.new("Waporyzator", 1000000000, 30000000, 0, afterBuyRef, 1.12),	# 7
-	Building.new("Dab pen",942000000000000, 94200000000, 0, afterBuyRef, 1.2),	# 8
+	Building.new("Wodospad", 160000, 7500, 0, afterBuyRef, 1.14, 5), # 4
+	Building.new("Wiadro", 125000000, 4200000, 0, afterBuyRef, 1.09, 5),	# 5
+	Building.new("Bongo", 25000000000, 950000000, 0, afterBuyRef, 1.12),	# 6
+	Building.new("Waporyzator", 1000000000000, 29000000000, 0, afterBuyRef, 1.11),	# 7
+	Building.new("Dab pen",4200000000000000, 200000000000000, 0, afterBuyRef, 1.15),	# 8
 	# Building.new("Bongo grawitacyjne", 420000000, 405, 0, afterBuyRef, 1.2), # 9
 ]
 
@@ -548,7 +549,7 @@ func addTHC(amount):
 	# Change the THCps label's text
 	globalTHCpSLabel.text = "THCpS: " + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" + thcWithNumberAffix(THCpS) + ")" + " "
 	
-	thc += amount
+	thc += godTHCmultiplier * amount
 	
 	var thcTemplate = "%s"
 	

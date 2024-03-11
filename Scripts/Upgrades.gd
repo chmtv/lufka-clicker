@@ -66,8 +66,7 @@ enum BuildingIds {
 	Wiadro,
 	Bongo,
 	Wapo,
-	GravBonga,
-	Pluca
+	Dab,
 }
 
 var upgrades = [
@@ -109,7 +108,15 @@ var upgrades = [
 	MultiplicativeMultiplierUpgrade.new("Waporyzator II", "", BuildingIds.Wapo, 50000000000, 2, 10),
 	MultiplicativeMultiplierUpgrade.new("Waporyzator III", "", BuildingIds.Wapo, 100000000000, 2, 20),
 	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 300000000000, 1.5, 30),
-	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 3000000000000, 2,85),
+	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 3000000000000, 2,100),
+	# Dab
+	MultiplicativeMultiplierUpgrade.new("Dab pen I", "", BuildingIds.Dab, 42000000000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Dab pen II", "", BuildingIds.Dab, 420000000000000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Dab pen III", "", BuildingIds.Dab, 4200000000000000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Dab pen IV", "", BuildingIds.Dab, 4200000000000000000, 1.25, 30),
+	MultiplicativeMultiplierUpgrade.new("Dab pen V", "", BuildingIds.Dab, 4200000000000000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Dab pen VI", "", BuildingIds.Dab, 4200000000000000000, 1.333, 75),
+	MultiplicativeMultiplierUpgrade.new("Dab pen VII", "", BuildingIds.Dab, 4200000000000000000, 1.25, 115),
 ]
 
 # Stare ulepszenia :>
