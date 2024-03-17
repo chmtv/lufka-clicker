@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6icb4bqxu177"]
+
+[ext_resource type="Texture2D" uid="uid://bxbqoc3p4c1rc" path="res://Sprites/Icons/mapIcon.png" id="1_qktel"]
+[ext_resource type="PackedScene" uid="uid://ck283e6ub0ip8" path="res://Scenes/MapSwitcher.tscn" id="2_07fgp"]
+
+[node name="NextMapButton" type="Sprite3D"]
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource("1_qktel")
+region_rect = Rect2(1.12, 0, 0, 0)
+
+[node name="MapSwitcher" parent="." instance=ExtResource("2_07fgp")]

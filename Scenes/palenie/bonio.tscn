@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bir62bcf71u7g"]
+
+[ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_3l3xr"]
+[ext_resource type="PackedScene" uid="uid://p45mkorpxmbd" path="res://Models/bonio.dae" id="2_nwbsg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spsd3"]
+cull_mode = 2
+albedo_color = Color(0, 0.2, 0, 1)
+roughness = 0.0
+refraction_enabled = true
+refraction_scale = 1.0
+
+[node name="Palenie" instance=ExtResource("1_3l3xr")]
+
+[node name="Smoke Spawner" parent="." index="0"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -5.12269, 1.56084, 2.36604)
+
+[node name="BurnParticles" parent="." index="1"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 2.74184, 1.79657, -5.38431)
+
+[node name="bonio" parent="." index="3" instance=ExtResource("2_nwbsg")]
+transform = Transform3D(-2.37687, 0, -1.83044, 0, 3, 0, 1.83044, 0, -2.37687, 0, 0, 0)
+
+[node name="Circle" parent="bonio" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_spsd3")
+
+[editable path="bonio"]

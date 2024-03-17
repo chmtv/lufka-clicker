@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvbaeva83aiif"]
+
+[ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_o2som"]
+
+[node name="Palenie" instance=ExtResource("1_o2som")]
+visible = false
+
+[node name="FireLight" parent="Smoke Spawner" index="1"]
+visible = false

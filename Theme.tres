@@ -1,0 +1,61 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dvrbpvnjt7j30"]
+
+[ext_resource type="FontFile" uid="uid://b3nlcteh01yby" path="res://Fonts/m5x7.ttf" id="1_myp1c"]
+[ext_resource type="StyleBox" uid="uid://bvgxb3mgksl2l" path="res://Theme/GrassyBorderStyleBox.tres" id="1_v7j6e"]
+[ext_resource type="StyleBox" uid="uid://bwjlasy6ojj5k" path="res://Theme/GrassyBorderLightStyleBox.tres" id="2_4kv6w"]
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3kwv4"]
+bg_color = Color(0.321569, 0.45098, 0.301961, 1)
+
+[sub_resource type="StyleBoxEmpty" id="4"]
+
+[resource]
+default_font = ExtResource("1_myp1c")
+Button/colors/font_color = Color(0.996078, 1, 0.870588, 1)
+Button/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)
+Button/colors/font_color_focus = Color(0.94, 0.94, 0.94, 1)
+Button/colors/font_color_hover = Color(0.94, 0.94, 0.94, 1)
+Button/colors/font_color_pressed = Color(1, 1, 1, 1)
+Button/constants/hseparation = 2
+Button/styles/Button = ExtResource("1_v7j6e")
+Button/styles/focus = ExtResource("2_4kv6w")
+Button/styles/hover = ExtResource("1_v7j6e")
+Button/styles/normal = ExtResource("1_v7j6e")
+Button/styles/pressed = ExtResource("2_4kv6w")
+Label/colors/font_color = Color(0.996078, 1, 0.870588, 1)
+Panel/styles/panel = ExtResource("1_v7j6e")
+ProgressBar/styles/background = ExtResource("2_4kv6w")
+ScrollContainer/styles/bg = SubResource("3")
+TabContainer/colors/font_color_bg = Color(0.69, 0.69, 0.69, 1)
+TabContainer/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)
+TabContainer/colors/font_color_fg = Color(0.94, 0.94, 0.94, 1)
+TabContainer/constants/hseparation = 0
+TabContainer/constants/label_valign_bg = 2
+TabContainer/constants/label_valign_fg = 0
+TabContainer/constants/side_margin = 14
+TabContainer/constants/top_margin = 50
+TabContainer/icons/decrement = null
+TabContainer/icons/decrement_highlight = null
+TabContainer/icons/increment = null
+TabContainer/icons/increment_highlight = null
+TabContainer/icons/menu = null
+TabContainer/icons/menu_highlight = null
+TabContainer/styles/panel = null
+TabContainer/styles/tab_bg = SubResource("StyleBoxFlat_3kwv4")
+TabContainer/styles/tab_disabled = null
+TabContainer/styles/tab_fg = null
+VScrollBar/constants/rect = 0
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/decrement_pressed = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/icons/increment_pressed = null
+VScrollBar/styles/grabber = null
+VScrollBar/styles/grabber_highlight = null
+VScrollBar/styles/grabber_pressed = null
+VScrollBar/styles/scroll = SubResource("4")
+VScrollBar/styles/scroll_focus = null

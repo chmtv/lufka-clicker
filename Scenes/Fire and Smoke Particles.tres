@@ -1,0 +1,25 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=2 format=3 uid="uid://b8ti5ja1yv4qu"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cher3"]
+
+[resource]
+emission_shape = 2
+emission_sphere_radius = 0.2
+direction = Vector3(0, 0.5, 0)
+spread = 2.7
+gravity = Vector3(0, 5.191, 0)
+angular_velocity_max = 1.45
+linear_accel_min = -6.78
+linear_accel_max = 9.09
+radial_accel_min = -6.06
+radial_accel_max = 6.06
+tangential_accel_min = 4.55
+tangential_accel_max = 9.09
+angle_min = -43.6
+angle_max = -43.6
+scale_min = 10.0
+scale_max = 100.0
+color_ramp = SubResource("GradientTexture1D_cher3")
+turbulence_enabled = true
+turbulence_noise_strength = 1.76
+turbulence_noise_scale = 1.75

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqnpima4o6jlk"]
+
+[ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_qdwlr"]
+[ext_resource type="PackedScene" uid="uid://dgyuxb8h6fj70" path="res://Models/wapo.dae" id="2_2wm2u"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y05fk"]
+size = Vector3(0.052, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01r25"]
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+emission_energy_multiplier = 16.0
+
+[node name="Wapo" instance=ExtResource("1_qdwlr")]
+
+[node name="BurnParticles" parent="." index="1"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -0.225217, 5.17325, 1.42792)
+
+[node name="wapo" parent="." index="3" instance=ExtResource("2_2wm2u")]
+transform = Transform3D(0.515, 0, 0, 0, 1, 0, 0, 0, 1, -0.107786, 1.19209e-07, -0.107465)
+
+[node name="LightWall" type="MeshInstance3D" parent="wapo" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.04752, 3.66875, 1.23833)
+mesh = SubResource("BoxMesh_y05fk")
+surface_material_override/0 = SubResource("StandardMaterial3D_01r25")
+
+[node name="LightWall2" type="MeshInstance3D" parent="wapo" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.11815, 3.66875, 1.23833)
+mesh = SubResource("BoxMesh_y05fk")
+surface_material_override/0 = SubResource("StandardMaterial3D_01r25")

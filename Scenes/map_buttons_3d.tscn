@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci53h4s74peg1"]
+
+[ext_resource type="PackedScene" uid="uid://b6icb4bqxu177" path="res://Scenes/MapSwitch3D.tscn" id="1_610y5"]
+
+[node name="MapButtons3D" type="Node"]
+
+[node name="NextMapButton" parent="." instance=ExtResource("1_610y5")]
+transform = Transform3D(24.171, 0, 0, 0, 24.171, 0, 0, 0, 24.171, -58.0447, 39.6315, 58.3556)
+visible = false
+
+[node name="PrevMapButton" parent="." instance=ExtResource("1_610y5")]
+transform = Transform3D(24.171, 0, 0, 0, 24.171, 0, 0, 0, 24.171, 62.6046, -27.7358, -98.8999)
+visible = false
+
+[editable path="NextMapButton"]
+[editable path="PrevMapButton"]

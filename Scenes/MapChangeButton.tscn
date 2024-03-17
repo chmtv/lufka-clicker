@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn1uq28s62224"]
+
+[ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="1"]
+[ext_resource type="Script" path="res://Scripts/MapChange.gd" id="2"]
+[ext_resource type="Script" path="res://Scenes/ShopButtonResize.gd" id="3"]
+
+[node name="MapPanel" type="Panel"]
+custom_minimum_size = Vector2(140, 90)
+anchors_preset = -1
+anchor_right = 1.296
+anchor_bottom = 0.479
+offset_right = 0.0319977
+offset_bottom = 0.0319977
+size_flags_horizontal = 3
+mouse_filter = 1
+script = ExtResource("3")
+
+[node name="Change Button" type="Button" parent="."]
+layout_mode = 0
+anchor_left = 0.691
+anchor_top = 0.034
+anchor_right = 0.993
+anchor_bottom = 0.966
+offset_left = 0.0239944
+offset_top = 0.0139999
+offset_right = -0.0479889
+offset_bottom = -0.0139999
+theme = ExtResource("1")
+text = "Zmień"
+script = ExtResource("2")
+
+[node name="Buy Sound" type="AudioStreamPlayer" parent="Change Button"]
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.693
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_right = -0.0200043
+offset_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.029
+anchor_top = 0.5
+anchor_right = 0.693
+anchor_bottom = 0.92
+offset_left = -0.0599999
+offset_right = -0.0200043
+
+[connection signal="pressed" from="Change Button" to="Change Button" method="_on_Buy_Button_pressed"]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpfm7udjqq5w"]
+
+[ext_resource type="PackedScene" uid="uid://cgbl2wnypqv0" path="res://Scenes/Particles/weedExplosion.tscn" id="1_88fg4"]
+[ext_resource type="Texture2D" uid="uid://bw0r60ljj7qxv" path="res://Sprites/whitePuff00.png" id="2_s7dfs"]
+[ext_resource type="Gradient" uid="uid://dblskri2tq83h" path="res://Textures/fireGradient.tres" id="3_lhbbc"]
+
+[node name="Buy Particles" instance=ExtResource("1_88fg4")]
+amount = 1
+lifetime = 1.0
+explosiveness = 0.0
+lifetime_randomness = 0.16
+texture = ExtResource("2_s7dfs")
+emission_sphere_radius = 4.0
+direction = Vector2(0, -1)
+spread = 0.0
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+linear_accel_min = 10.0
+linear_accel_max = 10.0
+radial_accel_min = -50.0
+radial_accel_max = 50.0
+tangential_accel_min = -30.0
+tangential_accel_max = 30.0
+damping_min = 0.0
+damping_max = 0.0
+scale_amount_min = 0.05
+scale_amount_max = 0.05
+color_ramp = ExtResource("3_lhbbc")

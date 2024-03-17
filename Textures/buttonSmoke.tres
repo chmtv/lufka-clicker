@@ -1,0 +1,8 @@
+[gd_resource type="AnimatedTexture" load_steps=2 format=3 uid="uid://ch37gjqimglgh"]
+
+[ext_resource type="Texture2D" uid="uid://c75kjgdm41r1t" path="res://Sprites/buttonSmoke/0001.png" id="15"]
+
+[resource]
+resource_local_to_scene = true
+speed_scale = 30.0
+frame_0/texture = ExtResource("15")

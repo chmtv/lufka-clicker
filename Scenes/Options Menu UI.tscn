@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://bojlxrdjj5nid"]
+
+[ext_resource type="Script" path="res://Scenes/SaveDelBut.gd" id="1_loo7j"]
+
+[node name="Options Menu UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SaveDelBut" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.074
+anchor_top = 0.734
+anchor_right = 0.907
+anchor_bottom = 0.87
+offset_left = 0.0079999
+offset_top = 0.071991
+offset_right = 0.0439911
+offset_bottom = -0.0400085
+theme_override_colors/font_color = Color(1, 0.172549, 0.12549, 1)
+text = "Usuń zapis gry"
+script = ExtResource("1_loo7j")
+
+[connection signal="pressed" from="SaveDelBut" to="SaveDelBut" method="_on_pressed"]
