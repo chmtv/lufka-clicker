@@ -1,13 +1,17 @@
-[gd_scene load_steps=51 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=56 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
 [ext_resource type="Shader" path="res://shaders/stoned.gdshader" id="4_8e4w0"]
+[ext_resource type="Script" path="res://Scenes/Samara/SamaraManager.gd" id="4_oei3e"]
+[ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
+[ext_resource type="PackedScene" uid="uid://3bu61tvax12l" path="res://Scenes/Samara/Samara.tscn" id="6_jex7c"]
 [ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
+[ext_resource type="StyleBox" uid="uid://brt5ti1sbq3ed" path="res://Theme/FireBox.tres" id="9_diekk"]
 [ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
 [ext_resource type="Texture2D" uid="uid://crfxjfdqsqi46" path="res://Sprites/Maps/piwnica.jpg" id="10_35qj5"]
 [ext_resource type="PackedScene" uid="uid://ds4ylnrjh3lds" path="res://Scenes/palenie/wodospad.tscn" id="10_71f1s"]
@@ -26,6 +30,8 @@
 [ext_resource type="Script" path="res://Scenes/buildingProgressBars.gd" id="17_su7yk"]
 [ext_resource type="Script" path="res://Scripts/StonerPortrait.gd" id="18_2uv6r"]
 [ext_resource type="Texture2D" uid="uid://b30r55ov5cjmf" path="res://Sprites/stonerPortrait/jaracz-1.png" id="19_m7wn1"]
+[ext_resource type="StyleBox" uid="uid://1hoqteq1kcs6" path="res://Theme/TopekStyleBox.tres" id="20_0sxsr"]
+[ext_resource type="Texture2D" uid="uid://bp663trhrr3fh" path="res://Sprites/stonerPortrait/bgCircle.png" id="20_7qegm"]
 [ext_resource type="Texture2D" uid="uid://clqj3dj5gtwre" path="res://Sprites/stonerPortrait/jaracz-2.png" id="20_7tfc1"]
 [ext_resource type="AudioStream" uid="uid://bokoc4op3r5nv" path="res://SFX/menuOpen.ogg" id="20_e8q2b"]
 [ext_resource type="AudioStream" uid="uid://cneabb8lpw17a" path="res://SFX/menuClose.ogg" id="20_tkqao"]
@@ -34,7 +40,6 @@
 [ext_resource type="PackedScene" uid="uid://bojlxrdjj5nid" path="res://Scenes/Options Menu UI.tscn" id="22_3evpn"]
 [ext_resource type="Texture2D" uid="uid://o8psuydtrfre" path="res://Sprites/stonerPortrait/jaracz-4.png" id="22_kmmba"]
 [ext_resource type="AudioStream" uid="uid://cq3g1ohcrm2cl" path="res://SFX/buttonClick.ogg" id="24_o4hox"]
-[ext_resource type="Script" path="res://RichTextEffects/breathing.gd" id="25_jlo3r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n8aw2"]
 shader = ExtResource("4_8e4w0")
@@ -56,18 +61,6 @@ tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.6, 1, 1.03, 1.03, 1.03, 0.8,
 _data = {
 "burnPress": SubResource("Animation_jyt2w")
 }
-
-[sub_resource type="Gradient" id="Gradient_b6ee0"]
-offsets = PackedFloat32Array(0, 0.519084, 1)
-colors = PackedColorArray(0.515221, 0.777182, 0, 1, 0.949086, 0.940045, 0, 1, 1, 0.286275, 0.0117647, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_bl1k2"]
-gradient = SubResource("Gradient_b6ee0")
-width = 169
-height = 5
-
-[sub_resource type="RichTextEffect" id="RichTextEffect_58y5r"]
-script = ExtResource("25_jlo3r")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eca77"]
 bg_color = Color(0.321569, 0.45098, 0.301961, 1)
@@ -112,6 +105,18 @@ _data = {
 color = Color(0.258824, 0.258824, 0.258824, 0.584314)
 vertical = true
 
+[sub_resource type="Gradient" id="Gradient_b6ee0"]
+offsets = PackedFloat32Array(0, 0.519084, 1)
+colors = PackedColorArray(0.515221, 0.777182, 0, 1, 0.949086, 0.940045, 0, 1, 1, 0.286275, 0.0117647, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bl1k2"]
+gradient = SubResource("Gradient_b6ee0")
+width = 169
+height = 5
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mn4x0"]
+texture = ExtResource("20_7qegm")
+
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpwt7"]
 panorama = ExtResource("10_35qj5")
 filter = false
@@ -138,17 +143,18 @@ adjustment_brightness = 0.8
 
 [node name="Node2D" type="Node3D"]
 
-[node name="Game Manager" type="Node3D" parent="."]
+[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("samaraManager")]
 script = ExtResource("3")
-godmode = true
 godTHCmultiplier = 1.0
+samaraManager = NodePath("SamaraManager")
+fireBox = ExtResource("9_diekk")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 anchors_preset = -1
-anchor_top = 0.277
+anchor_top = 0.151
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -2.912
+offset_top = 0.00799942
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -156,7 +162,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="Game Manager/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(109, 141)
+size = Vector2i(109, 163)
 size_2d_override = Vector2i(600, 800)
 render_target_update_mode = 4
 script = ExtResource("2_26dat")
@@ -194,18 +200,47 @@ mouse_default_cursor_shape = 13
 texture = SubResource("ViewportTexture_k3jkr")
 stretch_mode = 3
 
-[node name="Burn Button" type="Button" parent="Game Manager"]
+[node name="SamaraManager" type="ReferenceRect" parent="Game Manager" node_paths=PackedStringArray("mainManager")]
+custom_minimum_size = Vector2(108, 135)
 anchors_preset = -1
-anchor_top = 0.113
+anchor_top = 0.151
 anchor_right = 1.0
-anchor_bottom = 0.312
-offset_top = 0.304001
-offset_bottom = 0.0960007
+anchor_bottom = 0.854
+offset_top = 0.00799942
+offset_bottom = 0.0319977
+mouse_filter = 1
+script = ExtResource("4_oei3e")
+SamaraUI = ExtResource("5_mllu4")
+Samara = ExtResource("6_jex7c")
+mainManager = NodePath("..")
+
+[node name="THCpSBuff" type="Timer" parent="Game Manager/SamaraManager"]
+wait_time = 20.0
+
+[node name="BurnPctBuff" type="Timer" parent="Game Manager/SamaraManager"]
+wait_time = 20.0
+
+[node name="Burn Button" type="Button" parent="Game Manager"]
+self_modulate = Color(1, 0.352941, 0, 1)
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.176
+anchor_top = 0.182
+anchor_right = 0.833
+anchor_bottom = 0.318
+offset_left = -0.00800133
+offset_top = 0.0559998
+offset_right = 0.0359955
+offset_bottom = -0.0560036
 focus_mode = 0
 mouse_filter = 1
 theme = ExtResource("9")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_styles/normal = ExtResource("9_diekk")
+theme_override_styles/hover = ExtResource("9_diekk")
+theme_override_styles/pressed = ExtResource("9_diekk")
 shortcut_feedback = false
-icon_alignment = 2
+text = "Pal"
 script = ExtResource("2")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Game Manager/Burn Button"]
@@ -220,6 +255,12 @@ spot_angle = 12.27
 script = ExtResource("6_ekn02")
 
 [node name="Lighter" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("7_bq0rx")]
+
+[node name="BurnParticles" parent="Game Manager/Burn Button/Buildings/Lighter" index="1"]
+visible = false
+
+[node name="GPUParticlesCollisionBox3D" parent="Game Manager/Burn Button/Buildings/Lighter/BurnParticles" index="0"]
+visible = false
 
 [node name="Apple" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_wxpln")]
 
@@ -260,88 +301,16 @@ libraries = {
 }
 speed_scale = 8.0
 
-[node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.023
-anchor_top = 0.132
-anchor_right = 0.915
-anchor_bottom = 0.281
-offset_left = 2.516
-offset_top = -0.0160017
-offset_right = 75.18
-offset_bottom = 0.0179987
-value = 100.0
-texture_under = ExtResource("17_7x0qa")
-texture_progress = SubResource("GradientTexture2D_bl1k2")
-texture_progress_offset = Vector2(1, 1)
-script = ExtResource("15_dc6li")
-
-[node name="Burn Progress Secondary" type="TextureProgressBar" parent="Game Manager/Burn Button"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.018
-anchor_top = 0.816
-anchor_right = 0.917
-anchor_bottom = 0.976
-offset_left = 3.056
-offset_top = -0.00800133
-offset_right = 74.964
-offset_bottom = -0.00800323
-value = 50.0
-texture_under = ExtResource("17_7x0qa")
-texture_progress = ExtResource("15_0o5ra")
-texture_progress_offset = Vector2(1, 1)
-script = ExtResource("15_dc6li")
-
-[node name="Stoner Portrait Panel" type="Panel" parent="Game Manager/Burn Button"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_right = 70.0
-offset_bottom = 70.0
-script = ExtResource("18_2uv6r")
-textures = Array[Texture]([ExtResource("19_m7wn1"), ExtResource("20_7tfc1"), ExtResource("21_af0dc"), ExtResource("22_kmmba")])
-
-[node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/Burn Button/Stoner Portrait Panel"]
-position = Vector2(35, 35)
-scale = Vector2(2, 2)
-texture = ExtResource("19_m7wn1")
-
-[node name="Pal" type="RichTextLabel" parent="Game Manager/Burn Button"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.509
-anchor_top = 0.593
-anchor_right = 0.509
-anchor_bottom = 0.593
-offset_left = -48.972
-offset_top = -9.534
-offset_right = 49.028
-offset_bottom = 30.466
-bbcode_enabled = true
-text = "[center]Pal[/center]"
-fit_content = true
-autowrap_mode = 0
-custom_effects = [SubResource("RichTextEffect_58y5r")]
-visible_characters_behavior = 1
-
 [node name="ShopOpen" type="Button" parent="Game Manager"]
 z_index = 1
 anchors_preset = -1
-anchor_left = 0.597
-anchor_top = 0.93
-anchor_right = 1.0
+anchor_left = 1.009
+anchor_top = 1.0
+anchor_right = 1.009
 anchor_bottom = 1.0
-offset_left = 0.524002
-offset_top = -0.559998
-offset_right = 23.0
-offset_bottom = 12.0
+offset_left = -65.972
+offset_top = -26.0
+offset_right = 0.0280075
 action_mode = 0
 text = "Ulepszenia"
 
@@ -486,30 +455,39 @@ wait_time = 2.0
 autostart = true
 
 [node name="CanvasLayer" type="Panel" parent="Game Manager"]
+texture_filter = 1
+texture_repeat = 2
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.109
-offset_bottom = 0.0720005
+anchor_bottom = 0.151
+offset_bottom = 0.00799942
+theme_override_styles/panel = ExtResource("20_0sxsr")
 
 [node name="THC Points Label" type="Label" parent="Game Manager/CanvasLayer"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.007
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -0.308
-offset_right = 1.0
+anchor_left = 0.046
+anchor_top = 0.207
+anchor_right = 0.519
+anchor_bottom = 0.828
+offset_left = 0.0319996
+offset_top = -0.00300026
+offset_right = -0.0520058
+offset_bottom = -0.012001
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Global THCpS Label" type="Label" parent="Game Manager/CanvasLayer"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.507
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -0.00800323
-offset_bottom = 2.0
+anchor_left = 0.509
+anchor_top = 0.207
+anchor_right = 0.954
+anchor_bottom = 0.793
+offset_left = 0.0279999
+offset_top = -0.00300026
+offset_right = -0.0320053
+offset_bottom = 0.00299835
 mouse_filter = 1
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -543,6 +521,66 @@ offset_right = 2.992
 offset_bottom = -0.0200005
 theme_override_styles/separator = SubResource("StyleBoxLine_siwkp")
 
+[node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/CanvasLayer"]
+z_index = 1
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.967
+anchor_right = 1.0
+anchor_bottom = 1.225
+offset_left = 4.0
+offset_top = -0.0429993
+offset_right = 85.72
+offset_bottom = -0.00699997
+value = 100.0
+texture_under = ExtResource("17_7x0qa")
+texture_progress = SubResource("GradientTexture2D_bl1k2")
+texture_progress_offset = Vector2(1, 1)
+script = ExtResource("15_dc6li")
+
+[node name="Burn Progress Secondary" type="TextureProgressBar" parent="Game Manager/CanvasLayer"]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.018
+anchor_top = 0.816
+anchor_right = 0.917
+anchor_bottom = 0.976
+offset_left = 22.696
+offset_top = 26.544
+offset_right = 96.604
+offset_bottom = 28.904
+value = 50.0
+texture_under = ExtResource("17_7x0qa")
+texture_progress = ExtResource("15_0o5ra")
+texture_progress_offset = Vector2(1, 1)
+script = ExtResource("15_dc6li")
+
+[node name="Stoner Portrait Panel" type="Panel" parent="Game Manager/CanvasLayer"]
+self_modulate = Color(0, 0.517647, 0, 0.917647)
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.509
+anchor_top = 6.138
+anchor_right = 0.509
+anchor_bottom = 6.138
+offset_left = -33.972
+offset_top = -70.002
+offset_right = 36.028
+offset_bottom = -0.0019989
+theme_override_styles/panel = SubResource("StyleBoxTexture_mn4x0")
+script = ExtResource("18_2uv6r")
+textures = Array[Texture]([ExtResource("19_m7wn1"), ExtResource("20_7tfc1"), ExtResource("21_af0dc"), ExtResource("22_kmmba")])
+
+[node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/CanvasLayer/Stoner Portrait Panel"]
+position = Vector2(35, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("19_m7wn1")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Game Manager"]
 environment = SubResource("Environment_fsece")
 
@@ -566,6 +604,11 @@ offset_bottom = -0.0799999
 [node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
 
 [node name="MenuToggle" parent="Options SlidingMenu" index="0"]
+anchor_top = 0.99
+anchor_right = 0.0
+offset_top = -26.08
+offset_right = 40.74
+offset_bottom = -0.0800171
 text = "Opcje"
 
 [node name="Panel" parent="Options SlidingMenu" index="1"]
@@ -576,6 +619,8 @@ offset_bottom = 453.0
 layout_mode = 1
 
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
+[connection signal="timeout" from="Game Manager/SamaraManager/THCpSBuff" to="Game Manager/SamaraManager" method="_on_th_cp_s_buff_timeout"]
+[connection signal="timeout" from="Game Manager/SamaraManager/BurnPctBuff" to="Game Manager/SamaraManager" method="_on_burn_pct_buff_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
@@ -586,6 +631,7 @@ layout_mode = 1
 [connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
 [connection signal="timeout" from="Game Manager/Timer" to="Game Manager" method="updateBurnButtonLabel"]
 
+[editable path="Game Manager/Burn Button/Buildings/Lighter"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad/wodospad"]
 [editable path="Options SlidingMenu"]

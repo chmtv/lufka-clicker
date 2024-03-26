@@ -1,0 +1,25 @@
+[gd_resource type="StyleBoxTexture" load_steps=6 format=3 uid="uid://brt5ti1sbq3ed"]
+
+[ext_resource type="Texture2D" uid="uid://dd7icx0n7vmt4" path="res://Sprites/fireBorder-1.png" id="1_td42v"]
+[ext_resource type="Texture2D" uid="uid://dbt53g2knq4cw" path="res://Sprites/fireBorder-2.png" id="2_vunfa"]
+[ext_resource type="Texture2D" uid="uid://13n26ux6m6x" path="res://Sprites/fireBorder-3.png" id="3_1dsxl"]
+[ext_resource type="Texture2D" uid="uid://bds6r8nkbqath" path="res://Sprites/fireBorder-4.png" id="4_61h1s"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_s0ni4"]
+frames = 4
+frame_0/texture = ExtResource("1_td42v")
+frame_1/texture = ExtResource("2_vunfa")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("3_1dsxl")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("4_61h1s")
+frame_3/duration = 1.0
+
+[resource]
+texture = SubResource("AnimatedTexture_s0ni4")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
