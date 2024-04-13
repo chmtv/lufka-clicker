@@ -5,8 +5,13 @@ extends Node3D
 func enableGodmode():
 	godmode = true
 	# thc = 41900000000000000
+<<<<<<< HEAD
 	thc = 999999999999
 	burnPctPerSec = 0.5
+=======
+	thc = 999999999999999
+	burnPctPerSec = 0.2
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 	# burnPctDrainPerSec = 1
 func disableGodmode():
 	godmode = false
@@ -23,6 +28,10 @@ var burnPctMinimum = 0.25
 var THCpS = 0.1
 var THCpSWhileBurning = 0
 @onready var worldEnvironment = get_node("WorldEnvironment")
+<<<<<<< HEAD
+=======
+@onready var charPortrait = get_node("Burn Button/Stoner Portrait Panel")
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 @onready var globalTHCpSLabel = get_node("CanvasLayer/Global THCpS Label")
 @onready var upgradesScrollContainer = get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer")
 @onready var burnButton = get_node("Burn Button")
@@ -33,7 +42,11 @@ var THCpSToDisplay
 var elapsedTime = 0
 
 var afterBuyRef = Callable(self, "updateBuildingShop")
+<<<<<<< HEAD
 var Upgrades = load("res://Scripts/Upgrades.gd").new()
+=======
+var Upgrades = preload("res://Scripts/Upgrades.gd").new()
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 var boughtUpgradesIds = []
 var globalAdditiveMultiplier = 1
 
@@ -127,12 +140,16 @@ func loadGame():
 	recalculateTHCpS()
 
 var boughtMaps = [
+<<<<<<< HEAD
 	{
 		"index": 0,
 		"name": "Piwnica",
 		"filename":"piwnica.jpg",
 		"description": "..."
 	}
+=======
+	
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 ]
 # The plugin that makes Discord display the played game along with some stats doesn't seem
 # To work od Godot 4 so I'm not using it for now.
@@ -165,6 +182,7 @@ var buildingVBoxPath = "UpgradeShopContainer/UpgradeShop/S/ScrollContainer/VBoxC
 @onready var buildingVBox = get_node(buildingVBoxPath)
 func addMap(index, name, fileName, description):
 	var map = {
+<<<<<<< HEAD
 		"index": 0,
 		"name": name,
 		"filename": fileName,
@@ -178,6 +196,47 @@ func changeMap(map):
 	currentMapPath = mapTemplate + map.filename
 	worldEnvironment.environment.sky.sky_material.panorama = load(currentMapPath)
 	nextMapButton.get_node("Change Button").map = Upgrades.mapUpgrades[map.index+1]
+=======
+		"index": index,
+		"name": name,
+		"filename": fileName,
+		"description": description,
+		"boughtId": boughtMaps.size() - 1
+	}
+	boughtMaps.append(map)
+@onready var nextMapButton = get_node("SubViewportContainer/SubViewport/NextMapButton/MapSwitcher")
+@onready var prevMapButton = get_node("SubViewportContainer/SubViewport/PrevMapButton/MapSwitcher")
+func changeMap(map):
+	var mapTemplate = "res://Sprites/Maps/"
+	currentMapPath = mapTemplate + map.filename
+	worldEnvironment.environment.sky.sky_material.panorama = load(currentMapPath)
+	
+	# Set map names on the 3D buttons
+	
+	
+# Set the 3D Buttons for switching maps
+func setMapSwitcher(map):
+		if map.index+1 < Upgrades.mapUpgrades.size():
+			nextMapButton.setName(Upgrades.mapUpgrades[map.index+1].name)
+			nextMapButton.mapIndex = map.index+1
+		else:
+			nextMapButton.setName("")
+		if map.index-1 > 0:
+			prevMapButton.setName(Upgrades.mapUpgrades[map.index-1].name)
+			prevMapButton.mapIndex = map.index-1
+		else:
+			prevMapButton.setName("")
+func changeMapById(id):
+	var map = boughtMaps[0]
+	if id < boughtMaps.size():
+		map = {
+			"index": id,
+			"filename": Upgrades.mapUpgrades[boughtUpgradesIds[id]].mapPath,
+			"name": Upgrades.mapUpgrades[boughtUpgradesIds[id]].name,
+			"description": Upgrades.mapUpgrades[boughtUpgradesIds[id]].description,
+		}
+	changeMap(map)
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 func setMapButton(map, button):
 	# button.get_node("Change Button").filename = map["filename"]
 	button.get_node("Change Button").map = map
@@ -296,6 +355,10 @@ func getTHC():
 @onready var thcLabel = get_node("CanvasLayer/THC Points Label")
 @onready var burnPctLabel = get_node("CanvasLayer/Percentage")
 @onready var burnProgressBar = get_node("Burn Button/Burn Progress")
+<<<<<<< HEAD
+=======
+@onready var burnProgressBarSecondary = get_node("Burn Button/Burn Progress Secondary")
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 
 func _on_BuildingBuy(index):
 	thc = buildings[index].buy(thc)
@@ -494,6 +557,11 @@ func _ready():
 	if not OS.is_debug_build():
 		disableGodmode()
 	
+<<<<<<< HEAD
+=======
+
+	addMap(0, "Piwnica", "piwnica.jpg", "...")
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 	loadGame()
 	recalculateTHCpS()
 	makeBuildingShop()
@@ -532,12 +600,31 @@ func THCpStext(THCpS):
 func refreshTHCpS():
 	recalculateTHCpS()
 
+<<<<<<< HEAD
+=======
+func getVisualTHCCoefficient():
+	return sqrt( 2 * (thc)/(1000000000000000) )
+@onready var burnButtonLabel = get_node("Burn Button/Pal")
+func updateBurnButtonLabel():
+	var thcCoefficient = getVisualTHCCoefficient()
+	burnButtonLabel.text = "  [outline_color=#165300ff] [outline_size=2] [color=green] [center] Pal [/center] [/color] [/outline_size] [/outline_color]"
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 func burnChange():
 	refreshBurnPctLabel()
 	refreshTHCpS()
 	burnButton.burnPercentage = burnPercentage
 	const max_haze = 0.04
 	const burnThreshold = 0.6
+<<<<<<< HEAD
+=======
+	# Visual effects
+	var thcCoefficient = getVisualTHCCoefficient()
+	charPortrait.burnPercentage = burnPercentage
+	charPortrait.refreshPortrait()
+	worldEnvironment.get_environment().adjustment_brightness = 0.8 + max(0, burnPercentage - 0.3) * thcCoefficient
+	worldEnvironment.get_environment().adjustment_contrast = 1 + max(0, burnPercentage - 0.7) * 2 * thcCoefficient
+	worldEnvironment.get_environment().adjustment_saturation = 1 + max(0, burnPercentage - 0.85) * 5 * thcCoefficient
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 	if burnPercentage > burnThreshold:
 		
 		var density = ( (burnPercentage - burnThreshold)/(1-burnThreshold) ) * max_haze
@@ -551,7 +638,12 @@ func burnChange():
 	buildingsVisualManager.burnPercentage = burnPercentage
 func refreshBurnPctLabel():
 	burnPctLabel.text = str(burnPercentage * 100) + "%"
+<<<<<<< HEAD
 	burnProgressBar.value = burnPercentage * 100
+=======
+	burnProgressBar.value = burnPercentage * 200
+	burnProgressBarSecondary.value = (burnPercentage - 0.5) * 200
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 func _on_burn_press():
 	pass
 	# Old code for pressing the button to gain burning instead of holding the button
@@ -612,3 +704,10 @@ func handle_Burn_Button_hold():
 	isBurning = true
 func handle_Burn_Button_release():
 	isBurning = false
+<<<<<<< HEAD
+=======
+
+
+func _on_map_switcher_map_change(map):
+	pass # Replace with function body.
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)

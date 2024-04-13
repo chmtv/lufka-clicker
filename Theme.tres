@@ -27,6 +27,10 @@ Button/styles/normal = ExtResource("1_v7j6e")
 Button/styles/pressed = ExtResource("2_4kv6w")
 Label/colors/font_color = Color(0.996078, 1, 0.870588, 1)
 Panel/styles/panel = ExtResource("1_v7j6e")
+<<<<<<< HEAD
+=======
+ProgressBar/styles/background = ExtResource("2_4kv6w")
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 ScrollContainer/styles/bg = SubResource("3")
 TabContainer/colors/font_color_bg = Color(0.69, 0.69, 0.69, 1)
 TabContainer/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)

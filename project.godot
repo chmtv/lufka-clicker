@@ -61,11 +61,14 @@ cameraMove={
 ]
 }
 
+<<<<<<< HEAD
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
 pointing/emulate_mouse_from_touch=false
 
+=======
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 [mono]
 
 project/assembly_name="Topek"
@@ -78,4 +81,8 @@ common/enable_pause_aware_picking=true
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+<<<<<<< HEAD
+=======
+anti_aliasing/screen_space_roughness_limiter/enabled=false
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 quality/filters/msaa=1

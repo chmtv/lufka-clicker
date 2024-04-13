@@ -9,7 +9,11 @@ size = Vector3(0.052, 2, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01r25"]
 emission_enabled = true
 emission = Color(0, 1, 0, 1)
+<<<<<<< HEAD
 emission_energy_multiplier = 6.67
+=======
+emission_energy_multiplier = 16.0
+>>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 
 [node name="Wapo" instance=ExtResource("1_qdwlr")]
 

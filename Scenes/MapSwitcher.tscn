@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck283e6ub0ip8"]
+
+[ext_resource type="Script" path="res://Scenes/MapSwitcher.gd" id="1_jxykn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rduou"]
+radius = 1.4
+
+[node name="MapSwitcher" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14514, 0, 0.194188)
+collision_mask = 3
+priority = 3
+script = ExtResource("1_jxykn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_rduou")
+
+[node name="Name" type="Label3D" parent="."]
+transform = Transform3D(4.5, 0, 0, 0, 4.5, 0, 0, 0, 4.5, 0, -1.08236, 0)
+billboard = 1
