@@ -10,6 +10,7 @@ var posYClosed = 500
 var posYCurrent = 30
 var time = 0
 var countingTime = false
+@export var musicManager : AudioStreamPlayer
 
 func _physics_(delta):
 	if countingTime:
@@ -41,7 +42,9 @@ func _physics_(delta):
 func _on_shop_close_pressed():
 	animationPlayer.play_backwards("shopSlide")
 	menuClosePlayer.play()
+	musicManager.shopClose()
 	
 func _on_shop_open_pressed():
 	menuOpenPlayer.play()
 	animationPlayer.play("shopSlide")
+	musicManager.shopOpen()

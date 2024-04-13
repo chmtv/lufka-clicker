@@ -2,6 +2,7 @@ extends Control
 
 const saveFilePath = "user://lufkaClicker.sav"
 
+
 func spawnWeedExplosion(pos = Vector2(-1, -1)):
 	var weedExplosion = preload("res://Scenes/Particles/weedExplosion.tscn").instantiate()
 	if pos == Vector2(-1, -1):

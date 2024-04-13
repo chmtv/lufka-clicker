@@ -37,16 +37,16 @@ func cracklingPercentage(totalPercentage):
 func _process(delta):
 	var cracklingPct = cracklingPercentage(burnPercentage)
 	# burnSoundNode.pitch_scale = lerp(1.0, 3.0, cracklingPct)
-	burnSoundNode.volume_db = lerp(0, -11, 1 - cracklingPct) if isBurning else 0
+	burnSoundNode.volume_db = lerp(-15, -30, 1 - cracklingPct)#  if isBurning else 0
 	if isPressed:
 		var mousePos = get_global_mouse_position()
 		var burnParticles = preload("res://Scenes/Particles/burnParticles.tscn").instantiate()
 		burnParticles.position = mousePos
 		get_tree().root.add_child(burnParticles)
 	
-	if isPressed and !burnSoundNode.playing: # Old, based on burning %:        burnPercentage > 0.7 and !burnSoundNode.playing:
+	if !burnSoundNode.playing: # Old, based on burning %:        burnPercentage > 0.7 and !burnSoundNode.playing:
 		burnSoundNode.playing = true
-	elif !isPressed:
-		burnSoundNode.playing = false
+	#elif !isPressed:
+	#	burnSoundNode.playing = false
 
 

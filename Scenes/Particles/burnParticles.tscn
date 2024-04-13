@@ -6,7 +6,7 @@
 
 [node name="Buy Particles" instance=ExtResource("1_88fg4")]
 amount = 1
-lifetime = 1.0
+lifetime = 0.7
 explosiveness = 0.0
 lifetime_randomness = 0.16
 texture = ExtResource("2_s7dfs")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://7j44skowq6xl"]
+[gd_scene load_steps=9 format=3 uid="uid://7j44skowq6xl"]
 
 [ext_resource type="Script" path="res://Scenes/Samara/ChoicesFadeIn.gd" id="1_211ss"]
 [ext_resource type="StyleBox" uid="uid://1hoqteq1kcs6" path="res://Theme/TopekStyleBox.tres" id="2_qfpn7"]
@@ -6,8 +6,24 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_faqnh"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Animation" id="Animation_ojm77"]
+resource_name = "bounce"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 0.287174, 0.0743254),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_i28ld"]
 resource_name = "flip"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -15,19 +31,21 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.2, 1),
+"times": PackedFloat32Array(0.2, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.898039)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_12qyw"]
 _data = {
+"bounce": SubResource("Animation_ojm77"),
 "flip": SubResource("Animation_i28ld")
 }
 
 [sub_resource type="Animation" id="Animation_6eiwy"]
 resource_name = "open"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -55,7 +73,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="Panel" parent="."]
-modulate = Color(1, 1, 1, 0)
 z_index = 7
 layout_mode = 1
 anchors_preset = 15
@@ -67,6 +84,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_faqnh")
 script = ExtResource("1_211ss")
 
 [node name="Choice 1" type="Button" parent="Background"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.156
@@ -94,6 +112,7 @@ offset_left = 0.0319996
 offset_top = -0.0090003
 offset_right = -0.0320053
 offset_bottom = 0.00499916
+mouse_filter = 1
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -108,6 +127,7 @@ offset_left = -0.0480003
 offset_top = -0.0170021
 offset_right = -0.0320053
 offset_bottom = -0.012001
+mouse_filter = 1
 bbcode_enabled = true
 
 [node name="Choice 2" type="Button" parent="Background"]
@@ -140,6 +160,7 @@ offset_left = 0.0319996
 offset_top = -0.0090003
 offset_right = -0.0320053
 offset_bottom = 0.00499916
+mouse_filter = 1
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -154,10 +175,10 @@ offset_left = -0.0480003
 offset_top = -0.0170021
 offset_right = -0.0320053
 offset_bottom = -0.012001
+mouse_filter = 1
 bbcode_enabled = true
 
 [node name="Choice 3" type="Button" parent="Background"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.703
@@ -186,6 +207,7 @@ offset_left = 0.0319996
 offset_top = -0.0090003
 offset_right = -0.0320053
 offset_bottom = 0.00499916
+mouse_filter = 1
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -200,6 +222,7 @@ offset_left = -0.0480003
 offset_top = -0.0170021
 offset_right = -0.0320053
 offset_bottom = -0.012001
+mouse_filter = 1
 bbcode_enabled = true
 
 [node name="Label" type="Label" parent="Background"]
@@ -219,6 +242,20 @@ libraries = {
 "": SubResource("AnimationLibrary_tg6md")
 }
 autoplay = "open"
+
+[node name="ChemolWarning" type="RichTextLabel" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.393
+anchor_right = 1.0
+anchor_bottom = 0.607
+offset_top = -0.0550003
+offset_bottom = 0.0549927
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[rainbow freq=0.6 sat=10 val=20][shake level=20][center]CHEMOL![/center][/shake][/rainbow]"
+visible_characters = 0
+visible_ratio = 0.0
 
 [node name="DestroyTimer" type="Timer" parent="."]
 

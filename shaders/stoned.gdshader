@@ -4,11 +4,11 @@ render_mode unshaded;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, repeat_disable, filter_nearest;
 
 void fragment() {
-	vec2 finalUV = SCREEN_UV;
-	finalUV = vec2(FRAGCOORD.x, FRAGCOORD.y);
+	vec2 uv = SCREEN_UV;
+	uv.x += sin(uv.y+TIME*10.0)/10.0;
 	
 	
-	COLOR = texture(SCREEN_TEXTURE, finalUV);
+	COLOR = texture(SCREEN_TEXTURE, uv);
 }
 
 //void light() {

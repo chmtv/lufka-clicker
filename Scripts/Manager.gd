@@ -5,7 +5,7 @@ extends Node3D
 func enableGodmode():
 	godmode = true
 	# thc = 41900000000000000
-	thc = 999999999999999
+	thc = 9999999999999999999999999999
 	burnPctPerSec = 0.2
 	# burnPctDrainPerSec = 1
 func disableGodmode():
@@ -26,7 +26,7 @@ var THCpSWhileBurning = 0
 var samaraTHCPSbonus = 1.0
 var samaraBurnPctBonus = 1.0
 func instaBank():
-	addTHC(THCpS * 0.15)
+	addTHC(THCpS * 60)
 
 @onready var worldEnvironment = get_node("WorldEnvironment")
 @onready var charPortrait = get_node("CanvasLayer/Stoner Portrait Panel")
@@ -36,6 +36,7 @@ func instaBank():
 @onready var buildingsVisualManager = get_node("Burn Button/Buildings")
 @onready var NoUpgLabel = get_node("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
 @onready var ShopTabContainer : TabContainer = get_node("UpgradeShopContainer/UpgradeShop")
+@onready var subViewportContainer = get_node("SubViewportContainer");
 @export var samaraManager : Node
 var THCpSToDisplay
 var elapsedTime = 0
@@ -72,7 +73,7 @@ func thcWithNumberAffix(_thc):
 		#"Sp",
 		#"O",
 		#"N",
-		#"Dec",
+
 		#"Undec",
 		#"Duodec"
 	]
@@ -80,10 +81,10 @@ func thcWithNumberAffix(_thc):
 	var result = str(_thc)
 	for i in affixes.size():
 		if _thc / pow(10, 3*(i)) > 1:
-			var thcNumWithoutAffix = snapped(_thc / pow(10, 3*i), 0.0001)
+			var thcNumWithoutAffix = snapped(_thc / pow(10, 3*i), 0.01)
 			result = str(thcNumWithoutAffix) + affixes[i]
 		elif _thc < 1000: # In case of the first affix
-			var thcNumWithoutAffix = snapped(_thc, 0.0001)
+			var thcNumWithoutAffix = snapped(_thc, 0.01)
 			result = str(thcNumWithoutAffix) + affixes[0]
 	return result
 
@@ -385,7 +386,7 @@ func makeBuildingShop():
 			thcDiffStr = thcWithNumberAffix(thcDifference)
 			
 			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
-		currentButton.get_node("Buy Button").text = thcWithNumberAffix(building.cost)
+		currentButton.get_node("Buy Button").showCost(thcWithNumberAffix(building.cost))
 		# Set the progress bar
 		var progressBar = currentButton.get_node("Upgrade Progress")
 		progressBar.min_value = building.lastUpgLv
@@ -423,7 +424,7 @@ func updateBuildingShop():
 			thcDiffStr = thcWithNumberAffix(thcDifference)
 			
 			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
-		currentButton.get_node("Buy Button").text = thcWithNumberAffix(building.cost)
+		currentButton.get_node("Buy Button").showCost(thcWithNumberAffix(building.cost))
 		# Set the progress bar
 		var progressBar = currentButton.get_node("Upgrade Progress")
 		progressBar.min_value = building.lastUpgLv
@@ -595,7 +596,7 @@ func refreshTHCpS():
 	recalculateTHCpS()
 
 func getVisualTHCCoefficient():
-	return sqrt( 2 * (thc)/(1000000000000000) )
+	return sqrt( 2 * (thc)/(1000000000000000000000) )
 @onready var burnButtonLabel = get_node("Burn Button/Pal")
 func updateBurnButtonLabel():
 	var thcCoefficient = getVisualTHCCoefficient()
@@ -618,6 +619,9 @@ func burnChange():
 	fireBox.expand_margin_top = burnPercentage * 6
 	fireBox.expand_margin_left = burnPercentage * 6
 	fireBox.expand_margin_right = burnPercentage * 6
+	subViewportContainer.material.set_shader_parameter("jaranie", burnPercentage);
+	# lufkaMaterial.set_shader_parameter("opalCoefficient", amount)
+	burnButton.material.set_shader_parameter("uvCoeff", 50.0 + abs(burnPercentage))
 	if burnPercentage > burnThreshold:
 		
 		var density = ( (burnPercentage - burnThreshold)/(1-burnThreshold) ) * max_haze

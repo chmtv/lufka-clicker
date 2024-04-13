@@ -1,10 +1,10 @@
-[gd_scene load_steps=56 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=67 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
+[ext_resource type="Shader" path="res://shaders/fire.gdshader" id="3_5fd2q"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
-[ext_resource type="Shader" path="res://shaders/stoned.gdshader" id="4_8e4w0"]
 [ext_resource type="Script" path="res://Scenes/Samara/SamaraManager.gd" id="4_oei3e"]
 [ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
@@ -12,6 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
 [ext_resource type="StyleBox" uid="uid://brt5ti1sbq3ed" path="res://Theme/FireBox.tres" id="9_diekk"]
+[ext_resource type="Material" uid="uid://bnq77qw7rqnw1" path="res://Materials/chemolBg.tres" id="9_e4pqj"]
+[ext_resource type="Shader" path="res://shaders/weedSamara.gdshader" id="9_irun6"]
+[ext_resource type="Material" uid="uid://nr2m7yrierfw" path="res://Materials/smokeFilter.tres" id="9_ss1v0"]
 [ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
 [ext_resource type="Texture2D" uid="uid://crfxjfdqsqi46" path="res://Sprites/Maps/piwnica.jpg" id="10_35qj5"]
 [ext_resource type="PackedScene" uid="uid://ds4ylnrjh3lds" path="res://Scenes/palenie/wodospad.tscn" id="10_71f1s"]
@@ -40,12 +43,23 @@
 [ext_resource type="PackedScene" uid="uid://bojlxrdjj5nid" path="res://Scenes/Options Menu UI.tscn" id="22_3evpn"]
 [ext_resource type="Texture2D" uid="uid://o8psuydtrfre" path="res://Sprites/stonerPortrait/jaracz-4.png" id="22_kmmba"]
 [ext_resource type="AudioStream" uid="uid://cq3g1ohcrm2cl" path="res://SFX/buttonClick.ogg" id="24_o4hox"]
+[ext_resource type="AudioStream" uid="uid://koxkr3t5e7x0" path="res://Music/ChangaReggae.wav" id="40_uvhaa"]
+[ext_resource type="Script" path="res://Scripts/MusicManager.gd" id="41_0oo2a"]
+[ext_resource type="AudioStream" uid="uid://deiivarwjnv7" path="res://Music/MedycznyBlancik.wav" id="42_4tfd7"]
+[ext_resource type="AudioStream" uid="uid://cvaajua3uu4v6" path="res://Music/ReachTheSky.wav" id="43_nvcgi"]
+[ext_resource type="AudioStream" uid="uid://b1ufu10ks7h3" path="res://Music/Herbalist.wav" id="44_dgimk"]
+[ext_resource type="AudioStream" uid="uid://dldu7n03itv01" path="res://Music/Ratata.wav" id="44_emum2"]
+[ext_resource type="AudioStream" uid="uid://cgtcnxa7ifx5x" path="res://Music/GangAlbanii.wav" id="47_uyhuc"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n8aw2"]
-shader = ExtResource("4_8e4w0")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ixgmm"]
+shader = ExtResource("3_5fd2q")
+shader_parameter/jaranie = 0.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vty4y"]
+shader = ExtResource("9_irun6")
 
 [sub_resource type="Animation" id="Animation_jyt2w"]
 resource_name = "burnPress"
@@ -150,19 +164,22 @@ samaraManager = NodePath("SamaraManager")
 fireBox = ExtResource("9_diekk")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ixgmm")
 anchors_preset = -1
-anchor_top = 0.151
+anchor_top = 0.146
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 0.00799942
-offset_right = 1.0
+offset_top = -0.0320015
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="Game Manager/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(109, 163)
+size = Vector2i(107, 164)
 size_2d_override = Vector2i(600, 800)
 render_target_update_mode = 4
 script = ExtResource("2_26dat")
@@ -183,9 +200,9 @@ position = Vector2(58.5, 129)
 scale = Vector2(0.515, 0.64)
 
 [node name="TextureRect" type="TextureRect" parent="Game Manager/BackBufferCopy"]
+visible = false
 z_index = -6
 z_as_relative = false
-material = SubResource("ShaderMaterial_n8aw2")
 anchors_preset = -1
 anchor_right = 0.98
 anchor_bottom = 1.0
@@ -200,7 +217,7 @@ mouse_default_cursor_shape = 13
 texture = SubResource("ViewportTexture_k3jkr")
 stretch_mode = 3
 
-[node name="SamaraManager" type="ReferenceRect" parent="Game Manager" node_paths=PackedStringArray("mainManager")]
+[node name="SamaraManager" type="ReferenceRect" parent="Game Manager" node_paths=PackedStringArray("mainManager", "musicManager")]
 custom_minimum_size = Vector2(108, 135)
 anchors_preset = -1
 anchor_top = 0.151
@@ -213,6 +230,12 @@ script = ExtResource("4_oei3e")
 SamaraUI = ExtResource("5_mllu4")
 Samara = ExtResource("6_jex7c")
 mainManager = NodePath("..")
+choicesBgMaterial = SubResource("ShaderMaterial_vty4y")
+musicManager = NodePath("../MusicManager")
+chemolMaterial = ExtResource("9_e4pqj")
+minTime = 45.0
+maxTime = 90.0
+metadata/_edit_group_ = true
 
 [node name="THCpSBuff" type="Timer" parent="Game Manager/SamaraManager"]
 wait_time = 20.0
@@ -220,9 +243,13 @@ wait_time = 20.0
 [node name="BurnPctBuff" type="Timer" parent="Game Manager/SamaraManager"]
 wait_time = 20.0
 
+[node name="Chemol" type="Timer" parent="Game Manager/SamaraManager"]
+
 [node name="Burn Button" type="Button" parent="Game Manager"]
 self_modulate = Color(1, 0.352941, 0, 1)
 texture_filter = 1
+texture_repeat = 2
+material = ExtResource("9_ss1v0")
 anchors_preset = -1
 anchor_left = 0.176
 anchor_top = 0.182
@@ -240,7 +267,6 @@ theme_override_styles/normal = ExtResource("9_diekk")
 theme_override_styles/hover = ExtResource("9_diekk")
 theme_override_styles/pressed = ExtResource("9_diekk")
 shortcut_feedback = false
-text = "Pal"
 script = ExtResource("2")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Game Manager/Burn Button"]
@@ -300,6 +326,19 @@ libraries = {
 "": SubResource("AnimationLibrary_gry3a")
 }
 speed_scale = 8.0
+
+[node name="Pal" type="Label" parent="Game Manager/Burn Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.986
+anchor_bottom = 0.963
+offset_right = -0.0059967
+offset_bottom = -0.00100136
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 0, 0, 0.407843)
+text = "Pal"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ShopOpen" type="Button" parent="Game Manager"]
 z_index = 1
@@ -432,8 +471,9 @@ theme_override_font_sizes/font_size = 16
 action_mode = 0
 text = "X"
 
-[node name="MenuToggler" type="Node" parent="Game Manager"]
+[node name="MenuToggler" type="Node" parent="Game Manager" node_paths=PackedStringArray("musicManager")]
 script = ExtResource("17_f0ukf")
+musicManager = NodePath("../MusicManager")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Game Manager/MenuToggler"]
 root_node = NodePath("../../UpgradeShopContainer")
@@ -592,6 +632,13 @@ volume_db = 7.319
 wait_time = 3.0
 autostart = true
 
+[node name="MusicManager" type="AudioStreamPlayer" parent="Game Manager"]
+stream = ExtResource("40_uvhaa")
+volume_db = -17.234
+autoplay = true
+script = ExtResource("41_0oo2a")
+musicStreams = Array[AudioStream]([ExtResource("40_uvhaa"), ExtResource("42_4tfd7"), ExtResource("43_nvcgi"), ExtResource("44_dgimk"), ExtResource("44_emum2"), ExtResource("47_uyhuc")])
+
 [node name="FPS Counter" parent="." instance=ExtResource("14")]
 visible = false
 anchors_preset = -1
@@ -615,8 +662,9 @@ text = "Opcje"
 offset_top = 457.376
 offset_bottom = 453.0
 
-[node name="Options Menu UI" parent="Options SlidingMenu/Panel" index="1" instance=ExtResource("22_3evpn")]
+[node name="Options Menu UI" parent="Options SlidingMenu/Panel" index="1" node_paths=PackedStringArray("musicManager") instance=ExtResource("22_3evpn")]
 layout_mode = 1
+musicManager = NodePath("../../../Game Manager/MusicManager")
 
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
 [connection signal="timeout" from="Game Manager/SamaraManager/THCpSBuff" to="Game Manager/SamaraManager" method="_on_th_cp_s_buff_timeout"]
@@ -630,6 +678,7 @@ layout_mode = 1
 [connection signal="timeout" from="Game Manager/Upg Button Disable" to="Game Manager" method="_on_Upg_Button_Disable_timeout"]
 [connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
 [connection signal="timeout" from="Game Manager/Timer" to="Game Manager" method="updateBurnButtonLabel"]
+[connection signal="finished" from="Game Manager/MusicManager" to="Game Manager/MusicManager" method="_on_finished"]
 
 [editable path="Game Manager/Burn Button/Buildings/Lighter"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad"]

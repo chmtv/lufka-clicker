@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bojlxrdjj5nid"]
+[gd_scene load_steps=3 format=3 uid="uid://bojlxrdjj5nid"]
 
 [ext_resource type="Script" path="res://Scenes/SaveDelBut.gd" id="1_loo7j"]
+[ext_resource type="Script" path="res://Scripts/Options.gd" id="1_mengc"]
 
 [node name="Options Menu UI" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_mengc")
 
 [node name="SaveDelBut" type="Button" parent="."]
 layout_mode = 1
@@ -26,4 +28,20 @@ theme_override_colors/font_color = Color(1, 0.172549, 0.12549, 1)
 text = "Usuń zapis gry"
 script = ExtResource("1_loo7j")
 
+[node name="MusicVolumeSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.231
+anchor_top = 0.365
+anchor_right = 0.769
+anchor_bottom = 0.448
+offset_left = 0.052
+offset_top = -0.0800018
+offset_right = -0.052002
+offset_bottom = -0.0160065
+min_value = -65.0
+max_value = 0.0
+step = 0.0
+
 [connection signal="pressed" from="SaveDelBut" to="SaveDelBut" method="_on_pressed"]
+[connection signal="value_changed" from="MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]

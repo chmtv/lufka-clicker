@@ -5,11 +5,23 @@ var canSpawn : bool = true
 @export var Samara : Resource
 @onready var nextSamaraTimer = $NextSamara
 @export var mainManager : Node
-var minTime = 45.0
-var maxTime = 90.0
+@export var choicesBgMaterial : Material
+@export var musicManager : AudioStreamPlayer
+@export var chemolMaterial : ShaderMaterial
+#var minTime = 45.0
+#var maxTime = 90.0
+@export var minTime : float
+@export var maxTime : float
 
 func _ready():
 	setNextSamaraTimer()
+	# Connect the choice press animations
+	
+	
+	#get_node("Background/Choice 1").connect("pressed", func():
+	
+	#	get_node("	Background/Choice 1/AnimationPlayer").play("bounce")
+	#	)
 
 class Buff:
 	var name := ""
@@ -39,15 +51,25 @@ func buildingAddOne():
 func buildingBuff():
 	mainManager.samaraBuildingBuff()
 
+func setShaderZchemolenie(zchemolenie):
+	chemolMaterial.set_shader_parameter("zchemolenie", zchemolenie)
+func startChemol():
+	var prevMaterial = mainManager.subViewportContainer.material
+	mainManager.subViewportContainer.material = chemolMaterial
+	get_tree().create_tween().tween_method(setShaderZchemolenie, 1.0, 2.0, 30);
+	musicManager.chemolMusic()
+	await get_tree().create_timer(30.0).timeout
+	setShaderZchemolenie(1.0)
+	mainManager.subViewportContainer.material = prevMaterial
 var buffs = [
 	Buff.new("Fire OG", 
 	"Zwiększa spalanie o [color=light_green]500%[/color] na [color=yellow]6s[/color]",
 	"#ff8800",
 	buffBurnPct),
 	Buff.new("Amnesia", "THCpS zmwiększony o [color=light_green]120%[/color] na [color=yellow]20s[/color]", "#ece6b3", buffTHCpS),
-	Buff.new("Super Silver Haze", "[color=light_green]15% THCpS[/color] natychmiastowo", "#0055ff", instaBank),
-	Buff.new("Cheese", "[color=yellow]???[/color] +1", "#FFFF00", buildingAddOne),
-	Buff.new("Purple Haze", "??? THCpS zwiększony o [color=light_green]500%[/color] na [color=yellow]15s[/color]", "#A020F0", buildingBuff)
+	Buff.new("Super Silver Haze", "[color=light_green]Minuta THCpS[/color] natychmiastowo", "#0055ff", instaBank),
+	Buff.new("Cheese", "[color=yellow]Zapalniczka[/color] +1", "#FFFF00", buildingAddOne),
+	Buff.new("Purple Haze", "Zapalniczka THCpS zwiększony o [color=light_green]500%[/color] na [color=yellow]15s[/color]", "#A020F0", buildingBuff)
 ]
 func refreshBuffsText():
 	# Set the insta-building
@@ -61,12 +83,21 @@ func randomBuff():
 
 var curUIInstance
 var curSamaraInstance
-func spawnMenu():
+func chemolWarningAnimation(chemolText : RichTextLabel):
+	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_tween().tween_property(chemolText,"visible_ratio", 1.0, 1.5).finished
+	await get_tree().create_timer(1.0).timeout
+	return
+func spawnMenu(isChemol : bool):
 	var samaraUiInstance = SamaraUI.instantiate()
+
+	
 	curUIInstance = samaraUiInstance
 	var randBuff1 = randomBuff()
 	var randBuff2 = randomBuff()
 	var randBuff3 = randomBuff()
+
+	
 	samaraUiInstance.get_node("Background/Choice 1/Name").text = randBuff1.name
 	samaraUiInstance.get_node("Background/Choice 1/Description").text = randBuff1.description
 	samaraUiInstance.get_node("Background/Choice 1").connect("pressed", randBuff1.callback)
@@ -85,21 +116,53 @@ func spawnMenu():
 	samaraUiInstance.get_node("Background/Choice 3").connect("pressed", removeMenu)
 	samaraUiInstance.get_node("Background/Choice 3").self_modulate = randBuff3.color
 	
+
+		
+		
+	
 	get_tree().root.add_child(samaraUiInstance)
+	if isChemol:
+		var chemolText : RichTextLabel = samaraUiInstance.get_node("Background/ChemolWarning")
+		samaraUiInstance.get_node("Background/Choice 1").visible = false
+		samaraUiInstance.get_node("Background/Choice 2").visible = false
+		samaraUiInstance.get_node("Background/Choice 3").visible = false
+		await chemolWarningAnimation(chemolText)
+		await removeMenu()
+		startChemol()
+		samaraUiInstance.get_node("Background/Choice 1").visible = true
+		samaraUiInstance.get_node("Background/Choice 2").visible = true
+		samaraUiInstance.get_node("Background/Choice 3").visible = true
+	else:
+		samaraUiInstance.get_node("Background").material = choicesBgMaterial
+		musicManager.samaraOpen()
 func removeMenu():
-	curUIInstance.get_node("Background/AnimationPlayer").play_backwards("open")
-	await get_tree().create_timer(1.0).timeout
+	var aniPlayer = curUIInstance.get_node("Background/AnimationPlayer")
+	await get_tree().create_timer(.5).timeout
+	# $AnimationPlayer.play("bounce")
+	aniPlayer.play_backwards("open")
+	await get_tree().create_timer(0.5).timeout
+	musicManager.samaraClose()
+	await get_tree().create_timer(0.5).timeout
+	
 	if is_instance_valid(curUIInstance):
 		curUIInstance.queue_free()
-
+	return
 func setNextSamaraTimer():
 	var randomTime = randf_range(minTime,maxTime)
 	await get_tree().create_timer(randomTime).timeout
 	_on_next_samara_timeout()
 
+func rollForChemol():
+	# Roll a 1/15 chance of giving a chemol
+	var diceResult = randi_range(1,6);
+	if diceResult == 1:
+		return true
+	return false
 func pressSamara():
-	spawnMenu()
-	curSamaraInstance.queue_free()
+	var isChemol = rollForChemol()
+	spawnMenu(isChemol)
+	if is_instance_valid(curSamaraInstance):
+		curSamaraInstance.queue_free()
 
 func _on_next_samara_timeout():
 	setNextSamaraTimer()
@@ -110,9 +173,15 @@ func _on_next_samara_timeout():
 	samaraInstance.position = Vector2(randX, randY)
 	samaraInstance.rotation = randRot
 	samaraInstance.connect("pressed", pressSamara)
+	# cannot assign to a constant wtf
+	# get_tree().create_timer(timeToRemoveSamara).timeout = func():
+	# 	samaraInstance.queue_free()
 	curSamaraInstance = samaraInstance
 	add_child(samaraInstance)
-
-
-
+	
+	var samaraToRemove = curSamaraInstance
+	var timeToRemoveSamara = (maxTime - minTime) / 2
+	await get_tree().create_timer(timeToRemoveSamara).timeout
+	if is_instance_valid(samaraToRemove):
+		samaraToRemove.queue_free()
 
