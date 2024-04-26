@@ -1,8 +1,9 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dvrbpvnjt7j30"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://dvrbpvnjt7j30"]
 
 [ext_resource type="FontFile" uid="uid://b3nlcteh01yby" path="res://Fonts/m5x7.ttf" id="1_myp1c"]
 [ext_resource type="StyleBox" uid="uid://bvgxb3mgksl2l" path="res://Theme/GrassyBorderStyleBox.tres" id="1_v7j6e"]
 [ext_resource type="StyleBox" uid="uid://bwjlasy6ojj5k" path="res://Theme/GrassyBorderLightStyleBox.tres" id="2_4kv6w"]
+[ext_resource type="StyleBox" uid="uid://1hoqteq1kcs6" path="res://Theme/TopekStyleBox.tres" id="3_mc12d"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -14,23 +15,35 @@ bg_color = Color(0.321569, 0.45098, 0.301961, 1)
 
 [resource]
 default_font = ExtResource("1_myp1c")
-Button/colors/font_color = Color(0.996078, 1, 0.870588, 1)
+Button/colors/font_color = Color(0, 1, 0, 1)
 Button/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)
 Button/colors/font_color_focus = Color(0.94, 0.94, 0.94, 1)
 Button/colors/font_color_hover = Color(0.94, 0.94, 0.94, 1)
 Button/colors/font_color_pressed = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0.0862745, 0.32549, 0, 1)
 Button/constants/hseparation = 2
-Button/styles/Button = ExtResource("1_v7j6e")
+Button/constants/outline_size = 2
+Button/styles/Button = ExtResource("3_mc12d")
 Button/styles/focus = ExtResource("2_4kv6w")
 Button/styles/hover = ExtResource("1_v7j6e")
 Button/styles/normal = ExtResource("1_v7j6e")
 Button/styles/pressed = ExtResource("2_4kv6w")
+<<<<<<< HEAD
 Label/colors/font_color = Color(0.996078, 1, 0.870588, 1)
 Panel/styles/panel = ExtResource("1_v7j6e")
 <<<<<<< HEAD
 =======
 ProgressBar/styles/background = ExtResource("2_4kv6w")
 >>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
+=======
+Label/colors/font_color = Color(0, 1, 0, 1)
+Label/colors/font_outline_color = Color(0.0862745, 0.32549, 0, 1)
+Label/constants/outline_size = 2
+Panel/styles/panel = ExtResource("3_mc12d")
+ProgressBar/styles/background = ExtResource("2_4kv6w")
+RichTextLabel/colors/default_color = Color(0, 1, 0, 1)
+RichTextLabel/colors/font_outline_color = Color(0.0862745, 0.32549, 0, 1)
+>>>>>>> f8a8fca (0.0.6 upek)
 ScrollContainer/styles/bg = SubResource("3")
 TabContainer/colors/font_color_bg = Color(0.69, 0.69, 0.69, 1)
 TabContainer/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)

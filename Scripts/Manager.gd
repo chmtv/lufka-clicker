@@ -27,17 +27,28 @@ var burnPctDrainPerSec = 0.01
 var burnPctMinimum = 0.25
 var THCpS = 0.1
 var THCpSWhileBurning = 0
+
+var samaraTHCPSbonus = 1.0
+var samaraBurnPctBonus = 1.0
+func instaBank():
+	addTHC(THCpS * 0.15)
+
 @onready var worldEnvironment = get_node("WorldEnvironment")
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 @onready var charPortrait = get_node("Burn Button/Stoner Portrait Panel")
 >>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
+=======
+@onready var charPortrait = get_node("CanvasLayer/Stoner Portrait Panel")
+>>>>>>> f8a8fca (0.0.6 upek)
 @onready var globalTHCpSLabel = get_node("CanvasLayer/Global THCpS Label")
 @onready var upgradesScrollContainer = get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer")
-@onready var burnButton = get_node("Burn Button")
+@onready var burnButton : Button = get_node("Burn Button") 
 @onready var buildingsVisualManager = get_node("Burn Button/Buildings")
 @onready var NoUpgLabel = get_node("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
 @onready var ShopTabContainer : TabContainer = get_node("UpgradeShopContainer/UpgradeShop")
+@export var samaraManager : Node
 var THCpSToDisplay
 var elapsedTime = 0
 
@@ -297,6 +308,7 @@ class Building:
 	var upgradeAdditiveMultiplier = 1.0
 	var upgradeMultiplicativeMultiplier = 1.0
 	var index = 0
+	var samaraMult = 1.0
 	# These properties are used for the progress bar, they show which level upgrade for this building
 	# was bought last and at which level is the next one
 	var lastUpgLv = 0
@@ -314,12 +326,17 @@ class Building:
 			return newTHC
 		else:
 			return thc
-			
+	# Adds one level to the building for free
+	func addOne():
+		level += 1
+		recalculateCost()
+		recalculateTHCpS()
+		afterBuyFnRef.call()
 	func recalculateCost():
 		cost = snapped(baseCost + baseCost * pow(level, costExponent), 0.02)
 	func recalculateTHCpS():
-		THCpS = baseTHCpS * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier
-		THCpSWhileBurning = baseTHCpSWhileBurning * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier
+		THCpS = baseTHCpS * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier * samaraMult
+		THCpSWhileBurning = baseTHCpSWhileBurning * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier * samaraMult
 	func _init(_name = "", _cost = 0, _THCpS = 0, _THCpSWhileBurning = 0, afterBuyFn = "", _costExponent = 1.2, _THCpSExponent = 1, _defaultNextUpgLv = 5):
 		
 		baseCost = _cost
@@ -346,7 +363,29 @@ var buildings = [
 	# Building.new("Bongo grawitacyjne", 420000000, 405, 0, afterBuyRef, 1.2), # 9
 ]
 
-
+var nextBuildingID = 0
+func afterSamara():
+	recalculateTHCpS()
+	updateBuildingShop()
+func setSamaraNextBuilding():
+	var maxBuildingID = 0
+	for building in buildings:
+		if building.level > 0:
+			maxBuildingID = building.index
+	nextBuildingID = max(0, randi_range(0, maxBuildingID))
+	samaraManager.refreshBuffsText()
+func getInstaBuilding():
+	buildings[nextBuildingID].addOne()
+	afterSamara()
+	setSamaraNextBuilding()
+func samaraBuildingBuff():
+	buildings[nextBuildingID].samaraMult = 5.0
+	buildings[nextBuildingID].recalculateTHCpS()
+	afterSamara()
+	setSamaraNextBuilding()
+	await get_tree().create_timer(1.0).timeout
+	buildings[nextBuildingID].samaraMult = 1.0
+	afterSamara()
 var leafTexture
 
 func getTHC():
@@ -354,9 +393,13 @@ func getTHC():
 
 @onready var thcLabel = get_node("CanvasLayer/THC Points Label")
 @onready var burnPctLabel = get_node("CanvasLayer/Percentage")
+<<<<<<< HEAD
 @onready var burnProgressBar = get_node("Burn Button/Burn Progress")
 <<<<<<< HEAD
 =======
+=======
+@onready var burnProgressBar = get_node("CanvasLayer/Burn Progress")
+>>>>>>> f8a8fca (0.0.6 upek)
 @onready var burnProgressBarSecondary = get_node("Burn Button/Burn Progress Secondary")
 >>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
 
@@ -544,10 +587,11 @@ func recalculateTHCpS():
 	THCpSWhileBurning = 0
 	THCpS = 0.1
 	for i in buildings.size():
+		buildings[i].recalculateTHCpS()
 		THCpSWhileBurning += buildings[i].THCpSWhileBurning
 		THCpS += buildings[i].THCpS
 		# update_Discord()
-	THCpS = THCpS * globalAdditiveMultiplier * burnPercentage
+	THCpS = THCpS * globalAdditiveMultiplier * burnPercentage * samaraTHCPSbonus
 func _ready():
 	leafTexture = load("res://Sprites/cannabis.png")
 	# Godmode (disabled on release build)
@@ -574,13 +618,14 @@ func refreshBuildingsList():
 	var buildingListNode = get_node(buildingVBoxPath)
 	buildingButtonList = []
 	for i in buildingListNode.get_child_count():
+		buildings[i].index = i
 		var button = {"index": i, "cost": buildings[i].cost, "name": buildings[i].name}
 		if thc/2 > buildings[i].cost:
 			buildingButtonList.append(button)
 func _process(delta):
 	# Code for changing the burn percentage based on the percentage
 	if isBurning:
-		var added = burnPercentage + burnPctPerSec * delta
+		var added = burnPercentage + (burnPctPerSec * samaraBurnPctBonus) * delta
 		burnPercentage = min(added, 1)
 	else:
 		var drained = burnPercentage - burnPctDrainPerSec * delta
@@ -588,7 +633,7 @@ func _process(delta):
 	burnChange()
 	elapsedTime += delta
 	THCpSToDisplay = THCpS
-	addOpalanie(burnPercentage*delta*0.01)
+	addOpalanie(burnPercentage*0.01)
 	addTHC(THCpS*delta)
 func _on_Topek_burning(delta):
 	THCpSToDisplay = THCpS + THCpSWhileBurning
@@ -607,8 +652,12 @@ func getVisualTHCCoefficient():
 @onready var burnButtonLabel = get_node("Burn Button/Pal")
 func updateBurnButtonLabel():
 	var thcCoefficient = getVisualTHCCoefficient()
+<<<<<<< HEAD
 	burnButtonLabel.text = "  [outline_color=#165300ff] [outline_size=2] [color=green] [center] Pal [/center] [/color] [/outline_size] [/outline_color]"
 >>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
+=======
+@export var fireBox : StyleBoxTexture
+>>>>>>> f8a8fca (0.0.6 upek)
 func burnChange():
 	refreshBurnPctLabel()
 	refreshTHCpS()
@@ -621,14 +670,24 @@ func burnChange():
 	var thcCoefficient = getVisualTHCCoefficient()
 	charPortrait.burnPercentage = burnPercentage
 	charPortrait.refreshPortrait()
+<<<<<<< HEAD
 	worldEnvironment.get_environment().adjustment_brightness = 0.8 + max(0, burnPercentage - 0.3) * thcCoefficient
 	worldEnvironment.get_environment().adjustment_contrast = 1 + max(0, burnPercentage - 0.7) * 2 * thcCoefficient
 	worldEnvironment.get_environment().adjustment_saturation = 1 + max(0, burnPercentage - 0.85) * 5 * thcCoefficient
 >>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
+=======
+	worldEnvironment.get_environment().adjustment_brightness = 0.6 + max(0, burnPercentage - 0.3) * thcCoefficient
+	worldEnvironment.get_environment().adjustment_contrast = 1 + max(0, burnPercentage - 0.7) * 0.6 * thcCoefficient
+	worldEnvironment.get_environment().adjustment_saturation = 1 + max(0, burnPercentage - 0.85) * 1 * thcCoefficient
+	fireBox.texture.speed_scale = burnPercentage * 10
+	fireBox.expand_margin_bottom = burnPercentage * 6
+	fireBox.expand_margin_top = burnPercentage * 6
+	fireBox.expand_margin_left = burnPercentage * 6
+	fireBox.expand_margin_right = burnPercentage * 6
+>>>>>>> f8a8fca (0.0.6 upek)
 	if burnPercentage > burnThreshold:
 		
 		var density = ( (burnPercentage - burnThreshold)/(1-burnThreshold) ) * max_haze
-		print("Current haze density: ", density)
 		# var tween = get_tree().create_tween()
 		# tween.tween_property(worldEnvironment.environment, "volumetric_fog_density", density, 0.8)
 		worldEnvironment.environment.fog_density = density
@@ -639,11 +698,16 @@ func burnChange():
 func refreshBurnPctLabel():
 	burnPctLabel.text = str(burnPercentage * 100) + "%"
 <<<<<<< HEAD
+<<<<<<< HEAD
 	burnProgressBar.value = burnPercentage * 100
 =======
 	burnProgressBar.value = burnPercentage * 200
 	burnProgressBarSecondary.value = (burnPercentage - 0.5) * 200
 >>>>>>> 484e831 (bede zmienial text to sb zapisze progress bo mi sie zjebie cos)
+=======
+	burnProgressBar.value = burnPercentage * 100
+	# burnProgressBarSecondary.value = (burnPercentage - 0.5) * 200
+>>>>>>> f8a8fca (0.0.6 upek)
 func _on_burn_press():
 	pass
 	# Old code for pressing the button to gain burning instead of holding the button
