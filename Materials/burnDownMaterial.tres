@@ -1,7 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://gccm3w8rbou0"]
-
-[ext_resource type="Shader" path="res://shaders/burnDownShader.gdshader" id="1_m38yf"]
-
-[resource]
-shader = ExtResource("1_m38yf")
-shader_parameter/zoom = 2.525

@@ -1,7 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://nr2m7yrierfw"]
-
-[ext_resource type="Shader" path="res://shaders/smoke.gdshader" id="1_t2low"]
-
-[resource]
-shader = ExtResource("1_t2low")
-shader_parameter/uvCoeff = 1.0

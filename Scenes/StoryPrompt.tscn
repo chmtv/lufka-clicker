@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://ddh3mfu1f8oyy"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_te1qi"]
-bg_color = Color(0, 0, 0, 1)
-corner_detail = 1
-
-[node name="StoryPrompt" type="PopupPanel"]
-visible = true
-theme_override_styles/panel = SubResource("StyleBoxFlat_te1qi")

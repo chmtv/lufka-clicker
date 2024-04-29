@@ -1,8 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=2]
-
-[sub_resource type="CompressedTexture2D" id=1]
-flags = 23
-load_path = "res://.import/cannabis.png-78f06e704eae48c94cdab8b3ed4d96bf.s3tc.stex"
-
-[resource]
-albedo_texture = SubResource( 1 )
