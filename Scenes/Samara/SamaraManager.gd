@@ -10,8 +10,8 @@ var canSpawn : bool = true
 @export var chemolMaterial : ShaderMaterial
 #var minTime = 45.0
 #var maxTime = 90.0
-@export var minTime : float
-@export var maxTime : float
+@export var minTime : int
+@export var maxTime : int
 
 func _ready():
 	setNextSamaraTimer()

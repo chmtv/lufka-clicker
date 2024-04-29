@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=7 format=3 uid="uid://ufqwndanuvih"]
+[gd_resource type="AudioBusLayout" load_steps=8 format=3 uid="uid://ufqwndanuvih"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_oxjya"]
 resource_name = "Reverb"
@@ -35,6 +35,9 @@ resource_name = "Distortion"
 [sub_resource type="AudioEffectDelay" id="AudioEffectDelay_b3hsg"]
 resource_name = "Delay"
 
+[sub_resource type="AudioEffectBandPassFilter" id="AudioEffectBandPassFilter_iu2lq"]
+resource_name = "BandPassFilter"
+
 [resource]
 bus/0/volume_db = -0.130497
 bus/1/name = &"Samara"
@@ -49,7 +52,7 @@ bus/1/effect/1/effect = SubResource("AudioEffectChorus_6dtvg")
 bus/1/effect/1/enabled = true
 bus/1/effect/2/effect = SubResource("AudioEffectDelay_vimwl")
 bus/1/effect/2/enabled = false
-bus/2/name = &"Shop"
+bus/2/name = &"Growing"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
@@ -67,3 +70,11 @@ bus/3/effect/0/effect = SubResource("AudioEffectDistortion_fplu7")
 bus/3/effect/0/enabled = true
 bus/3/effect/1/effect = SubResource("AudioEffectDelay_b3hsg")
 bus/3/effect/1/enabled = true
+bus/4/name = &"Shop"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"Master"
+bus/4/effect/0/effect = SubResource("AudioEffectBandPassFilter_iu2lq")
+bus/4/effect/0/enabled = true

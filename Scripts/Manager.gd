@@ -38,6 +38,7 @@ func instaBank():
 @onready var ShopTabContainer : TabContainer = get_node("UpgradeShopContainer/UpgradeShop")
 @onready var subViewportContainer = get_node("SubViewportContainer");
 @export var samaraManager : Node
+@export var uiMover : Node
 var THCpSToDisplay
 var elapsedTime = 0
 

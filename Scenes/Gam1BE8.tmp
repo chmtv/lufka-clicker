@@ -663,7 +663,7 @@ autoplay = true
 script = ExtResource("41_0oo2a")
 musicStreams = Array[AudioStream]([ExtResource("40_uvhaa"), ExtResource("42_4tfd7"), ExtResource("43_nvcgi"), ExtResource("44_dgimk"), ExtResource("44_emum2"), ExtResource("47_uyhuc")])
 
-[node name="Mover" type="Control" parent="Game Manager" node_paths=PackedStringArray("growing", "nodesToMove", "musicManager")]
+[node name="Mover" type="Control" parent="Game Manager" node_paths=PackedStringArray("growing", "nodesToMove")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -671,7 +671,6 @@ offset_bottom = 40.0
 script = ExtResource("50_wsfjf")
 growing = NodePath("../../Growing")
 nodesToMove = [NodePath("../../Growing"), NodePath("../SubViewportContainer"), NodePath("../SamaraManager"), NodePath("../ShopOpen"), NodePath("../Burn Button"), NodePath("../CanvasLayer"), NodePath("../CanvasLayer/Stoner Portrait Panel"), NodePath("../../Options SlidingMenu/GrowingSwiper")]
-musicManager = NodePath("../MusicManager")
 
 [node name="FPS Counter" parent="." instance=ExtResource("14")]
 visible = false

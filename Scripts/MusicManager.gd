@@ -30,11 +30,14 @@ func chemolMusic():
 	var masterBusID = AudioServer.get_bus_index("Chemol")
 	var distortionEff = AudioServer.get_bus_effect(masterBusID,0)
 	create_tween().tween_method(setPitchScale, 1.0, 1.2, 30)
-	await create_tween().tween_property(distortionEff, "drive", 0.6, 30).finished
+	await create_tween().tween_property(distortionEff, "drive", 0.6, 15).finished
 	distortionEff.drive = 0
 	onChemol = false
 	setPitchScale(1.0)
 	changeBus("Master")
+func growingMusic():
+	changeBus("Growing")
+	setPitchScale(0.8)
 func getRandomTrack():
 	return musicStreams[randi() % musicStreams.size()]
 func changeMusic():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=71 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
@@ -9,14 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
 [ext_resource type="PackedScene" uid="uid://3bu61tvax12l" path="res://Scenes/Samara/Samara.tscn" id="6_jex7c"]
-[ext_resource type="Material" uid="uid://bc3ipkoxly4hg" path="res://shaders/growingFractal.tres" id="6_srrl8"]
+[ext_resource type="Texture2D" uid="uid://rwik7mm1pft3" path="res://Sprites/white.png" id="7_1r8to"]
 [ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
-[ext_resource type="Script" path="res://Scripts/Growing.gd" id="7_l7e0w"]
 [ext_resource type="Texture2D" uid="uid://vcdnnfeuv6p3" path="res://Sprites/Growing/problem.jpg" id="8_eio5m"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
 [ext_resource type="StyleBox" uid="uid://brt5ti1sbq3ed" path="res://Theme/FireBox.tres" id="9_diekk"]
 [ext_resource type="Material" uid="uid://bnq77qw7rqnw1" path="res://Materials/chemolBg.tres" id="9_e4pqj"]
-[ext_resource type="Script" path="res://Scripts/PlantVisuals.gd" id="9_g35p8"]
 [ext_resource type="Shader" path="res://shaders/weedSamara.gdshader" id="9_irun6"]
 [ext_resource type="Material" uid="uid://nr2m7yrierfw" path="res://Materials/smokeFilter.tres" id="9_ss1v0"]
 [ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
@@ -54,11 +52,14 @@
 [ext_resource type="AudioStream" uid="uid://b1ufu10ks7h3" path="res://Music/Herbalist.wav" id="44_dgimk"]
 [ext_resource type="AudioStream" uid="uid://dldu7n03itv01" path="res://Music/Ratata.wav" id="44_emum2"]
 [ext_resource type="AudioStream" uid="uid://cgtcnxa7ifx5x" path="res://Music/GangAlbanii.wav" id="47_uyhuc"]
-[ext_resource type="Script" path="res://Scripts/Mover.gd" id="50_wsfjf"]
+[ext_resource type="Script" path="res://Scripts/Sviper.gd" id="53_5lik4"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jxrca"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ixgmm"]
 shader = ExtResource("3_5fd2q")
 shader_parameter/jaranie = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ly45i"]
+shader = ExtResource("9_irun6")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
@@ -160,38 +161,19 @@ volumetric_fog_temporal_reprojection_amount = 0.5
 adjustment_enabled = true
 adjustment_brightness = 0.8
 
-[sub_resource type="Gradient" id="Gradient_wif1y"]
-colors = PackedColorArray(0.901309, 0.308035, 0, 1, 0.411765, 0.596078, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_0jigh"]
-gradient = SubResource("Gradient_wif1y")
-width = 7
-height = 125
-fill_to = Vector2(0.0485437, 0.995146)
-
-[sub_resource type="Gradient" id="Gradient_h1kgu"]
-colors = PackedColorArray(0.099986, 0.099986, 0.099986, 1, 0.67451, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_3obtj"]
-gradient = SubResource("Gradient_h1kgu")
-width = 11
-height = 15
-repeat = 1
-
 [node name="Node2D" type="Node3D"]
 
-[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("samaraManager", "uiMover")]
+[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("samaraManager")]
 script = ExtResource("3")
 godmode = true
 godTHCmultiplier = 1.0
 samaraManager = NodePath("SamaraManager")
-uiMover = NodePath("../Options SlidingMenu/GrowingSwiper")
 fireBox = ExtResource("9_diekk")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 texture_filter = 1
 texture_repeat = 2
-material = SubResource("ShaderMaterial_jxrca")
+material = SubResource("ShaderMaterial_ixgmm")
 anchors_preset = -1
 anchor_top = 0.146
 anchor_right = 1.0
@@ -219,6 +201,74 @@ fov = 90.0
 
 [node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/CameraMover"]
 wait_time = 5.0
+
+[node name="Growing" type="Panel" parent="Game Manager"]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ixgmm")
+anchors_preset = -1
+anchor_left = -1.009
+anchor_top = 0.146
+anchor_bottom = 1.0
+offset_left = -0.0279922
+offset_top = -0.0320015
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="Game Manager/Growing"]
+material = SubResource("ShaderMaterial_ly45i")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.065
+anchor_top = 0.043
+anchor_right = 0.935
+anchor_bottom = 0.433
+offset_left = 0.0449996
+offset_top = 0.948
+offset_right = -0.0450058
+offset_bottom = -0.012001
+texture = ExtResource("7_1r8to")
+
+[node name="Plant" type="TextureRect" parent="Game Manager/Growing/Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.14
+anchor_top = 0.113
+anchor_right = 0.892
+anchor_bottom = 0.877
+offset_left = -2.02
+offset_top = -1.023
+offset_right = 628.044
+offset_bottom = 487.733
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("8_eio5m")
+
+[node name="Light" type="Button" parent="Game Manager/Growing"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.047
+anchor_top = 0.427
+anchor_right = 0.308
+anchor_bottom = 0.61
+offset_left = -0.0290003
+offset_top = 0.972
+offset_right = -7.956
+offset_bottom = -9.04
+text = "💡"
+
+[node name="Airflow" type="Button" parent="Game Manager/Growing"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.308
+anchor_top = 0.433
+anchor_right = 0.598
+anchor_bottom = 0.61
+offset_left = 0.0439987
+offset_top = -0.012001
+offset_right = 0.0139961
+offset_bottom = -0.0400009
+text = "🌀"
 
 [node name="BackBufferCopy" type="BackBufferCopy" parent="Game Manager"]
 position = Vector2(58.5, 129)
@@ -663,16 +713,6 @@ autoplay = true
 script = ExtResource("41_0oo2a")
 musicStreams = Array[AudioStream]([ExtResource("40_uvhaa"), ExtResource("42_4tfd7"), ExtResource("43_nvcgi"), ExtResource("44_dgimk"), ExtResource("44_emum2"), ExtResource("47_uyhuc")])
 
-[node name="Mover" type="Control" parent="Game Manager" node_paths=PackedStringArray("growing", "nodesToMove", "musicManager")]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("50_wsfjf")
-growing = NodePath("../../Growing")
-nodesToMove = [NodePath("../../Growing"), NodePath("../SubViewportContainer"), NodePath("../SamaraManager"), NodePath("../ShopOpen"), NodePath("../Burn Button"), NodePath("../CanvasLayer"), NodePath("../CanvasLayer/Stoner Portrait Panel"), NodePath("../../Options SlidingMenu/GrowingSwiper")]
-musicManager = NodePath("../MusicManager")
-
 [node name="FPS Counter" parent="." instance=ExtResource("14")]
 visible = false
 anchors_preset = -1
@@ -681,171 +721,6 @@ anchor_bottom = 0.055
 offset_top = 1.0
 offset_right = -0.00799942
 offset_bottom = -0.0799999
-
-[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("lightProgressBar", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton")]
-z_index = 100
-texture_filter = 1
-texture_repeat = 2
-material = ExtResource("6_srrl8")
-anchors_preset = -1
-anchor_left = -1.009
-anchor_top = 0.005
-anchor_right = -0.019
-anchor_bottom = 1.0
-offset_left = -0.0279922
-offset_top = 0.04
-offset_right = 0.052
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("7_l7e0w")
-lightProgressBar = NodePath("Container/Temperature")
-airflowIncreaseTimer = NodePath("Airflow Increase")
-airflowDecayTimer = NodePath("Airflow Decay")
-airflowProgress = NodePath("Container/Airflow Bar")
-airflowButton = NodePath("Container/Airflow Button")
-
-[node name="Container" type="Control" parent="Growing"]
-layout_mode = 1
-anchor_right = 1.0
-anchor_bottom = 0.99
-offset_right = -1.99998
-offset_bottom = -0.0900116
-mouse_filter = 2
-
-[node name="Airflow Button" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.364
-anchor_top = 0.665
-anchor_right = 0.667
-anchor_bottom = 0.825
-offset_left = 0.780003
-offset_top = 1.31499
-offset_right = -0.0350037
-offset_bottom = 0.0749969
-mouse_filter = 1
-text = "🌀"
-
-[node name="Feed" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.667
-anchor_top = 0.665
-anchor_right = 0.963
-anchor_bottom = 0.825
-offset_left = -0.0350037
-offset_top = 1.31499
-offset_right = 1.885
-offset_bottom = 0.0749969
-text = "🍎"
-
-[node name="Toggle" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.822
-anchor_top = 0.848
-anchor_right = 0.991
-anchor_bottom = 0.984
-offset_left = 1.68998
-offset_top = 1.728
-offset_right = 1.94498
-offset_bottom = 2.024
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-text = "X"
-
-[node name="Light" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.056
-anchor_top = 0.665
-anchor_right = 0.324
-anchor_bottom = 0.825
-offset_left = 0.12
-offset_top = 1.31499
-offset_right = -0.0200005
-offset_bottom = 0.0749969
-text = "💡"
-
-[node name="Temperature" type="TextureProgressBar" parent="Growing/Container"]
-z_index = 200
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.925
-anchor_right = 0.991
-anchor_bottom = 0.66
-offset_left = 1.87499
-offset_top = 1.0
-offset_right = 1.94499
-offset_bottom = 1.25999
-max_value = 1000.0
-value = 800.0
-fill_mode = 3
-nine_patch_stretch = true
-stretch_margin_left = 3
-stretch_margin_top = 3
-stretch_margin_right = 3
-stretch_margin_bottom = 3
-texture_under = ExtResource("17_7x0qa")
-texture_progress = SubResource("GradientTexture2D_0jigh")
-
-[node name="Airflow Bar" type="TextureProgressBar" parent="Growing/Container"]
-z_index = 200
-texture_filter = 1
-texture_repeat = 2
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.048
-anchor_top = 0.683
-anchor_right = 0.99
-anchor_bottom = 0.735
-offset_left = -0.04
-offset_top = -6.08701
-offset_right = 0.0499954
-offset_bottom = -7.91501
-max_value = 5.0
-nine_patch_stretch = true
-stretch_margin_left = 3
-stretch_margin_top = 3
-stretch_margin_right = 3
-stretch_margin_bottom = 3
-texture_under = ExtResource("17_7x0qa")
-texture_progress = SubResource("GradientTexture2D_3obtj")
-texture_progress_offset = Vector2(0, -1)
-
-[node name="Background" type="TextureRect" parent="Growing"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.065
-anchor_top = 0.043
-anchor_right = 0.925
-anchor_bottom = 0.644
-offset_left = 0.0449996
-offset_top = 0.787
-offset_right = 0.0249939
-offset_bottom = -0.00401306
-
-[node name="Plant" type="TextureRect" parent="Growing/Background"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.043
-anchor_right = 0.951
-anchor_bottom = 0.732
-offset_left = 0.0440006
-offset_right = 1029.51
-offset_bottom = 1029.55
-scale = Vector2(0.075, 0.075)
-texture = ExtResource("8_eio5m")
-expand_mode = 2
-stretch_mode = 1
-script = ExtResource("9_g35p8")
-
-[node name="Airflow Increase" type="Timer" parent="Growing"]
-wait_time = 150.0
-autostart = true
-
-[node name="Airflow Decay" type="Timer" parent="Growing"]
-wait_time = 7.5
-autostart = true
-
-[node name="Water Need" type="Timer" parent="Growing"]
-wait_time = 180.0
-autostart = true
 
 [node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
 
@@ -872,9 +747,13 @@ anchor_top = 0.417
 anchor_right = 0.109
 anchor_bottom = 0.589
 offset_top = -0.064003
-offset_right = 21.01
+offset_right = 0.00999928
 offset_bottom = -0.0880127
 text = "🌿"
+script = ExtResource("53_5lik4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-16, 98)
 
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
 [connection signal="timeout" from="Game Manager/SamaraManager/THCpSBuff" to="Game Manager/SamaraManager" method="_on_th_cp_s_buff_timeout"]
@@ -889,12 +768,7 @@ text = "🌿"
 [connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
 [connection signal="timeout" from="Game Manager/Timer" to="Game Manager" method="updateBurnButtonLabel"]
 [connection signal="finished" from="Game Manager/MusicManager" to="Game Manager/MusicManager" method="_on_finished"]
-[connection signal="pressed" from="Growing/Container/Airflow Button" to="Growing" method="_on_airflow_button_pressed"]
-[connection signal="pressed" from="Growing/Container/Toggle" to="Game Manager/Mover" method="setGamemodeGrowing"]
-[connection signal="button_down" from="Growing/Container/Light" to="Growing" method="_on_light_button_down"]
-[connection signal="button_up" from="Growing/Container/Light" to="Growing" method="_on_light_button_up"]
-[connection signal="timeout" from="Growing/Water Need" to="Growing" method="_on_water_need_timeout"]
-[connection signal="pressed" from="Options SlidingMenu/GrowingSwiper" to="Game Manager/Mover" method="setGamemodeGrowing"]
+[connection signal="pressed" from="Options SlidingMenu/GrowingSwiper" to="Options SlidingMenu/GrowingSwiper" method="_on_pressed"]
 
 [editable path="Game Manager/Burn Button/Buildings/Lighter"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad"]
