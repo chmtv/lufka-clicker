@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=74 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
@@ -51,7 +51,6 @@
 [ext_resource type="AudioStream" uid="uid://cvaajua3uu4v6" path="res://Music/ReachTheSky.wav" id="43_nvcgi"]
 [ext_resource type="AudioStream" uid="uid://b1ufu10ks7h3" path="res://Music/Herbalist.wav" id="44_dgimk"]
 [ext_resource type="AudioStream" uid="uid://dldu7n03itv01" path="res://Music/Ratata.wav" id="44_emum2"]
-[ext_resource type="Material" uid="uid://bc3ipkoxly4hg" path="res://shaders/growingFractal.tres" id="49_s46rb"]
 [ext_resource type="Script" path="res://Scripts/Mover.gd" id="50_wsfjf"]
 [ext_resource type="Texture2D" uid="uid://6ddrhpc4p6hc" path="res://Sprites/Icons/leaf.png" id="54_lty31"]
 
@@ -685,7 +684,6 @@ offset_bottom = -0.0799999
 z_index = 100
 texture_filter = 1
 texture_repeat = 2
-material = ExtResource("49_s46rb")
 anchors_preset = -1
 anchor_left = -1.009
 anchor_top = 0.005
@@ -844,10 +842,10 @@ layout_mode = 1
 anchor_left = 0.009
 anchor_right = 1.0
 anchor_bottom = 0.995
-offset_left = 0.0370001
-offset_top = -1.0
+offset_left = 0.0369848
+offset_top = 1.0
 offset_right = 1321.0
-offset_bottom = 2342.96
+offset_bottom = 2317.96
 scale = Vector2(0.075, 0.075)
 script = ExtResource("9_g35p8")
 leafTexture = ExtResource("54_lty31")

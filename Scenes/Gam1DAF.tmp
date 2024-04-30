@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=76 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
 [ext_resource type="PackedScene" uid="uid://3bu61tvax12l" path="res://Scenes/Samara/Samara.tscn" id="6_jex7c"]
+[ext_resource type="Material" uid="uid://bc3ipkoxly4hg" path="res://shaders/growingFractal.tres" id="6_srrl8"]
 [ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
 [ext_resource type="Script" path="res://Scripts/Growing.gd" id="7_l7e0w"]
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="9"]
@@ -51,7 +52,7 @@
 [ext_resource type="AudioStream" uid="uid://cvaajua3uu4v6" path="res://Music/ReachTheSky.wav" id="43_nvcgi"]
 [ext_resource type="AudioStream" uid="uid://b1ufu10ks7h3" path="res://Music/Herbalist.wav" id="44_dgimk"]
 [ext_resource type="AudioStream" uid="uid://dldu7n03itv01" path="res://Music/Ratata.wav" id="44_emum2"]
-[ext_resource type="Material" uid="uid://bc3ipkoxly4hg" path="res://shaders/growingFractal.tres" id="49_s46rb"]
+[ext_resource type="AudioStream" uid="uid://cgtcnxa7ifx5x" path="res://Music/GangAlbanii.wav" id="47_uyhuc"]
 [ext_resource type="Script" path="res://Scripts/Mover.gd" id="50_wsfjf"]
 [ext_resource type="Texture2D" uid="uid://6ddrhpc4p6hc" path="res://Sprites/Icons/leaf.png" id="54_lty31"]
 
@@ -660,7 +661,7 @@ stream = ExtResource("40_uvhaa")
 volume_db = -17.234
 autoplay = true
 script = ExtResource("41_0oo2a")
-musicStreams = Array[AudioStream]([ExtResource("40_uvhaa"), ExtResource("42_4tfd7"), ExtResource("43_nvcgi"), ExtResource("44_dgimk"), ExtResource("44_emum2")])
+musicStreams = Array[AudioStream]([ExtResource("40_uvhaa"), ExtResource("42_4tfd7"), ExtResource("43_nvcgi"), ExtResource("44_dgimk"), ExtResource("44_emum2"), ExtResource("47_uyhuc")])
 
 [node name="Mover" type="Control" parent="Game Manager" node_paths=PackedStringArray("growing", "nodesToMove", "musicManager")]
 layout_mode = 3
@@ -685,7 +686,7 @@ offset_bottom = -0.0799999
 z_index = 100
 texture_filter = 1
 texture_repeat = 2
-material = ExtResource("49_s46rb")
+material = ExtResource("6_srrl8")
 anchors_preset = -1
 anchor_left = -1.009
 anchor_top = 0.005
@@ -844,10 +845,10 @@ layout_mode = 1
 anchor_left = 0.009
 anchor_right = 1.0
 anchor_bottom = 0.995
-offset_left = 0.0370001
-offset_top = -1.0
+offset_left = 0.0369848
+offset_top = 1.0
 offset_right = 1321.0
-offset_bottom = 2342.96
+offset_bottom = 2317.96
 scale = Vector2(0.075, 0.075)
 script = ExtResource("9_g35p8")
 leafTexture = ExtResource("54_lty31")

@@ -34,9 +34,11 @@ float smoothMod(float axis, float amp, float rad){
 }
 void fragment() {
 	// vec2 screen_uv = vec2(SCREEN_UV.x*TIME, SCREEN_UV.y);
-	float zoom = sin(TIME/3.0);
+	float zoom = sin(TIME/3.0)*0.2;
 	//vec2 uv = ((SCREEN_UV - vec2(0.5)) * vec2(ratio, 1.0)) / exp(zoom - 1.25) + view;
-	vec2 uv = (SCREEN_UV - 0.5 + sin(TIME*3.0)*0.01)/exp(zoom - 1.25) + view;
+	vec2 uv = (SCREEN_UV - 0.5)/exp(zoom - 1.25) + view;
+	uv.x += sin(TIME*3.0)*0.01;
+	uv.y += cos(TIME*3.0)*0.01;
 	
 	float dist = (1.0+sin(TIME*0.2))*distance(uv, vec2(0.5));
 	float rotX = uv.x*cos(dist) - uv.y*sin(dist);
