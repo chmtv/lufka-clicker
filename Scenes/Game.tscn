@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=77 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
@@ -160,13 +160,14 @@ adjustment_enabled = true
 adjustment_brightness = 0.8
 
 [sub_resource type="Gradient" id="Gradient_wif1y"]
-colors = PackedColorArray(0.901309, 0.308035, 0, 1, 0.411765, 0.596078, 1, 1)
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.521127, 1)
+colors = PackedColorArray(0.411765, 0.596078, 1, 1, 0.901961, 0.309804, 0, 1, 1, 0.592157, 0.454902, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_0jigh"]
 gradient = SubResource("Gradient_wif1y")
-width = 7
-height = 125
-fill_to = Vector2(0.0485437, 0.995146)
+width = 100
+height = 5
 
 [sub_resource type="Gradient" id="Gradient_h1kgu"]
 colors = PackedColorArray(0.099986, 0.099986, 0.099986, 1, 0.67451, 1, 1, 1)
@@ -177,11 +178,18 @@ width = 11
 height = 15
 repeat = 1
 
+[sub_resource type="Gradient" id="Gradient_1d3sg"]
+colors = PackedColorArray(0.14902, 0.588235, 0.156863, 1, 0, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0wchb"]
+gradient = SubResource("Gradient_1d3sg")
+width = 50
+height = 5
+
 [node name="Node2D" type="Node3D"]
 
 [node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("samaraManager", "uiMover")]
 script = ExtResource("3")
-godmode = true
 godTHCmultiplier = 1.0
 samaraManager = NodePath("SamaraManager")
 uiMover = NodePath("../Options SlidingMenu/GrowingSwiper")
@@ -681,7 +689,7 @@ offset_top = 1.0
 offset_right = -0.00799942
 offset_bottom = -0.0799999
 
-[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("lightProgressBar", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "photosynthesis_label")]
+[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("PlantVisuals", "lightProgressBar", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "photosynthesis_label", "phs_phase_label", "phs_progress_bar")]
 z_index = 100
 texture_filter = 1
 texture_repeat = 2
@@ -696,86 +704,69 @@ offset_top = 0.04
 offset_right = 0.052
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.997167, 0.987669)
 script = ExtResource("7_l7e0w")
+PlantVisuals = NodePath("Plant")
 lightProgressBar = NodePath("Container/Temperature")
 airflowIncreaseTimer = NodePath("Airflow Increase")
 airflowDecayTimer = NodePath("Airflow Decay")
 airflowProgress = NodePath("Container/Airflow Bar")
-airflowButton = NodePath("Container/Airflow Button")
-photosynthesis_label = NodePath("Container/PHS")
+airflowButton = NodePath("Container/Control/Airflow Button")
+photosynthesis_label = NodePath("Container/TextureProgressBar/PHS")
+phs_phase_label = NodePath("Container/Phase")
+phs_progress_bar = NodePath("Container/TextureProgressBar")
+
+[node name="Plant" type="Control" parent="Growing"]
+z_index = 4096
+layout_mode = 1
+anchor_left = 0.15
+anchor_top = 0.079
+anchor_right = 0.813
+anchor_bottom = 0.534
+offset_left = -0.0499992
+offset_top = -0.0890007
+offset_right = 0.00901031
+offset_bottom = 0.00598907
+script = ExtResource("9_g35p8")
+leafTexture = ExtResource("54_lty31")
 
 [node name="Container" type="Control" parent="Growing"]
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 0.99
-offset_right = -1.99998
-offset_bottom = -0.0900116
+offset_left = -1.53021e-05
+offset_top = -28.3496
+offset_right = -1.99999
+offset_bottom = -28.4396
 mouse_filter = 2
-
-[node name="Airflow Button" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.364
-anchor_top = 0.665
-anchor_right = 0.667
-anchor_bottom = 0.825
-offset_left = 0.780003
-offset_top = 1.31499
-offset_right = -0.0350037
-offset_bottom = 0.0749969
-mouse_filter = 1
-text = "🌀"
-
-[node name="Feed" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.667
-anchor_top = 0.665
-anchor_right = 0.963
-anchor_bottom = 0.825
-offset_left = -0.0350037
-offset_top = 1.31499
-offset_right = 1.885
-offset_bottom = 0.0749969
-text = "🍎"
 
 [node name="Toggle" type="Button" parent="Growing/Container"]
 layout_mode = 2
-anchor_left = 0.822
-anchor_top = 0.848
-anchor_right = 0.991
-anchor_bottom = 0.984
-offset_left = 1.68998
-offset_top = 1.728
-offset_right = 1.94498
-offset_bottom = 2.024
+anchor_left = 0.829
+anchor_top = 0.155
+anchor_right = 1.0
+anchor_bottom = 0.293
+offset_left = 1.20501
+offset_top = 0.06707
+offset_right = 1.25002
+offset_bottom = -0.0149307
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "X"
-
-[node name="Light" type="Button" parent="Growing/Container"]
-layout_mode = 2
-anchor_left = 0.056
-anchor_top = 0.665
-anchor_right = 0.324
-anchor_bottom = 0.825
-offset_left = 0.12
-offset_top = 1.31499
-offset_right = -0.0200005
-offset_bottom = 0.0749969
-text = "💡"
 
 [node name="Temperature" type="TextureProgressBar" parent="Growing/Container"]
 z_index = 200
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.925
-anchor_right = 0.991
-anchor_bottom = 0.66
-offset_left = 1.87499
-offset_top = 1.0
-offset_right = 1.94499
-offset_bottom = 1.25999
+anchor_left = 0.029
+anchor_top = 0.635
+anchor_right = 1.01
+anchor_bottom = 0.686
+offset_left = -0.0450003
+offset_top = -0.0149994
+offset_right = -0.0500031
+offset_bottom = 0.0710144
 max_value = 1000.0
 value = 800.0
-fill_mode = 3
 nine_patch_stretch = true
 stretch_margin_left = 3
 stretch_margin_top = 3
@@ -790,14 +781,14 @@ texture_filter = 1
 texture_repeat = 2
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.048
-anchor_top = 0.683
+anchor_left = 0.029
+anchor_top = 0.688
 anchor_right = 0.99
 anchor_bottom = 0.735
-offset_left = -0.04
-offset_top = -6.08701
-offset_right = 0.0499954
-offset_bottom = -7.91501
+offset_left = -0.0450003
+offset_top = -0.0319977
+offset_right = 2.04999
+offset_bottom = 1.08501
 max_value = 5.0
 nine_patch_stretch = true
 stretch_margin_left = 3
@@ -808,23 +799,138 @@ texture_under = ExtResource("17_7x0qa")
 texture_progress = SubResource("GradientTexture2D_3obtj")
 texture_progress_offset = Vector2(0, -1)
 
-[node name="PHS" type="RichTextLabel" parent="Growing/Container"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Growing/Container"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.076
+anchor_top = 0.735
+anchor_right = 1.0
+anchor_bottom = 0.873
+offset_left = -5.98
+offset_top = 0.0850067
+offset_right = 0.999992
+offset_bottom = 0.00300598
+max_value = 500.0
+value = 370.0
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+texture_under = ExtResource("17_7x0qa")
+texture_progress = SubResource("GradientTexture2D_0wchb")
+
+[node name="PHS" type="RichTextLabel" parent="Growing/Container/TextureProgressBar"]
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.067
-anchor_top = 0.847
-anchor_right = 0.962
-anchor_bottom = 1.0
-offset_left = -0.0350008
-offset_top = -0.0829926
-offset_right = -0.0100174
-offset_bottom = 1.00002
+anchor_left = 0.011
+anchor_right = 0.989
+anchor_bottom = 1.889
+offset_left = -0.00100005
+offset_right = 0.000999451
+offset_bottom = -0.00100136
+theme_override_colors/default_color = Color(0.847059, 0.756863, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
-text = "[shake]Wegetacja[/shake]"
+text = "Fotosynteza
+"
 fit_content = true
 scroll_active = false
+
+[node name="Phase" type="RichTextLabel" parent="Growing/Container"]
+z_index = 10
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.019
+anchor_top = 0.545
+anchor_right = 1.0
+anchor_bottom = 0.635
+offset_left = 0.0049845
+offset_top = -0.00499725
+offset_right = -2.28882e-05
+offset_bottom = -0.0149994
+theme_override_colors/default_color = Color(0.847059, 0.756863, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[wave][center]Wegetacja[/center][/wave]
+"
+fit_content = true
+scroll_active = false
+
+[node name="Control" type="Control" parent="Growing/Container"]
+layout_mode = 1
+anchor_top = 0.857
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 0.0270081
+offset_right = 1.99999
+offset_bottom = 2.00002
+mouse_filter = 1
+
+[node name="Light" type="Button" parent="Growing/Container/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028
+anchor_right = 0.34
+anchor_bottom = 0.759
+offset_left = 0.0319998
+offset_right = -10.04
+offset_bottom = -0.0110016
+text = "Lampa"
+
+[node name="Airflow Button" type="Button" parent="Growing/Container/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.321
+anchor_top = 0.069
+anchor_right = 0.594
+anchor_bottom = 1.034
+offset_left = -0.026001
+offset_top = -0.00100017
+offset_right = -3.964
+offset_bottom = -5.986
+mouse_filter = 1
+text = "Airflow"
+
+[node name="Feed" type="Button" parent="Growing/Container/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.623
+anchor_top = 0.103
+anchor_right = 0.934
+anchor_bottom = 0.862
+offset_left = -0.038002
+offset_top = 0.013
+offset_right = -10.004
+offset_bottom = 0.0019989
+text = "Nawóz"
+
+[node name="Label" type="Label" parent="Growing/Container/Control/Feed"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.143
+anchor_right = 1.464
+anchor_bottom = 0.929
+offset_top = -0.00400019
+offset_right = 0.00799561
+offset_bottom = -0.012001
+
+[node name="Button" type="Button" parent="Growing/Container/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.873
+anchor_right = 0.274
+anchor_bottom = 1.631
+offset_left = 4.01419
+offset_top = -0.00728607
+offset_right = -0.0298119
+offset_bottom = 0.0107155
+text = "Woda"
 
 [node name="Airflow Increase" type="Timer" parent="Growing"]
 wait_time = 150.0
@@ -837,20 +943,6 @@ autostart = true
 [node name="Water Need" type="Timer" parent="Growing"]
 wait_time = 180.0
 autostart = true
-
-[node name="Plant" type="Control" parent="Growing"]
-z_index = 20
-layout_mode = 1
-anchor_left = 0.009
-anchor_right = 1.0
-anchor_bottom = 0.995
-offset_left = 0.0370001
-offset_top = -1.0
-offset_right = 1321.0
-offset_bottom = 2342.96
-scale = Vector2(0.075, 0.075)
-script = ExtResource("9_g35p8")
-leafTexture = ExtResource("54_lty31")
 
 [node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
 
@@ -873,12 +965,13 @@ musicManager = NodePath("../../../Game Manager/MusicManager")
 [node name="GrowingSwiper" type="Button" parent="Options SlidingMenu"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.417
-anchor_right = 0.109
+anchor_top = 0.432
+anchor_right = 0.264
 anchor_bottom = 0.589
-offset_top = -0.064003
-offset_right = 21.01
-offset_bottom = -0.0880127
+offset_left = 1.0
+offset_top = 0.0559998
+offset_right = -0.039999
+offset_bottom = -2.088
 text = "🌿"
 
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
@@ -894,10 +987,10 @@ text = "🌿"
 [connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
 [connection signal="timeout" from="Game Manager/Timer" to="Game Manager" method="updateBurnButtonLabel"]
 [connection signal="finished" from="Game Manager/MusicManager" to="Game Manager/MusicManager" method="_on_finished"]
-[connection signal="pressed" from="Growing/Container/Airflow Button" to="Growing" method="_on_airflow_button_pressed"]
 [connection signal="pressed" from="Growing/Container/Toggle" to="Game Manager/Mover" method="setGamemodeGrowing"]
-[connection signal="button_down" from="Growing/Container/Light" to="Growing" method="_on_light_button_down"]
-[connection signal="button_up" from="Growing/Container/Light" to="Growing" method="_on_light_button_up"]
+[connection signal="button_down" from="Growing/Container/Control/Light" to="Growing" method="_on_light_button_down"]
+[connection signal="button_up" from="Growing/Container/Control/Light" to="Growing" method="_on_light_button_up"]
+[connection signal="pressed" from="Growing/Container/Control/Airflow Button" to="Growing" method="_on_airflow_button_pressed"]
 [connection signal="timeout" from="Growing/Water Need" to="Growing" method="_on_water_need_timeout"]
 [connection signal="pressed" from="Options SlidingMenu/GrowingSwiper" to="Game Manager/Mover" method="setGamemodeGrowing"]
 

@@ -83,15 +83,62 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_faqnh")
 script = ExtResource("1_211ss")
 
+[node name="Choice 2" type="Button" parent="Background"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.422
+anchor_right = 1.0
+anchor_bottom = 0.646
+offset_top = -0.0240021
+offset_bottom = -0.0320053
+mouse_filter = 1
+theme_override_styles/normal = ExtResource("2_qfpn7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Background/Choice 2"]
+libraries = {
+"": SubResource("AnimationLibrary_12qyw")
+}
+autoplay = "flip"
+
+[node name="Name" type="Label" parent="Background/Choice 2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.046
+anchor_top = 0.163
+anchor_right = 0.954
+anchor_bottom = 0.465
+offset_left = 0.0319996
+offset_top = -0.0090003
+offset_right = -0.0320053
+offset_bottom = 0.00499916
+mouse_filter = 1
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="Background/Choice 2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.056
+anchor_top = 0.419
+anchor_right = 0.954
+anchor_bottom = 0.884
+offset_left = -0.0480003
+offset_top = -0.0170021
+offset_right = -0.0320053
+offset_bottom = -0.012001
+mouse_filter = 1
+bbcode_enabled = true
+
 [node name="Choice 1" type="Button" parent="Background"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.156
+anchor_top = 0.187
 anchor_right = 1.0
-anchor_bottom = 0.38
-offset_top = 0.0480003
-offset_bottom = 0.0399933
+anchor_bottom = 0.411
+offset_top = 0.0960007
+offset_bottom = 0.0879898
 mouse_filter = 1
 theme_override_styles/normal = ExtResource("2_qfpn7")
 
@@ -130,62 +177,15 @@ offset_bottom = -0.012001
 mouse_filter = 1
 bbcode_enabled = true
 
-[node name="Choice 2" type="Button" parent="Background"]
+[node name="Choice 3" type="Button" parent="Background"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.432
+anchor_top = 0.667
 anchor_right = 1.0
-anchor_bottom = 0.656
-offset_top = 0.0559998
-offset_bottom = 0.0479965
-mouse_filter = 1
-theme_override_styles/normal = ExtResource("2_qfpn7")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Background/Choice 2"]
-libraries = {
-"": SubResource("AnimationLibrary_12qyw")
-}
-autoplay = "flip"
-speed_scale = 0.8
-
-[node name="Name" type="Label" parent="Background/Choice 2"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.046
-anchor_top = 0.163
-anchor_right = 0.954
-anchor_bottom = 0.465
-offset_left = 0.0319996
-offset_top = -0.0090003
-offset_right = -0.0320053
-offset_bottom = 0.00499916
-mouse_filter = 1
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Description" type="RichTextLabel" parent="Background/Choice 2"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.056
-anchor_top = 0.419
-anchor_right = 0.954
-anchor_bottom = 0.884
-offset_left = -0.0480003
-offset_top = -0.0170021
-offset_right = -0.0320053
-offset_bottom = -0.012001
-mouse_filter = 1
-bbcode_enabled = true
-
-[node name="Choice 3" type="Button" parent="Background"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.703
-anchor_right = 1.0
-anchor_bottom = 0.927
-offset_top = 0.0240021
-offset_bottom = 0.0159912
+anchor_bottom = 0.891
+offset_top = -0.0640106
+offset_bottom = -0.0720062
 mouse_filter = 1
 theme_override_styles/normal = ExtResource("2_qfpn7")
 
@@ -194,7 +194,6 @@ libraries = {
 "": SubResource("AnimationLibrary_12qyw")
 }
 autoplay = "flip"
-speed_scale = 0.6
 
 [node name="Name" type="Label" parent="Background/Choice 3"]
 layout_mode = 1
@@ -251,6 +250,7 @@ anchor_right = 1.0
 anchor_bottom = 0.607
 offset_top = -0.0550003
 offset_bottom = 0.0549927
+mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
 text = "[rainbow freq=0.6 sat=10 val=20][shake level=20][center]CHEMOL![/center][/shake][/rainbow]"
@@ -259,4 +259,6 @@ visible_ratio = 0.0
 
 [node name="DestroyTimer" type="Timer" parent="."]
 
+[connection signal="pressed" from="Background/Choice 2" to="Background" method="removeMenu"]
 [connection signal="pressed" from="Background/Choice 1" to="Background" method="removeMenu"]
+[connection signal="pressed" from="Background/Choice 3" to="Background" method="removeMenu"]
