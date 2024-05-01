@@ -5,7 +5,7 @@ var photosynthesis := 0.5
 @export var phsMult : float = 1.0
 # A plant takes 45min to grow fully, 
 var phsPerPhase = 500
-var phsPerSecTotal = 0.6
+var phsPerSecTotal = 3000.6
 @export var PlantVisuals : Control
 
 # Light
