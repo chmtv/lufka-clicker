@@ -18,7 +18,7 @@ body {
 }
 #vidContainer {
     position:absolute;
-    top:100%;
+    top:400%;
     min-width: 100vw;
     min-height: 100vh;
     max-width: 100vw;
@@ -42,7 +42,7 @@ body {
 }
 #text {
     position:absolute;
-    top: 130%;
+    top: 430%;
     width:100vw;
     right:0;
     text-align: center;
@@ -104,4 +104,34 @@ header {
     right:0;
     overflow: hidden;
     text-align: center;
+}
+
+
+
+
+
+#info {
+    display:flex;
+    position:absolute;
+    top:150%;
+    height:200%;
+    width:100%;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+.infoCard {
+    display:flex;
+    flex-direction: column;
+    height:40%;
+    width:70vw;
+    align-items: center;
+    justify-items: flex-start;
+}
+.infoCard div {
+    position:relative;
+    top:-180px;
+}
+.infoCard img {
+    scale: 50%;
 }
