@@ -105,7 +105,12 @@ header {
     overflow: hidden;
     text-align: center;
 }
-
+a {
+    -webkit-text-stroke: 0;
+    /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    */
+    color: rgb(104, 119, 255);
+}
 
 
 
