@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqv1s2ndirrl2"]
+
+[ext_resource type="Material" uid="uid://diwoudl2x8nr6" path="res://Materials/lightSwipe.tres" id="1_em872"]
+[ext_resource type="Script" path="res://Scenes/Samara/LightSwipe.gd" id="2_i4rq4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fbge3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="LightSwipe" type="Panel"]
+z_index = 4096
+material = ExtResource("1_em872")
+anchors_preset = -1
+anchor_right = 0.472
+anchor_bottom = 0.177
+offset_right = 0.0239983
+offset_bottom = 0.0159988
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fbge3")
+script = ExtResource("2_i4rq4")

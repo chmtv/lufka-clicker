@@ -1,10 +1,12 @@
-[gd_scene load_steps=77 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=103 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://btoxmtddvtp0l" path="res://Scenes/SeriesUpgradeButton.tscn" id="2_5b5lg"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
 [ext_resource type="Shader" path="res://shaders/fire.gdshader" id="3_5fd2q"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
+[ext_resource type="PackedScene" uid="uid://booyvfiyhr7o2" path="res://Scenes/Dialog.tscn" id="3_t7nru"]
 [ext_resource type="Script" path="res://Scenes/Samara/SamaraManager.gd" id="4_oei3e"]
 [ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
@@ -42,28 +44,45 @@
 [ext_resource type="AudioStream" uid="uid://cneabb8lpw17a" path="res://SFX/menuClose.ogg" id="20_tkqao"]
 [ext_resource type="Texture2D" uid="uid://cepx4u2xlrjia" path="res://Sprites/stonerPortrait/jaracz-3.png" id="21_af0dc"]
 [ext_resource type="PackedScene" uid="uid://bi0dtlmnlnp6d" path="res://Scenes/SlidingMenu.tscn" id="21_indd3"]
+[ext_resource type="Texture2D" uid="uid://d3cndpb7e7ix1" path="res://Sprites/buildings2d/jablko.png" id="22_1huo1"]
 [ext_resource type="PackedScene" uid="uid://bojlxrdjj5nid" path="res://Scenes/Options Menu UI.tscn" id="22_3evpn"]
 [ext_resource type="Texture2D" uid="uid://o8psuydtrfre" path="res://Sprites/stonerPortrait/jaracz-4.png" id="22_kmmba"]
+[ext_resource type="PackedScene" uid="uid://dan3ddtqgf4hu" path="res://Scenes/Smoke.tscn" id="22_w2f7x"]
+[ext_resource type="Script" path="res://Smoke_old.gd" id="23_ku74s"]
+[ext_resource type="Script" path="res://Scripts/Buildings2D.gd" id="23_p32e4"]
 [ext_resource type="AudioStream" uid="uid://cq3g1ohcrm2cl" path="res://SFX/buttonClick.ogg" id="24_o4hox"]
+[ext_resource type="Texture2D" uid="uid://cf411thpt5dfy" path="res://Sprites/buildings2d/lufka.png" id="25_mymaa"]
+[ext_resource type="Texture2D" uid="uid://daikpowl1tnve" path="res://Sprites/buildings2d/wodo.png" id="26_17q2r"]
+[ext_resource type="Texture2D" uid="uid://463pyvpsbdvd" path="res://Sprites/buildings2d/wiadro.png" id="27_iwect"]
+[ext_resource type="Texture2D" uid="uid://edwratmqm22d" path="res://Sprites/buildings2d/bongo.png" id="28_nnc6y"]
+[ext_resource type="Texture2D" uid="uid://b3jr2yxewej1q" path="res://Sprites/buildings2d/wapo.png" id="29_coij6"]
 [ext_resource type="AudioStream" uid="uid://koxkr3t5e7x0" path="res://Music/ChangaReggae.wav" id="40_uvhaa"]
 [ext_resource type="Script" path="res://Scripts/MusicManager.gd" id="41_0oo2a"]
 [ext_resource type="AudioStream" uid="uid://deiivarwjnv7" path="res://Music/MedycznyBlancik.wav" id="42_4tfd7"]
 [ext_resource type="AudioStream" uid="uid://cvaajua3uu4v6" path="res://Music/ReachTheSky.wav" id="43_nvcgi"]
 [ext_resource type="AudioStream" uid="uid://b1ufu10ks7h3" path="res://Music/Herbalist.wav" id="44_dgimk"]
 [ext_resource type="AudioStream" uid="uid://dldu7n03itv01" path="res://Music/Ratata.wav" id="44_emum2"]
+[ext_resource type="Script" path="res://Scripts/PopupManager.gd" id="48_lr136"]
 [ext_resource type="Material" uid="uid://bc3ipkoxly4hg" path="res://shaders/growingFractal.tres" id="49_s46rb"]
 [ext_resource type="Script" path="res://Scripts/Mover.gd" id="50_wsfjf"]
+[ext_resource type="Texture2D" uid="uid://0s5rin3uoc4t" path="res://Sprites/Growing/ledlampFull.png" id="53_g5e2i"]
+[ext_resource type="PackedScene" uid="uid://cd65m07x5uq7n" path="res://Scenes/cropCollectButton.tscn" id="53_n1twt"]
 [ext_resource type="Texture2D" uid="uid://6ddrhpc4p6hc" path="res://Sprites/Icons/leaf.png" id="54_lty31"]
+[ext_resource type="Texture2D" uid="uid://b5l4ecroifdel" path="res://Sprites/Growing/doniczka.png" id="55_nyee8"]
+[ext_resource type="Texture2D" uid="uid://dhd4fkj4tg837" path="res://Sprites/cannabis.png" id="56_ipng8"]
+[ext_resource type="PackedScene" uid="uid://b8hr6tlv8wbbc" path="res://Scenes/LED Icon.tscn" id="57_cx4hn"]
+[ext_resource type="Texture2D" uid="uid://rwik7mm1pft3" path="res://Sprites/white.png" id="58_8qmxi"]
+[ext_resource type="Texture2D" uid="uid://cv0jahuuokkjg" path="res://Sprites/Growing/airflowIcon.png" id="59_82ypb"]
+[ext_resource type="Texture2D" uid="uid://b0lu4nwgydtog" path="res://Sprites/Growing/lufkonewka.png" id="60_53l4s"]
+[ext_resource type="Texture2D" uid="uid://nmm580qpwgll" path="res://Sprites/Growing/fertilizerIcon.png" id="61_4ok8p"]
+[ext_resource type="Material" uid="uid://diwoudl2x8nr6" path="res://Materials/lightSwipe.tres" id="61_t2pfc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jxrca"]
 shader = ExtResource("3_5fd2q")
-shader_parameter/jaranie = 0.0
+shader_parameter/jaranie = 0.5
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vty4y"]
-shader = ExtResource("9_irun6")
 
 [sub_resource type="Animation" id="Animation_jyt2w"]
 resource_name = "burnPress"
@@ -78,6 +97,35 @@ tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.6, 1, 1.03, 1.03, 1.03, 0.8,
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gry3a"]
 _data = {
 "burnPress": SubResource("Animation_jyt2w")
+}
+
+[sub_resource type="Gradient" id="Gradient_b6ee0"]
+offsets = PackedFloat32Array(0, 0.519084, 1)
+colors = PackedColorArray(0.515221, 0.777182, 0, 1, 0.949086, 0.940045, 0, 1, 1, 0.286275, 0.0117647, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bl1k2"]
+gradient = SubResource("Gradient_b6ee0")
+width = 169
+height = 5
+
+[sub_resource type="Animation" id="Animation_omck6"]
+resource_name = "shake"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(3, 4), Vector2(-2, 1), Vector2(2, 2), Vector2(4, 2), Vector2(2, 4), Vector2(-3, -3), Vector2(3, 1), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wxtc0"]
+_data = {
+"shake": SubResource("Animation_omck6")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eca77"]
@@ -119,21 +167,12 @@ _data = {
 "shopSlide": SubResource("Animation_8a8p8")
 }
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mn4x0"]
+texture = ExtResource("20_7qegm")
+
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_siwkp"]
 color = Color(0.258824, 0.258824, 0.258824, 0.584314)
 vertical = true
-
-[sub_resource type="Gradient" id="Gradient_b6ee0"]
-offsets = PackedFloat32Array(0, 0.519084, 1)
-colors = PackedColorArray(0.515221, 0.777182, 0, 1, 0.949086, 0.940045, 0, 1, 1, 0.286275, 0.0117647, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_bl1k2"]
-gradient = SubResource("Gradient_b6ee0")
-width = 169
-height = 5
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mn4x0"]
-texture = ExtResource("20_7qegm")
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_jpwt7"]
 panorama = ExtResource("10_35qj5")
@@ -158,6 +197,17 @@ volumetric_fog_detail_spread = 0.5
 volumetric_fog_temporal_reprojection_amount = 0.5
 adjustment_enabled = true
 adjustment_brightness = 0.8
+
+[sub_resource type="Gradient" id="Gradient_qejia"]
+offsets = PackedFloat32Array(0, 0.996094)
+colors = PackedColorArray(3.51354e-06, 0.44429, 0.561547, 1, 4.62055e-06, 0.912698, 0.993601, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_52vpi"]
+gradient = SubResource("Gradient_qejia")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vty4y"]
+shader = ExtResource("9_irun6")
 
 [sub_resource type="Gradient" id="Gradient_wif1y"]
 interpolation_mode = 2
@@ -188,12 +238,22 @@ height = 5
 
 [node name="Node2D" type="Node3D"]
 
-[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("samaraManager", "uiMover")]
+[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("charPortrait", "upgradesScrollContainer", "samaraManager", "uiMover", "popupManager", "GrowingManager", "burnProgressBar", "buyShakePlayer", "seriesUpgradesThcContainer", "upgradeVBox", "buildingsVisualManager2D")]
 script = ExtResource("3")
 godTHCmultiplier = 1.0
-samaraManager = NodePath("SamaraManager")
+charPortrait = NodePath("Stoner Portrait Panel")
+upgradesScrollContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/NormalUpgrades")
+samaraManager = NodePath("../SamaraManager")
 uiMover = NodePath("../Options SlidingMenu/GrowingSwiper")
+popupManager = NodePath("../Popup Manager")
+GrowingManager = NodePath("../Growing")
+burnProgressBar = NodePath("Burn Button/Burn Progress")
+buyShakePlayer = NodePath("UpgradeShopContainer/Shake")
+seriesUpgradesThcContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/SeriesUpgrades")
+seriesUpgradeButton = ExtResource("2_5b5lg")
+upgradeVBox = NodePath("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/NormalUpgrades")
 fireBox = ExtResource("9_diekk")
+buildingsVisualManager2D = NodePath("Burn Button/Smoke/Buildings2D")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 texture_filter = 1
@@ -208,6 +268,7 @@ offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
+metadata/_edit_use_anchors_ = true
 
 [node name="SubViewport" type="SubViewport" parent="Game Manager/SubViewportContainer"]
 handle_input_locally = false
@@ -249,33 +310,6 @@ mouse_default_cursor_shape = 13
 texture = SubResource("ViewportTexture_k3jkr")
 stretch_mode = 3
 
-[node name="SamaraManager" type="ReferenceRect" parent="Game Manager" node_paths=PackedStringArray("mainManager", "musicManager")]
-custom_minimum_size = Vector2(108, 135)
-anchors_preset = -1
-anchor_top = 0.151
-anchor_right = 1.0
-anchor_bottom = 0.854
-offset_top = 0.00799942
-offset_bottom = 0.0319977
-mouse_filter = 1
-script = ExtResource("4_oei3e")
-SamaraUI = ExtResource("5_mllu4")
-Samara = ExtResource("6_jex7c")
-mainManager = NodePath("..")
-choicesBgMaterial = SubResource("ShaderMaterial_vty4y")
-musicManager = NodePath("../MusicManager")
-chemolMaterial = ExtResource("9_e4pqj")
-maxTime = 5
-metadata/_edit_group_ = true
-
-[node name="THCpSBuff" type="Timer" parent="Game Manager/SamaraManager"]
-wait_time = 20.0
-
-[node name="BurnPctBuff" type="Timer" parent="Game Manager/SamaraManager"]
-wait_time = 20.0
-
-[node name="Chemol" type="Timer" parent="Game Manager/SamaraManager"]
-
 [node name="Burn Button" type="Button" parent="Game Manager"]
 self_modulate = Color(1, 0.352941, 0, 1)
 texture_filter = 1
@@ -298,7 +332,9 @@ theme_override_styles/normal = ExtResource("9_diekk")
 theme_override_styles/hover = ExtResource("9_diekk")
 theme_override_styles/pressed = ExtResource("9_diekk")
 shortcut_feedback = false
+language = "pl_PL"
 script = ExtResource("2")
+metadata/_edit_use_anchors_ = true
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Game Manager/Burn Button"]
 transform = Transform3D(1, 5.96046e-08, 2.6054e-15, 0, -4.37114e-08, 1, 5.96046e-08, -1, -4.37114e-08, -1.90735e-06, 14.5767, 0.691341)
@@ -341,7 +377,6 @@ transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13, 0, 0)
 
 [node name="Wapo" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("14_ndhf2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -9)
-visible = false
 
 [node name="Burn Sound" type="AudioStreamPlayer" parent="Game Manager/Burn Button"]
 stream = ExtResource("15_vqn82")
@@ -371,18 +406,69 @@ text = "Pal"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ShopOpen" type="Button" parent="Game Manager"]
-z_index = 1
+[node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
+texture_filter = 1
+layout_mode = 1
 anchors_preset = -1
-anchor_left = 1.009
-anchor_top = 1.0
-anchor_right = 1.009
-anchor_bottom = 1.0
-offset_left = -65.972
-offset_top = -26.0
-offset_right = 0.0280075
-action_mode = 0
-text = "Ulepszenia"
+anchor_left = 0.042
+anchor_top = 1.231
+anchor_right = 2.451
+anchor_bottom = 1.5
+offset_left = 0.0180013
+offset_top = -0.00599861
+offset_right = -0.0209961
+value = 100.0
+texture_under = ExtResource("17_7x0qa")
+texture_progress = SubResource("GradientTexture2D_bl1k2")
+texture_progress_offset = Vector2(1, 1)
+script = ExtResource("15_dc6li")
+
+[node name="Smoke" parent="Game Manager/Burn Button" instance=ExtResource("22_w2f7x")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.268
+anchor_top = -0.244
+anchor_right = 1.254
+anchor_bottom = 4.934
+offset_left = 0.027998
+offset_top = 0.343999
+offset_right = -0.0339966
+offset_bottom = 1.71602
+script = ExtResource("23_ku74s")
+
+[node name="Buildings2D" type="Node2D" parent="Game Manager/Burn Button/Smoke" node_paths=PackedStringArray("smokeManager")]
+position = Vector2(57, 66)
+script = ExtResource("23_p32e4")
+smokeManager = NodePath("..")
+
+[node name="Jablko" type="Sprite2D" parent="Game Manager/Burn Button/Smoke/Buildings2D"]
+position = Vector2(135, 67)
+texture = ExtResource("22_1huo1")
+
+[node name="Lufka" type="Sprite2D" parent="Game Manager/Burn Button/Smoke/Buildings2D"]
+position = Vector2(119, 101)
+texture = ExtResource("25_mymaa")
+
+[node name="Wodospad" type="Sprite2D" parent="Game Manager/Burn Button/Smoke/Buildings2D"]
+position = Vector2(235, 81)
+scale = Vector2(3, 3)
+texture = ExtResource("26_17q2r")
+
+[node name="Wiadro" type="Sprite2D" parent="Game Manager/Burn Button/Smoke/Buildings2D"]
+position = Vector2(95, 60)
+scale = Vector2(3, 3)
+texture = ExtResource("27_iwect")
+offset = Vector2(-0.72, 6.03)
+
+[node name="Bonio" type="Sprite2D" parent="Game Manager/Burn Button/Smoke/Buildings2D"]
+position = Vector2(172, 70)
+scale = Vector2(2, 2)
+texture = ExtResource("28_nnc6y")
+
+[node name="Wapo" type="Sprite2D" parent="Game Manager/Burn Button/Smoke/Buildings2D"]
+position = Vector2(136, 31)
+texture = ExtResource("29_coij6")
+offset = Vector2(7.035, 12.98)
 
 [node name="UpgradeShopContainer" type="Control" parent="Game Manager"]
 z_index = 2
@@ -395,11 +481,22 @@ offset_bottom = 500.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Shake" type="AnimationPlayer" parent="Game Manager/UpgradeShopContainer"]
+root_node = NodePath("../UpgradeShop")
+libraries = {
+"": SubResource("AnimationLibrary_wxtc0")
+}
+speed_scale = 5.0
+
 [node name="UpgradeShop" type="TabContainer" parent="Game Manager/UpgradeShopContainer"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 2.0
+offset_bottom = 4.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 size_flags_stretch_ratio = 20.0
@@ -451,9 +548,15 @@ size_flags_horizontal = 2
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer"]
+[node name="UpgContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 15
+
+[node name="NormalUpgrades" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer"]
+layout_mode = 2
+
+[node name="SeriesUpgrades" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer"]
+layout_mode = 2
 
 [node name="NoUpgLabel" type="Label" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
 layout_mode = 2
@@ -502,8 +605,9 @@ theme_override_font_sizes/font_size = 16
 action_mode = 0
 text = "X"
 
-[node name="MenuToggler" type="Node" parent="Game Manager" node_paths=PackedStringArray("musicManager")]
+[node name="MenuToggler" type="Node" parent="Game Manager" node_paths=PackedStringArray("mainManager", "musicManager")]
 script = ExtResource("17_f0ukf")
+mainManager = NodePath("..")
 musicManager = NodePath("../MusicManager")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Game Manager/MenuToggler"]
@@ -525,7 +629,30 @@ autostart = true
 wait_time = 2.0
 autostart = true
 
+[node name="Stoner Portrait Panel" type="Panel" parent="Game Manager"]
+self_modulate = Color(0, 0.517647, 0, 0.917647)
+texture_filter = 1
+texture_repeat = 2
+anchors_preset = -1
+anchor_left = 0.194
+anchor_top = 0.562
+anchor_right = 0.194
+anchor_bottom = 0.562
+offset_left = 0.0480003
+offset_top = 0.0919647
+offset_right = 70.048
+offset_bottom = 70.092
+theme_override_styles/panel = SubResource("StyleBoxTexture_mn4x0")
+script = ExtResource("18_2uv6r")
+textures = Array[Texture]([ExtResource("19_m7wn1"), ExtResource("20_7tfc1"), ExtResource("21_af0dc"), ExtResource("22_kmmba")])
+
+[node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/Stoner Portrait Panel"]
+position = Vector2(35, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("19_m7wn1")
+
 [node name="CanvasLayer" type="Panel" parent="Game Manager"]
+z_index = 900
 texture_filter = 1
 texture_repeat = 2
 anchors_preset = -1
@@ -592,24 +719,6 @@ offset_right = 2.992
 offset_bottom = -0.0200005
 theme_override_styles/separator = SubResource("StyleBoxLine_siwkp")
 
-[node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/CanvasLayer"]
-z_index = 1
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.967
-anchor_right = 1.0
-anchor_bottom = 1.225
-offset_left = 4.0
-offset_top = -0.0429993
-offset_right = 85.72
-offset_bottom = -0.00699997
-value = 100.0
-texture_under = ExtResource("17_7x0qa")
-texture_progress = SubResource("GradientTexture2D_bl1k2")
-texture_progress_offset = Vector2(1, 1)
-script = ExtResource("15_dc6li")
-
 [node name="Burn Progress Secondary" type="TextureProgressBar" parent="Game Manager/CanvasLayer"]
 visible = false
 texture_filter = 1
@@ -628,29 +737,6 @@ texture_under = ExtResource("17_7x0qa")
 texture_progress = ExtResource("15_0o5ra")
 texture_progress_offset = Vector2(1, 1)
 script = ExtResource("15_dc6li")
-
-[node name="Stoner Portrait Panel" type="Panel" parent="Game Manager/CanvasLayer"]
-self_modulate = Color(0, 0.517647, 0, 0.917647)
-texture_filter = 1
-texture_repeat = 2
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.509
-anchor_top = 6.138
-anchor_right = 0.509
-anchor_bottom = 6.138
-offset_left = -33.972
-offset_top = -70.002
-offset_right = 36.028
-offset_bottom = -0.0019989
-theme_override_styles/panel = SubResource("StyleBoxTexture_mn4x0")
-script = ExtResource("18_2uv6r")
-textures = Array[Texture]([ExtResource("19_m7wn1"), ExtResource("20_7tfc1"), ExtResource("21_af0dc"), ExtResource("22_kmmba")])
-
-[node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/CanvasLayer/Stoner Portrait Panel"]
-position = Vector2(35, 35)
-scale = Vector2(2, 2)
-texture = ExtResource("19_m7wn1")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Game Manager"]
 environment = SubResource("Environment_fsece")
@@ -677,11 +763,21 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("50_wsfjf")
 growing = NodePath("../../Growing")
-nodesToMove = [NodePath("../../Growing"), NodePath("../SubViewportContainer"), NodePath("../SamaraManager"), NodePath("../ShopOpen"), NodePath("../Burn Button"), NodePath("../CanvasLayer"), NodePath("../CanvasLayer/Stoner Portrait Panel"), NodePath("../../Options SlidingMenu/GrowingSwiper")]
+nodesToMove = [NodePath("../../Growing"), NodePath("../SubViewportContainer"), NodePath("../../SamaraManager"), NodePath("../../Options SlidingMenu/ShopOpen"), NodePath("../Burn Button"), NodePath("../CanvasLayer"), NodePath("../Stoner Portrait Panel"), NodePath("../../Options SlidingMenu/GrowingSwiper")]
 musicManager = NodePath("../MusicManager")
 
-[node name="FPS Counter" parent="." instance=ExtResource("14")]
+[node name="Gradient BG" type="TextureRect" parent="Game Manager"]
 visible = false
+z_index = -10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -2.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_52vpi")
+
+[node name="FPS Counter" parent="." instance=ExtResource("14")]
+z_index = 4096
 anchors_preset = -1
 anchor_right = 0.257
 anchor_bottom = 0.055
@@ -689,29 +785,74 @@ offset_top = 1.0
 offset_right = -0.00799942
 offset_bottom = -0.0799999
 
-[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("PlantVisuals", "lightProgressBar", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "photosynthesis_label", "phs_phase_label", "phs_progress_bar")]
-z_index = 100
+[node name="Popup Manager" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 0.991
+anchor_bottom = 0.99
+offset_right = -0.0280075
+offset_bottom = -0.0800171
+mouse_filter = 2
+script = ExtResource("48_lr136")
+dialogPopup = ExtResource("3_t7nru")
+
+[node name="SamaraManager" type="ReferenceRect" parent="." node_paths=PackedStringArray("mainManager", "musicManager", "cameraMover")]
+z_index = 1000
+custom_minimum_size = Vector2(108, 135)
+anchors_preset = -1
+anchor_top = 0.151
+anchor_right = 1.0
+anchor_bottom = 0.854
+offset_top = 0.00799942
+offset_bottom = 0.0320129
+mouse_filter = 2
+script = ExtResource("4_oei3e")
+SamaraUI = ExtResource("5_mllu4")
+Samara = ExtResource("6_jex7c")
+mainManager = NodePath("../Game Manager")
+choicesBgMaterial = SubResource("ShaderMaterial_vty4y")
+musicManager = NodePath("../Game Manager/MusicManager")
+chemolMaterial = ExtResource("9_e4pqj")
+cameraMover = NodePath("../Game Manager/SubViewportContainer/SubViewport/CameraMover")
+lightSwipeMaterial = ExtResource("61_t2pfc")
+metadata/_edit_group_ = true
+
+[node name="THCpSBuff" type="Timer" parent="SamaraManager"]
+wait_time = 20.0
+
+[node name="BurnPctBuff" type="Timer" parent="SamaraManager"]
+wait_time = 20.0
+
+[node name="Chemol" type="Timer" parent="SamaraManager"]
+
+[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("PlantVisuals", "mainManager", "lightProgressBar", "waterButton", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "leavesLabel", "multLabel", "photosynthesis_label", "phs_phase_label", "phs_progress_bar")]
+z_index = 2500
 texture_filter = 1
 texture_repeat = 2
 material = ExtResource("49_s46rb")
 anchors_preset = -1
 anchor_left = -1.009
 anchor_top = 0.005
-anchor_right = -0.019
-anchor_bottom = 1.0
-offset_left = -0.0279922
+anchor_right = -0.003
+anchor_bottom = 0.998
+offset_left = -0.0280075
 offset_top = 0.04
-offset_right = 0.052
+offset_right = 0.324
+offset_bottom = 2.384
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.997167, 0.987669)
 script = ExtResource("7_l7e0w")
 PlantVisuals = NodePath("Plant")
+mainManager = NodePath("../Game Manager")
 lightProgressBar = NodePath("Container/Temperature")
+waterButton = NodePath("Container/Skun Pielegnacja/Water Button")
 airflowIncreaseTimer = NodePath("Airflow Increase")
 airflowDecayTimer = NodePath("Airflow Decay")
 airflowProgress = NodePath("Container/Airflow Bar")
-airflowButton = NodePath("Container/Control/Airflow Button")
+airflowButton = NodePath("Container/Skun Pielegnacja/Airflow Button")
+leavesLabel = NodePath("Container/Leaf Label")
+collectButton = ExtResource("53_n1twt")
+multLabel = NodePath("Container/Mult Label")
 photosynthesis_label = NodePath("Container/TextureProgressBar/PHS")
 phs_phase_label = NodePath("Container/Phase")
 phs_progress_bar = NodePath("Container/TextureProgressBar")
@@ -719,25 +860,27 @@ phs_progress_bar = NodePath("Container/TextureProgressBar")
 [node name="Plant" type="Control" parent="Growing"]
 z_index = 4096
 layout_mode = 1
-anchor_left = 0.15
-anchor_top = 0.079
-anchor_right = 0.813
-anchor_bottom = 0.534
-offset_left = -0.0499992
-offset_top = -0.0890007
-offset_right = 0.00901031
+anchor_left = 0.103
+anchor_top = 0.042
+anchor_right = 0.881
+anchor_bottom = 0.658
+offset_left = -0.227
+offset_top = -0.106
+offset_right = -0.029007
 offset_bottom = 0.00598907
 script = ExtResource("9_g35p8")
-leafTexture = ExtResource("54_lty31")
+leafTexture = ExtResource("56_ipng8")
+doniczkaTexture = ExtResource("55_nyee8")
 
 [node name="Container" type="Control" parent="Growing"]
 layout_mode = 1
+anchor_top = -0.143
 anchor_right = 1.0
-anchor_bottom = 0.99
+anchor_bottom = 0.857
 offset_left = -1.53021e-05
-offset_top = -28.3496
-offset_right = -1.99999
-offset_bottom = -28.4396
+offset_top = -0.0240936
+offset_right = -2.0
+offset_bottom = -0.0241089
 mouse_filter = 2
 
 [node name="Toggle" type="Button" parent="Growing/Container"]
@@ -757,14 +900,14 @@ text = "X"
 z_index = 200
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.029
-anchor_top = 0.635
-anchor_right = 1.01
-anchor_bottom = 0.686
-offset_left = -0.0450003
-offset_top = -0.0149994
-offset_right = -0.0500031
-offset_bottom = 0.0710144
+anchor_left = 0.047
+anchor_top = 0.756
+anchor_right = 0.963
+anchor_bottom = 0.802
+offset_left = -0.0147772
+offset_top = -0.0863342
+offset_right = -0.0268021
+offset_bottom = 0.0356598
 max_value = 1000.0
 value = 800.0
 nine_patch_stretch = true
@@ -781,14 +924,14 @@ texture_filter = 1
 texture_repeat = 2
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.029
-anchor_top = 0.688
-anchor_right = 0.99
-anchor_bottom = 0.735
-offset_left = -0.0450003
-offset_top = -0.0319977
-offset_right = 2.04999
-offset_bottom = 1.08501
+anchor_left = 0.047
+anchor_top = 0.802
+anchor_right = 0.963
+anchor_bottom = 0.854
+offset_left = -0.0147772
+offset_top = 0.0356598
+offset_right = -0.0268097
+offset_bottom = -0.000350952
 max_value = 5.0
 nine_patch_stretch = true
 stretch_margin_left = 3
@@ -802,14 +945,14 @@ texture_progress_offset = Vector2(0, -1)
 [node name="TextureProgressBar" type="TextureProgressBar" parent="Growing/Container"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.076
-anchor_top = 0.735
-anchor_right = 1.0
-anchor_bottom = 0.873
-offset_left = -5.98
-offset_top = 0.0850067
-offset_right = 0.999992
-offset_bottom = 0.00300598
+anchor_left = 0.047
+anchor_top = 0.854
+anchor_right = 0.963
+anchor_bottom = 0.994
+offset_left = -0.0147772
+offset_top = -0.000350952
+offset_right = -0.0268097
+offset_bottom = -0.0203552
 max_value = 500.0
 value = 370.0
 nine_patch_stretch = true
@@ -832,6 +975,9 @@ offset_right = 0.000999451
 offset_bottom = -0.00100136
 theme_override_colors/default_color = Color(0.847059, 0.756863, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/outline_size = 3
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "Fotosynteza
@@ -843,16 +989,19 @@ scroll_active = false
 z_index = 10
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.019
-anchor_top = 0.545
-anchor_right = 1.0
-anchor_bottom = 0.635
-offset_left = 0.0049845
-offset_top = -0.00499725
-offset_right = -2.28882e-05
-offset_bottom = -0.0149994
+anchor_left = 0.047
+anchor_top = 0.647
+anchor_right = 0.972
+anchor_bottom = 0.75
+offset_left = -0.0147772
+offset_top = -0.0493393
+offset_right = 0.0101929
+offset_bottom = 0.0716553
 theme_override_colors/default_color = Color(0.847059, 0.756863, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/outline_size = 2
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 text = "[wave][center]Wegetacja[/center][/wave]
@@ -860,56 +1009,114 @@ text = "[wave][center]Wegetacja[/center][/wave]
 fit_content = true
 scroll_active = false
 
-[node name="Control" type="Control" parent="Growing/Container"]
+[node name="Skun Pielegnacja" type="Control" parent="Growing/Container"]
 layout_mode = 1
-anchor_top = 0.857
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 0.0270081
-offset_right = 1.99999
-offset_bottom = 2.00002
+anchor_top = 0.841
+anchor_right = 1.019
+anchor_bottom = 0.994
+offset_left = 1.00284
+offset_top = 0.0111542
+offset_right = 0.00782776
+offset_bottom = 0.094162
 mouse_filter = 1
 
-[node name="Light" type="Button" parent="Growing/Container/Control"]
+[node name="Light Button" type="Button" parent="Growing/Container/Skun Pielegnacja"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.028
-anchor_right = 0.34
-anchor_bottom = 0.759
-offset_left = 0.0319998
-offset_right = -10.04
-offset_bottom = -0.0110016
-text = "Lampa"
+anchor_top = 1.059
+anchor_right = 0.259
+anchor_bottom = 1.903
+offset_left = -0.0165234
+offset_top = -0.0126419
+offset_right = 0.0266972
+offset_bottom = -0.00518799
 
-[node name="Airflow Button" type="Button" parent="Growing/Container/Control"]
+[node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Light Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+use_top_left = true
+
+[node name="LED Icon" parent="Growing/Container/Skun Pielegnacja/Light Button/CenterContainer" instance=ExtResource("57_cx4hn")]
+position = Vector2(-16.0485, -16.0311)
+centered = false
+
+[node name="Airflow Button" type="Button" parent="Growing/Container/Skun Pielegnacja"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.321
-anchor_top = 0.069
-anchor_right = 0.594
-anchor_bottom = 1.034
-offset_left = -0.026001
-offset_top = -0.00100017
-offset_right = -3.964
-offset_bottom = -5.986
+anchor_left = 0.251
+anchor_top = 1.059
+anchor_right = 0.482
+anchor_bottom = 1.903
+offset_left = -0.0408211
+offset_top = -0.0126457
+offset_right = 0.00239944
+offset_bottom = -0.00518799
 mouse_filter = 1
-text = "Airflow"
 
-[node name="Feed" type="Button" parent="Growing/Container/Control"]
+[node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Airflow Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+use_top_left = true
+
+[node name="Airflow Icon" parent="Growing/Container/Skun Pielegnacja/Airflow Button/CenterContainer" instance=ExtResource("57_cx4hn")]
+position = Vector2(-16.3295, -15.4781)
+texture = ExtResource("59_82ypb")
+centered = false
+
+[node name="Water Button" type="Button" parent="Growing/Container/Skun Pielegnacja"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.623
-anchor_top = 0.103
-anchor_right = 0.934
-anchor_bottom = 0.862
-offset_left = -0.038002
-offset_top = 0.013
-offset_right = -10.004
-offset_bottom = 0.0019989
-text = "Nawóz"
+anchor_left = 0.483
+anchor_top = 1.059
+anchor_right = 0.714
+anchor_bottom = 1.903
+offset_left = -0.0346107
+offset_top = -0.0126457
+offset_right = 0.00860596
+offset_bottom = -0.0051918
 
-[node name="Label" type="Label" parent="Growing/Container/Control/Feed"]
+[node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Water Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+use_top_left = true
+
+[node name="Water Icon" parent="Growing/Container/Skun Pielegnacja/Water Button/CenterContainer" instance=ExtResource("57_cx4hn")]
+position = Vector2(-16.3295, -15.4781)
+texture = ExtResource("60_53l4s")
+centered = false
+
+[node name="Feed" type="Button" parent="Growing/Container/Skun Pielegnacja"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.715
+anchor_top = 1.059
+anchor_right = 0.946
+anchor_bottom = 1.903
+offset_left = -0.0283966
+offset_top = -0.0126457
+offset_right = 0.0148163
+offset_bottom = -0.00519562
+
+[node name="Label" type="Label" parent="Growing/Container/Skun Pielegnacja/Feed"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -920,17 +1127,95 @@ offset_top = -0.00400019
 offset_right = 0.00799561
 offset_bottom = -0.012001
 
-[node name="Button" type="Button" parent="Growing/Container/Control"]
+[node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Feed"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+use_top_left = true
+
+[node name="Feed Icon" parent="Growing/Container/Skun Pielegnacja/Feed/CenterContainer" instance=ExtResource("57_cx4hn")]
+position = Vector2(-16.3295, -15.4781)
+texture = ExtResource("61_4ok8p")
+centered = false
+
+[node name="Leaf Label" type="RichTextLabel" parent="Growing/Container"]
+z_index = 500
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.873
-anchor_right = 0.274
-anchor_bottom = 1.631
-offset_left = 4.01419
-offset_top = -0.00728607
-offset_right = -0.0298119
-offset_bottom = 0.0107155
-text = "Woda"
+anchor_left = 0.048
+anchor_top = 0.168
+anchor_right = 0.645
+anchor_bottom = 0.264
+offset_left = -0.136001
+offset_top = -0.423996
+offset_right = -0.0150146
+offset_bottom = 0.0480042
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 2
+theme_override_constants/outline_size = 2
+bbcode_enabled = true
+text = "Liście: 0"
+
+[node name="Mult Label" type="RichTextLabel" parent="Growing/Container"]
+z_index = 500
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.048
+anchor_top = 0.168
+anchor_right = 0.645
+anchor_bottom = 0.264
+offset_left = -0.121778
+offset_top = 14.4363
+offset_right = -0.000793457
+offset_bottom = 14.9083
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 2
+theme_override_constants/outline_size = 2
+bbcode_enabled = true
+text = "x4.5"
+
+[node name="LED Light" type="TextureRect" parent="Growing"]
+visible = false
+modulate = Color(0.470588, 0, 1, 0)
+clip_children = 2
+z_index = 10
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.009
+anchor_top = 0.005
+anchor_right = 0.991
+anchor_bottom = 0.995
+offset_left = 0.0190076
+offset_top = 0.0349999
+offset_right = -0.0189972
+offset_bottom = -0.0350189
+mouse_filter = 2
+texture = ExtResource("58_8qmxi")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="LED Lamp" type="TextureRect" parent="Growing"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.055
+anchor_top = 0.021
+anchor_right = 1.229
+anchor_bottom = 0.684
+offset_left = 0.00499916
+offset_top = -0.0530005
+offset_right = 0.0389862
+offset_bottom = -0.0120087
+mouse_filter = 2
+texture = ExtResource("53_g5e2i")
+expand_mode = 2
+stretch_mode = 4
 
 [node name="Airflow Increase" type="Timer" parent="Growing"]
 wait_time = 150.0
@@ -941,7 +1226,7 @@ wait_time = 900.0
 autostart = true
 
 [node name="Water Need" type="Timer" parent="Growing"]
-wait_time = 180.0
+wait_time = 300.0
 autostart = true
 
 [node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
@@ -955,43 +1240,63 @@ offset_bottom = -0.0800171
 text = "Opcje"
 
 [node name="Panel" parent="Options SlidingMenu" index="1"]
-offset_top = 457.376
-offset_bottom = 453.0
+offset_bottom = 451.656
 
 [node name="Options Menu UI" parent="Options SlidingMenu/Panel" index="1" node_paths=PackedStringArray("musicManager") instance=ExtResource("22_3evpn")]
 layout_mode = 1
 musicManager = NodePath("../../../Game Manager/MusicManager")
 
+[node name="ShopOpen" type="Button" parent="Options SlidingMenu"]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.009
+anchor_top = 1.0
+anchor_right = 1.009
+anchor_bottom = 1.0
+offset_left = -67.99
+offset_top = -28.0
+offset_right = -1.98999
+offset_bottom = -2.0
+mouse_filter = 1
+action_mode = 0
+text = "Ulepszenia"
+
 [node name="GrowingSwiper" type="Button" parent="Options SlidingMenu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.432
-anchor_right = 0.264
-anchor_bottom = 0.589
+anchor_bottom = 0.432
 offset_left = 1.0
 offset_top = 0.0559998
-offset_right = -0.039999
-offset_bottom = -2.088
-text = "🌿"
+offset_right = 45.0
+offset_bottom = 45.056
+icon = ExtResource("55_nyee8")
+
+[node name="Leaf" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+position = Vector2(-168, 94)
+texture = ExtResource("54_lty31")
 
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
-[connection signal="timeout" from="Game Manager/SamaraManager/THCpSBuff" to="Game Manager/SamaraManager" method="_on_th_cp_s_buff_timeout"]
-[connection signal="timeout" from="Game Manager/SamaraManager/BurnPctBuff" to="Game Manager/SamaraManager" method="_on_burn_pct_buff_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
 [connection signal="button_up" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_release"]
-[connection signal="pressed" from="Game Manager/ShopOpen" to="Game Manager/MenuToggler" method="_on_shop_open_pressed"]
 [connection signal="pressed" from="Game Manager/UpgradeShopContainer/ShopClose" to="Game Manager/MenuToggler" method="_on_shop_close_pressed"]
 [connection signal="timeout" from="Game Manager/Upg Button Disable" to="Game Manager" method="_on_Upg_Button_Disable_timeout"]
 [connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
 [connection signal="timeout" from="Game Manager/Timer" to="Game Manager" method="updateBurnButtonLabel"]
 [connection signal="finished" from="Game Manager/MusicManager" to="Game Manager/MusicManager" method="_on_finished"]
+[connection signal="timeout" from="SamaraManager/THCpSBuff" to="SamaraManager" method="_on_th_cp_s_buff_timeout"]
+[connection signal="timeout" from="SamaraManager/BurnPctBuff" to="SamaraManager" method="_on_burn_pct_buff_timeout"]
 [connection signal="pressed" from="Growing/Container/Toggle" to="Game Manager/Mover" method="setGamemodeGrowing"]
-[connection signal="button_down" from="Growing/Container/Control/Light" to="Growing" method="_on_light_button_down"]
-[connection signal="button_up" from="Growing/Container/Control/Light" to="Growing" method="_on_light_button_up"]
-[connection signal="pressed" from="Growing/Container/Control/Airflow Button" to="Growing" method="_on_airflow_button_pressed"]
+[connection signal="button_down" from="Growing/Container/Skun Pielegnacja/Light Button" to="Growing" method="_on_light_button_down"]
+[connection signal="button_up" from="Growing/Container/Skun Pielegnacja/Light Button" to="Growing" method="_on_light_button_up"]
+[connection signal="pressed" from="Growing/Container/Skun Pielegnacja/Airflow Button" to="Growing" method="_on_airflow_button_pressed"]
+[connection signal="pressed" from="Growing/Container/Skun Pielegnacja/Water Button" to="Growing" method="_on_water_button_pressed"]
 [connection signal="timeout" from="Growing/Water Need" to="Growing" method="_on_water_need_timeout"]
+[connection signal="pressed" from="Options SlidingMenu/ShopOpen" to="Game Manager/MenuToggler" method="_on_shop_open_pressed"]
 [connection signal="pressed" from="Options SlidingMenu/GrowingSwiper" to="Game Manager/Mover" method="setGamemodeGrowing"]
 
 [editable path="Game Manager/Burn Button/Buildings/Lighter"]

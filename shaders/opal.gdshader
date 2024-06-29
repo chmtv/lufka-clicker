@@ -81,10 +81,11 @@ vec3 rgb2hsl( in vec3 c ){
 
 void fragment() {
     vec2 st = FRAGCOORD.xy/UV;
-	vec3 worley = vec3(worley(UV, opalCoefficient * 6.0, opalCoefficient * 6.0));
+	float _opalCoefficient = min(opalCoefficient, 4);
+	vec3 worley = vec3(worley(UV, _opalCoefficient * 6.0, _opalCoefficient * 6.0));
 
 	vec3 brown = vec3(31, 14, 0);
-	float darken = 1.0 - opalCoefficient*0.2;
+	float darken = 1.0 - _opalCoefficient*0.2;
 	vec3 hslCol = rgb2hsl(worley.rgb);
 	
 	hslCol.z -= darken;

@@ -60,8 +60,8 @@ func _process(delta):
 		var cracklingPct = cracklingPercentage(burnPercentage)
 		# smokeSpawnerTimer.wait_time = lerp(0.03,0.5,1 - burnPercentage)
 		var smokeSpawner = children[i].get_node("Smoke Spawner")
-		smokeSpawner.voxelSize = 2 * burnPercentage
-		smokeSpawner.voxelDensity = 2 * burnPercentage
+		# smokeSpawner.voxelSize = 2 * burnPercentage
+		# smokeSpawner.voxelDensity = 2 * burnPercentage
 		# emit_signal("burning", delta)
 		var fireLight = smokeSpawner.get_child(1)
 		fireLight.light_energy = lerp(0.0, 8.0, burnPercentage - 0.25)

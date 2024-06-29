@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://7j44skowq6xl"]
+[gd_scene load_steps=16 format=3 uid="uid://7j44skowq6xl"]
 
 [ext_resource type="Script" path="res://Scenes/Samara/ChoicesFadeIn.gd" id="1_211ss"]
 [ext_resource type="StyleBox" uid="uid://1hoqteq1kcs6" path="res://Theme/TopekStyleBox.tres" id="2_qfpn7"]
+[ext_resource type="PackedScene" uid="uid://dqv1s2ndirrl2" path="res://Scenes/LightSwipe.tscn" id="5_2adak"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_faqnh"]
 bg_color = Color(0, 0, 0, 1)
@@ -10,9 +11,9 @@ bg_color = Color(0, 0, 0, 1)
 resource_name = "bounce"
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.7, 1),
@@ -42,6 +43,78 @@ _data = {
 "bounce": SubResource("Animation_ojm77"),
 "flip": SubResource("Animation_i28ld")
 }
+
+[sub_resource type="Shader" id="Shader_sjosw"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+
+uniform float time = -1.2;
+void fragment() {
+	// Normalized pixel coordinates (from 0 to 1)
+    // vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE.xy;
+	vec2 uv = SCREEN_UV;
+
+    float slope = 0.1;
+    float width = 0.025;
+    float n = step(time - width, uv.x - uv.y*slope) * step(uv.x - uv.y*slope, time + width);
+
+    // Output to screen
+    COLOR = vec4(n);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g2hjp"]
+resource_local_to_scene = true
+shader = SubResource("Shader_sjosw")
+shader_parameter/time = -1.2
+
+[sub_resource type="Shader" id="Shader_6r8ak"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+
+uniform float time = -1.2;
+void fragment() {
+	// Normalized pixel coordinates (from 0 to 1)
+    // vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE.xy;
+	vec2 uv = SCREEN_UV;
+
+    float slope = 0.1;
+    float width = 0.025;
+    float n = step(time - width, uv.x - uv.y*slope) * step(uv.x - uv.y*slope, time + width);
+
+    // Output to screen
+    COLOR = vec4(n);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3b2r2"]
+resource_local_to_scene = true
+shader = SubResource("Shader_6r8ak")
+shader_parameter/time = -1.2
+
+[sub_resource type="Shader" id="Shader_hcwnb"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+
+uniform float time = -1.2;
+void fragment() {
+	// Normalized pixel coordinates (from 0 to 1)
+    // vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE.xy;
+	vec2 uv = SCREEN_UV;
+
+    float slope = 0.1;
+    float width = 0.025;
+    float n = step(time - width, uv.x - uv.y*slope) * step(uv.x - uv.y*slope, time + width);
+
+    // Output to screen
+    COLOR = vec4(n);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k316x"]
+resource_local_to_scene = true
+shader = SubResource("Shader_hcwnb")
+shader_parameter/time = -1.2
 
 [sub_resource type="Animation" id="Animation_6eiwy"]
 resource_name = "open"
@@ -84,14 +157,14 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_faqnh")
 script = ExtResource("1_211ss")
 
 [node name="Choice 2" type="Button" parent="Background"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.422
+anchor_top = 0.401
 anchor_right = 1.0
-anchor_bottom = 0.646
-offset_top = -0.0240021
-offset_bottom = -0.0320053
+anchor_bottom = 0.661
+offset_top = 0.00799561
+offset_bottom = 0.0879974
+pivot_offset = Vector2(54, 24)
 mouse_filter = 1
 theme_override_styles/normal = ExtResource("2_qfpn7")
 
@@ -129,9 +202,23 @@ offset_right = -0.0320053
 offset_bottom = -0.012001
 mouse_filter = 1
 bbcode_enabled = true
+text = "chuj chuj chu chu chuj chu"
+visible_characters_behavior = 1
+
+[node name="LightSwipe" parent="Background/Choice 2" instance=ExtResource("5_2adak")]
+material = SubResource("ShaderMaterial_g2hjp")
+layout_mode = 1
+anchor_left = 0.046
+anchor_top = 0.1
+anchor_right = 0.944
+anchor_bottom = 0.92
+offset_left = 0.0319996
+offset_right = 1.048
+offset_bottom = -7.62939e-06
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Choice 1" type="Button" parent="Background"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.187
@@ -177,8 +264,20 @@ offset_bottom = -0.012001
 mouse_filter = 1
 bbcode_enabled = true
 
+[node name="LightSwipe" parent="Background/Choice 1" instance=ExtResource("5_2adak")]
+material = SubResource("ShaderMaterial_3b2r2")
+layout_mode = 1
+anchor_left = 0.046
+anchor_top = 0.1
+anchor_right = 0.944
+anchor_bottom = 0.92
+offset_left = 0.0319996
+offset_right = 1.048
+offset_bottom = -7.62939e-06
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="Choice 3" type="Button" parent="Background"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.667
@@ -223,6 +322,19 @@ offset_right = -0.0320053
 offset_bottom = -0.012001
 mouse_filter = 1
 bbcode_enabled = true
+
+[node name="LightSwipe" parent="Background/Choice 3" instance=ExtResource("5_2adak")]
+material = SubResource("ShaderMaterial_k316x")
+layout_mode = 1
+anchor_left = 0.046
+anchor_top = 0.1
+anchor_right = 0.944
+anchor_bottom = 0.92
+offset_left = 0.0319996
+offset_right = 1.048
+offset_bottom = -7.62939e-06
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Label" type="Label" parent="Background"]
 layout_mode = 1

@@ -16,14 +16,14 @@ script = ExtResource("1_mengc")
 [node name="SaveDelBut" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.074
-anchor_top = 0.734
-anchor_right = 0.907
-anchor_bottom = 0.87
-offset_left = 0.0079999
-offset_top = 0.071991
-offset_right = 0.0439911
-offset_bottom = -0.0400085
+anchor_left = 0.083
+anchor_top = 0.833
+anchor_right = 0.917
+anchor_bottom = 0.969
+offset_left = 0.0359993
+offset_top = 0.0639954
+offset_right = -0.0360031
+offset_bottom = -0.0480042
 theme_override_colors/font_color = Color(1, 0.172549, 0.12549, 1)
 text = "Usuń zapis gry"
 script = ExtResource("1_loo7j")
@@ -31,17 +31,57 @@ script = ExtResource("1_loo7j")
 [node name="MusicVolumeSlider" type="HSlider" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.231
-anchor_top = 0.365
-anchor_right = 0.769
-anchor_bottom = 0.448
-offset_left = 0.052
-offset_top = -0.0800018
-offset_right = -0.052002
-offset_bottom = -0.0160065
+anchor_left = 0.25
+anchor_top = 0.755
+anchor_right = 0.787
+anchor_bottom = 0.839
+offset_top = 0.0399933
+offset_right = 0.00399017
+offset_bottom = -0.0880127
 min_value = -65.0
 max_value = 0.0
 step = 0.0
+
+[node name="Credits" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.047
+anchor_right = 0.991
+anchor_bottom = 0.734
+offset_top = -0.0240002
+offset_right = -0.0279999
+offset_bottom = 1.07199
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center]
+[wave][color=red]Creditsy:[/color][/wave]
+Lead Developer: [color=yellow]ChemolTV[/color]
+Ikonki do ulepszeń: [color=yellow]DB[/color]
+Sound Design: [color=yellow]GB, Kenney[/color]
+[s]Project[/s] Przeps Manager: [color=yellow]Spizgi[/color]
+Codin' Buddy: [color=yellow]Weedbanger[/color]
+[color=red][wave]Soundtrack Reggae[/wave][/color]:
+Bajarz spod Zamku - [color=yellow]Changa Reggae[/color]
+Bajarz spod Zamku - [color=yellow]Medyczny Blancik[/color]
+Taiwan MC - [color=yellow]Reach the Sky[/color]
+Alborosie - [color=yellow]Herbalist[/color]
+Natural Dread Killaz - [color=yellow]Ratatata[/color]
+[/center]"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.115
+offset_bottom = -0.0799999
+mouse_filter = 2
+
+[node name="FB URL" type="LinkButton" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_color = Color(0, 0, 0.866667, 1)
+text = "FB: @chemoltv"
+uri = "https://www.facebook.com/chemoltv"
 
 [connection signal="pressed" from="SaveDelBut" to="SaveDelBut" method="_on_pressed"]
 [connection signal="value_changed" from="MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]

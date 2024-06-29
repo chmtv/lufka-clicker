@@ -22,7 +22,7 @@ vec3 palette( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
 {
 	c = vec3(1.0);
 	d = vec3(1.0);
-    return a + b*cos( 6.28318*(c*t+d) );
+    return max(a + b*cos( 6.28318*(c*t+d) ), 0.1);
 }
 
 const float view = .35;
@@ -34,9 +34,9 @@ float smoothMod(float axis, float amp, float rad){
 }
 void fragment() {
 	// vec2 screen_uv = vec2(SCREEN_UV.x*TIME, SCREEN_UV.y);
-	float zoom = sin(TIME/3.0)*0.2;
+	float zoom = 1.0; // sin(TIME/3.0)*0.2;
 	//vec2 uv = ((SCREEN_UV - vec2(0.5)) * vec2(ratio, 1.0)) / exp(zoom - 1.25) + view;
-	vec2 uv = (SCREEN_UV - 0.5)/exp(zoom - 1.25) + view;
+	vec2 uv = (SCREEN_UV - 0.5)/exp(zoom - 1.25);
 	uv.x += sin(TIME*3.0)*0.01;
 	uv.y += cos(TIME*3.0)*0.01;
 	
@@ -45,7 +45,8 @@ void fragment() {
 	float rotY = uv.y*cos(dist) - uv.x*sin(dist);
 	
 	float result = iterateMandelbrot(vec2(rotX, rotY));
-	COLOR.rgb = palette(fract(result + 0.5), vec3(.5), vec3(.5), 
+	COLOR.rg *= FRAGCOORD.xy * 0.04 * (abs(sin(TIME/3.0)) + 0.5);
+	COLOR.rgb *= palette(fract(result + 0.5), vec3(.5), vec3(.5), 
                    vec3(1), vec3(.0, .1, .2));
 	COLOR *= vec4(
 		palette(
@@ -55,6 +56,5 @@ void fragment() {
 			 vec3(0.333,0.278,0.278),
 			 vec3(0.660,0.000,0.667)),
 		1.0);
-	
 	
 }

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dan3ddtqgf4hu"]
+
+[ext_resource type="Script" path="res://Smoke.gd" id="1_n1h2a"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_85sik"]
+
+[node name="Control" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_85sik")
+script = ExtResource("1_n1h2a")
+
+[node name="Smoke Update Timer" type="Timer" parent="."]
+wait_time = 0.01
+autostart = true
+
+[connection signal="timeout" from="Smoke Update Timer" to="." method="_on_smoke_update_timer_timeout"]

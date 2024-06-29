@@ -3,10 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://ch41f38a3i2b5" path="res://Sprites/Icons/samara.png" id="1_oxfar"]
 
 [node name="TextureButton" type="TextureButton"]
+custom_minimum_size = Vector2(0.625, 1.11)
 anchors_preset = -1
-anchor_right = 0.37
-anchor_bottom = 0.208
-offset_right = 0.0400009
-offset_bottom = 0.0639992
+anchor_right = 0.296
+anchor_bottom = 0.167
+offset_right = 0.0319996
+offset_bottom = -0.0639992
+mouse_filter = 1
 mouse_default_cursor_shape = 6
 texture_normal = ExtResource("1_oxfar")
+ignore_texture_size = true

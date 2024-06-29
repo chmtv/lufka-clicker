@@ -3,5 +3,6 @@
 [ext_resource type="Shader" path="res://shaders/burnDownShader.gdshader" id="1_m38yf"]
 
 [resource]
+resource_local_to_scene = true
 shader = ExtResource("1_m38yf")
-shader_parameter/zoom = 2.525
+shader_parameter/zoom = 0.0

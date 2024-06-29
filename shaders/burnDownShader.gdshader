@@ -48,9 +48,10 @@ void fragment() {
 	// uv *= zoom;
 	// zoom = 1.0;
 	vec2 pos = uv;
-	
+	float movement = TIME*0.1 ;// * step(zoom, 0.5)
+    pos.y += movement;
 	// float cells = 0.1*elapsedTime;
-	float n = perlin_noise(pos, 30.0);
+	float n = perlin_noise(pos, 30.0) * 1.3;
 	
 	// Stupid fucking orange color that doesn't work
 	//COLOR *= vec4(1.0,0.5,0.0,1.0);
@@ -61,6 +62,9 @@ void fragment() {
 	COLOR *= n;
 	COLOR.a *= n * zoom;
 	COLOR.rgb *= 1.8;
+
+    // fuck you orange color, you fumbled my plans once again
+    // COLOR.rgb *= vec3(1.0,0.35,0.0);
 	
 	// COLOR *= 1.5;
 }

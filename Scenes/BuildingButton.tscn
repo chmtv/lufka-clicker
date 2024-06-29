@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://oa0qywgjn6ox"]
+[gd_scene load_steps=16 format=3 uid="uid://oa0qywgjn6ox"]
 
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="1"]
 [ext_resource type="Script" path="res://Scripts/BuildingBuying.gd" id="2"]
@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://cq3g1ohcrm2cl" path="res://SFX/buttonClick.ogg" id="4_fdlxs"]
 [ext_resource type="Texture2D" uid="uid://cxcxeby0b7ghj" path="res://Textures/buildingProgress.tres" id="4_ni8rk"]
 [ext_resource type="Script" path="res://Scripts/scaleXBasedOnViewport.gd" id="5_flpwx"]
+[ext_resource type="Script" path="res://Scripts/ButtonSmoke.gd" id="6_ep82v"]
+[ext_resource type="PackedScene" uid="uid://dqv1s2ndirrl2" path="res://Scenes/LightSwipe.tscn" id="7_dg4o5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_odcrn"]
 bg_color = Color(0.207843, 0.301961, 0.196078, 1)
@@ -33,6 +35,33 @@ _data = {
 "cardMove": SubResource("Animation_6cbcl")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kmpx"]
+bg_color = Color(0.403922, 0.403922, 0.403922, 1)
+
+[sub_resource type="Shader" id="Shader_jfqg5"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+
+uniform float time = -1.2;
+void fragment() {
+	// Normalized pixel coordinates (from 0 to 1)
+    // vec2 uv = FRAGCOORD.xy * SCREEN_PIXEL_SIZE.xy;
+	vec2 uv = SCREEN_UV;
+
+    float slope = 0.1;
+    float width = 0.025;
+    float n = step(time - width, uv.x - uv.y*slope) * step(uv.x - uv.y*slope, time + width);
+
+    // Output to screen
+    COLOR = vec4(n);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yy5dh"]
+resource_local_to_scene = true
+shader = SubResource("Shader_jfqg5")
+shader_parameter/time = 0.0
+
 [node name="BuildingPanel" type="Panel"]
 custom_minimum_size = Vector2(120, 50)
 anchors_preset = -1
@@ -47,7 +76,7 @@ theme = ExtResource("1")
 theme_override_styles/panel = SubResource("StyleBoxFlat_odcrn")
 script = ExtResource("3")
 
-[node name="Buy Button" type="Button" parent="." node_paths=PackedStringArray("costLabel")]
+[node name="Buy Button" type="Button" parent="." node_paths=PackedStringArray("costLabel", "buttonSmoke")]
 clip_contents = true
 layout_mode = 2
 anchor_left = 0.655
@@ -62,11 +91,11 @@ shortcut_in_tooltip = false
 icon_alignment = 2
 script = ExtResource("2")
 costLabel = NodePath("Cost")
-burnDownShaderMaterial = ExtResource("3_n2up7")
+buttonSmoke = NodePath("Button Smoke")
 
 [node name="Buy Sound" type="AudioStreamPlayer" parent="Buy Button"]
 stream = ExtResource("4_fdlxs")
-volume_db = 7.319
+volume_db = -9.0
 
 [node name="Cost" type="Label" parent="Buy Button"]
 layout_mode = 1
@@ -83,6 +112,37 @@ vertical_alignment = 1
 libraries = {
 "": SubResource("AnimationLibrary_3o55j")
 }
+
+[node name="Button Smoke" type="Panel" parent="Buy Button"]
+material = ExtResource("3_n2up7")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.019
+anchor_top = 0.02
+anchor_right = 0.981
+anchor_bottom = 0.98
+offset_left = 0.012
+offset_top = 0.0199999
+offset_right = -0.0120049
+offset_bottom = -0.0200005
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4kmpx")
+script = ExtResource("6_ep82v")
+burnDownShaderMaterial = ExtResource("3_n2up7")
+
+[node name="LightSwipe" parent="Buy Button" instance=ExtResource("7_dg4o5")]
+material = SubResource("ShaderMaterial_yy5dh")
+layout_mode = 1
+anchor_left = 0.077
+anchor_top = 0.082
+anchor_right = 0.942
+anchor_bottom = 0.939
+offset_left = -0.00400019
+offset_top = -0.0180001
+offset_right = 0.0159988
+offset_bottom = -0.0110016
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="Name" type="Label" parent="."]
 layout_mode = 2

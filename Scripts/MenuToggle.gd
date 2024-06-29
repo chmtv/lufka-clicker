@@ -2,7 +2,7 @@ extends Node
 
 @onready var upgradeShop = get_parent().get_node("UpgradeShopContainer")
 @onready var animationPlayer = get_node("AnimationPlayer")
-# @onready var parentNode = get_parent().get
+@export var mainManager : Node
 var menuOpen = false
 
 var posYOpen = 0
@@ -40,11 +40,14 @@ func _physics_(delta):
 @onready var menuOpenPlayer : AudioStreamPlayer = get_node("Menu Open")
 @onready var menuClosePlayer : AudioStreamPlayer = get_node("Menu Close")
 func _on_shop_close_pressed():
-	animationPlayer.play_backwards("shopSlide")
+	# animationPlayer.play_backwards("shopSlide")
+	get_tree().create_tween().tween_property(upgradeShop, "position", Vector2(0,500), 0.7).set_trans(Tween.TRANS_ELASTIC)
 	menuClosePlayer.play()
 	musicManager.shopClose()
 	
 func _on_shop_open_pressed():
 	menuOpenPlayer.play()
-	animationPlayer.play("shopSlide")
+	#animationPlayer.play("shopSlide")
+	get_tree().create_tween().tween_property(upgradeShop, "position", Vector2(0,66), 0.7).set_trans(Tween.TRANS_ELASTIC)
 	musicManager.shopOpen()
+	mainManager.shopLightSwipe()

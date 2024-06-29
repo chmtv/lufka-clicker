@@ -11,3 +11,7 @@ func spawnWeedExplosion(pos = Vector2(-1, -1)):
 		weedExplosion.position = pos
 	get_tree().root.add_child(weedExplosion)
 
+enum CURRENCIES {
+	THC,
+	LEAF
+}

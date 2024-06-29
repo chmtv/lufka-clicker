@@ -52,12 +52,24 @@ class MapUpgrade extends Upgrade:
 		mapPath = _mapPath
 class BurnRateUpgrade extends Upgrade:
 	# Additive upgrade to burn the burn button hold rate, increasing and decreasing
-	func _init(_name, _descritption, _cost, _burnRateMultiplier, _burnDrainMultiplier):
+	func _init(_name, _description, _cost, _burnRateMultiplier, _burnDrainMultiplier):
 		name = _name
-		description = _descritption
+		description = _description
 		cost = _cost
 		# Kurw ale sie najebalem jak to pisaleeeeem jaa pierddollllllleeeeeeeeeeeeeeeeee
 		# burnRateMultiplier = _burnRateMultiplier
+class SeriesPropertyUpgrade extends Upgrade:
+	var propertyName : String
+	var costExponent : float
+	var propertyIncrease : float
+	var level = 0
+	func _init(_name, _description, _propertyName, _costExponent, _propertyIncrease):
+		name = _name
+		description = _description
+		propertyName = _propertyName
+		costExponent = _costExponent
+		propertyIncrease = _propertyIncrease # The property increases linearly
+
 enum BuildingIds {
 	Zapalniczka,
 	Jablko,
@@ -70,6 +82,8 @@ enum BuildingIds {
 }
 
 var upgrades = [
+	# SeriesPropertyUpgrade.new("chuj wie", "THC +%", "thcAddSeriesMult", 1.5, 1),
+
 	# Zapalniczka
 	AdditiveMultiplierUpgrade.new("Mechanizm zapalający", "Przycisk zapalniczki zrobiony z lżejszego plastiku dodaje wygody", BuildingIds.Zapalniczka, 10, 0.5, 5),
 	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 50, 0.5, 10),
@@ -148,7 +162,7 @@ var mapUpgrades = [
 	MapUpgrade.new("Altana", "Lokalna altana przy placu zabaw", 2500, 0.2, "altana.jpg"),
 	MapUpgrade.new("DRB Górka", "Spot w krzakach", 20000, 0.2, "drbgorka.jpg"),
 	MapUpgrade.new("Mostki", "Znana każdemu ćpunowi melina na osiedlu", 50000, 0.3, "mostki.jpg"), # Too cheap 7.5mg/s
-	MapUpgrade.new("Diamentowy Las", "Głębsza część legendarnej meliny", 100000, 0.3, "Diamentowylas.jpg"),
+	MapUpgrade.new("Diamentowy Las", "Głębsza część legendarnej meliny", 250000, 0.3, "Diamentowylas.jpg"),
 	# MapUpgrade.new("Staromieście", "", 10000, 0.2, "staromiescie.jpg"),
 	MapUpgrade.new("Spiżarnia", "Upizgany siedzisz w spiżarni", 200000000000, 0.3, "spizarnia.jpg"),
 	MapUpgrade.new("Piekło", "Cmentarz zgonów", 2000000000000, 0.5, "piejlo.jpg"),

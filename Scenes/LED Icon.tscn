@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8hr6tlv8wbbc"]
+
+[ext_resource type="Texture2D" uid="uid://sqk2kaqwk4yo" path="res://Sprites/Growing/ledlamp.png" id="1_viqxp"]
+[ext_resource type="Texture2D" uid="uid://b115rcvau7ndk" path="res://Sprites/Ball.png" id="2_ddoqn"]
+
+[node name="LED Icon" type="Sprite2D"]
+position = Vector2(31, 17)
+texture = ExtResource("1_viqxp")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(-3, 3)
+color = Color(0, 0.0156863, 1, 1)
+energy = 0.2
+texture = ExtResource("2_ddoqn")
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(3, -3)
+color = Color(0, 0.0156863, 1, 1)
+energy = 0.2
+texture = ExtResource("2_ddoqn")
+
+[node name="PointLight2D3" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(6, -6)
+color = Color(1, 0.231373, 0.580392, 1)
+energy = 0.2
+texture = ExtResource("2_ddoqn")
+
+[node name="PointLight2D4" type="PointLight2D" parent="."]
+visible = false
+color = Color(1, 0.231373, 0.580392, 1)
+energy = 0.2
+texture = ExtResource("2_ddoqn")
+
+[node name="PointLight2D5" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(-6, 6)
+color = Color(1, 0.231373, 0.580392, 1)
+energy = 0.2
+texture = ExtResource("2_ddoqn")

@@ -1,18 +1,21 @@
 extends Button
 
-signal BuildingBuy(index)
+signal BuildingBuy(index, currency)
 var index = 0
 
+var currency = Globals.CURRENCIES.THC
 @onready var clickStreamPlayer : AudioStreamPlayer = get_node("Buy Sound")
+@export var smokePanel : Node
 @export var costLabel : Label
-@export var burnDownShaderMaterial : ShaderMaterial
+@export var buttonSmoke : Node
 func _on_Buy_Button_pressed():
 	# Spawn weed explosion
 	var mousePos = get_global_mouse_position()
 	Globals.spawnWeedExplosion(mousePos)
-	buyAnimation()
+	if buttonSmoke:
+		buttonSmoke.buyAnimation()
 	clickStreamPlayer.play()
-	emit_signal("BuildingBuy", index)
+	emit_signal("BuildingBuy", index, currency)
 var smokePresent = false
 
 func _unhandled_input(event):
@@ -22,19 +25,6 @@ func _unhandled_input(event):
 
 const animLength = 1.75
 @onready var burnTimer = get_tree().create_timer(animLength)
-func setFireZoom(zoom):
-	burnDownShaderMaterial.set_shader_parameter("zoom", zoom)
-func buyAnimation():
-	var prevMaterial = material
-	material = burnDownShaderMaterial
-	
-	create_tween().tween_method(setFireZoom,2.5,0.0,animLength).set_trans(Tween.TRANS_QUAD)
-	# For some reason it breaks the position of the button,
-	# possibly because of some code in the building button refresher, idk
-	# $AnimationPlayer.play("cardMove")
-	burnTimer.time_left = animLength
-	await burnTimer.timeout
-	material = null
 func showSmoke():
 	var smoke = load("res://Scenes/buttonSmoke.tscn").instantiate()
 	smoke.size = size
@@ -44,6 +34,12 @@ func showSmoke():
 	tween.tween_callback(Callable(smoke, "queue_free")).set_delay(2)
 func showCost(costStr : String):
 	costLabel.text = costStr
+
+@export var levelLabel : Label
+# Func that shows data of a building like level, description etc
+# It isn't used by the original code because i didn't think of an actual good way of doing this earlier and i'm NOT refactoring this BULLSHIT code
+func showData(building):
+	levelLabel.text = str(building.level)
 
 func _on_Buy_Button_mouse_entered():
 	pass

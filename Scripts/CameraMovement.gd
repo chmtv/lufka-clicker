@@ -1,6 +1,8 @@
 extends Node3D
 var mousePressed = false
 var shouldRotate = true
+@onready var camera = get_node("Camera3D")
+
 
 func _ready():
 	pass
@@ -33,6 +35,14 @@ func _process(delta):
 		rotate(Vector3(0,1,0), rotationMultiplier * 0.5 * delta)
 	get_node("Camera3D").look_at(Vector3(0,0,0), Vector3(0,1,0))
 	# global_transform.origin = Vector3(0,pow(sin(time), time),0)
+
+func startChemol():
+	var prevCamPos = camera.position
+	camera.position = Vector3(0,0,0)
+	await get_tree().create_timer(30.0).timeout
+	camera.position = prevCamPos
+
+
 
 var mouse_sens = 0.3
 var mouseDelta = Vector2(0,0)
