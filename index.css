@@ -1,11 +1,15 @@
-@font-face {
+﻿@font-face {
     font-family: pixel;
     src: url("./res/m5x7.ttf");
 }
 body {
+    display: flex;
     padding:0;
     margin:0;
-    font-family: "Roboto", sans-serif;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 700;
     font-size: 2em;
 
     background-color: #333;
@@ -13,8 +17,8 @@ body {
     -webkit-text-stroke: 2px var(--text-border-col);
 }
 :root {
-    --text-col: #7eff61;
-    --text-border-col: #055200;
+    --text-col: #2fff00;
+    --text-border-col: #000000;
 }
 #vidContainer {
     position:absolute;
@@ -97,13 +101,14 @@ svg {
 }
 header {
     position:absolute;
+    align-content: center;
     padding: 0;
     margin: 0;
-    top:30%;
+    height: 100vh;
     width:100vw;
-    right:0;
     overflow: hidden;
     text-align: center;
+    background-color: #1b3c0c;
 }
 a {
     -webkit-text-stroke: 0;
@@ -118,7 +123,7 @@ a {
 #info {
     display:flex;
     position:absolute;
-    top:150%;
+    margin-top: 70%;
     height:200%;
     width:100%;
     flex-direction:column;
@@ -128,15 +133,15 @@ a {
 .infoCard {
     display:flex;
     flex-direction: column;
-    height:40%;
+    height:45%;
     width:70vw;
     align-items: center;
     justify-items: flex-start;
 }
 .infoCard div {
     position:relative;
-    top:-180px;
+    top:-120px;
 }
 .infoCard img {
-    scale: 50%;
+    scale: 65%;
 }
