@@ -44,18 +44,18 @@ void fragment() {
 	
 	vec2 pos = uv;
 	float n = noise(pos);
+	n += 0.3;
 	n = n *3.0 * gradient;
-	n = mix(n, 1.0, jaranie);
+	n = mix(1.0, n, jaranie);
 	// I fucking give up with cutting off the smoke it doesnt fucking work god fucking dammit
 	
-	if(n>0.99) {
-		n = 1.0;
-	}
-	n = smoothstep(0.0, n, (jaranie)*SCREEN_UV.y) / 1.0;
-    //n = step(jaranie, n) * n;
-	
+	//if(n>0.99) {
+		//n = 0.7;
+	//}
+	// n = smoothstep(0.0, n, (jaranie)*SCREEN_UV.y) / 1.0;
+    //n = step(jaranie, n);
 	// currently disabling to test the navier stokes smoke
-	// COLOR *= vec4(vec3(n), 1.0);
+	COLOR *= vec4(vec3(n), 1.0);
 }
 
 

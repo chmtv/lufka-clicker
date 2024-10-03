@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b54cchrgvr7ua"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wrf52"]
+radius = 24.0
+
+[node name="SmokeableNPC" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wrf52")

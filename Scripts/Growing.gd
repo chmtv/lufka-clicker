@@ -11,11 +11,11 @@ var leafAddMultThc = 1
 
 func set_leaf_add_mult_thc_level(level):
 	leafAddMultThcLevel = level
-	leafAddMultThc = 1 + level*0.5
+	leafAddMultThc = 1 + level*0.25
 	show_mult()
 func set_leaf_multiplicative_mult_leaf_level(level):
 	leafMultiplicativeMultLeafLevel = level
-	leafMultiplicativeMultLeaf = pow(1.2, level)
+	leafMultiplicativeMultLeaf = pow(1.25, level)
 	show_mult()
 func set_leaf_add_mult_leaf_level(level):
 	leafAddMultLeafLevel = level
@@ -26,6 +26,7 @@ func set_leaf_add_mult_leaf_level(level):
 var photosynthesis := 0.5
 var phsMult : float = 1.0
 # A plant takes 45min to grow fully, 
+# But that feels slow as fuck so i'm incresing the light rate and multiplying the phs by lets say 3
 var phsPerPhase = 500
 #var phsPerSecTotal = 3000.6
 @export var PlantVisuals : Control
@@ -35,7 +36,7 @@ var light := 0.0
 var maxLight := 1000.0
 var minLight := 0.0
 var isLighting := false
-var lightPerSec := 4
+var lightPerSec := 4*4
 @export var lightProgressBar : TextureProgressBar
 var lightGodMult : float = 1
 func _on_light_button_down():
@@ -114,7 +115,7 @@ func get_total_mult():
 	return leafMultiplicativeMultLeaf * leafAddMultLeaf * leafAddMultThc
 @export var multLabel = RichTextLabel
 func show_mult():
-	multLabel.text = "[wave]Po zebraniu: +"+str(leavesPerCollect)+"Liście ×" + str(snapped(get_total_mult(),0.01)) + "[/wave]"
+	multLabel.text = "[color=#ffff00][wave]Po zebraniu: +"+str(leavesPerCollect)+"Liście ×" + str(snapped(get_total_mult(),0.01)) + "[/wave]"
 var deltaPhs = 510
 func get_phs():
 	return photosynthesis
@@ -176,7 +177,7 @@ func _process(delta):
 	lightProgressBar.value = light
 	PlantVisuals.setLight(light)
 	# Photosynthesis calculation and display
-	var phs = 3.33 * delta * getPhotosynthesisCoeffTotal()
+	var phs = 10 * delta * getPhotosynthesisCoeffTotal()
 	addPhotosynthesis(phs)
 	
 	updatePhsLabels()

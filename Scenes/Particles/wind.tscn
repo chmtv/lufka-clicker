@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cd8fomqo6qcj"]
+
+[ext_resource type="Texture2D" uid="uid://ju8whc5puct7" path="res://Sprites/Growing/wind.png" id="1_8a2h3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vbtjn"]
+
+[sub_resource type="Curve" id="Curve_bofwm"]
+min_value = -500.0
+max_value = 500.0
+_data = [Vector2(0.00453858, -7.21706), 0.0, 0.0, 0, 0, Vector2(0.0347958, 268.999), 0.0, 0.0, 0, 0, Vector2(0.1059, -189.448), 0.0, 0.0, 0, 0, Vector2(0.143722, 279.661), 0.0, 0.0, 0, 0, Vector2(0.204236, -210.771), 0.0, 0.0, 0, 0, Vector2(0.246596, 233.461), 0.0, 0.0, 0, 0, Vector2(0.319213, -292.51), 0.0, 0.0, 0, 0, Vector2(0.33888, 340.077), 0.0, 0.0, 0, 0, Vector2(0.446293, -217.879), 0.0, 0.0, 0, 0, Vector2(0.478063, 425.369), 0.0, 0.0, 0, 0, Vector2(0.591528, -431.11), 0.0, 0.0, 0, 0, Vector2(0.656581, 354.292), 0.0, 0.0, 0, 0, Vector2(0.739788, -224.986), 0.0, 0.0, 0, 0, Vector2(0.874433, 475.123), 0.0, 0.0, 0, 0, Vector2(0.934947, -10.4155), 0.0, 0.0, 0, 0, Vector2(0.96823, 11.9738), 0.0, 0.0, 0, 0]
+point_count = 16
+
+[sub_resource type="CurveTexture" id="CurveTexture_i0yqv"]
+curve = SubResource("Curve_bofwm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cwcix"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 100, 1)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 130.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+orbit_velocity_min = -0.05
+orbit_velocity_max = 0.05
+radial_velocity_curve = SubResource("CurveTexture_i0yqv")
+gravity = Vector3(0, 0, 0)
+turbulence_noise_scale = 1.0
+turbulence_noise_speed = Vector3(10, 0, 0)
+
+[node name="Wind" type="GPUParticles2D"]
+material = SubResource("ShaderMaterial_vbtjn")
+position = Vector2(1, 96)
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_cwcix")
+texture = ExtResource("1_8a2h3")
+lifetime = 2.5
+explosiveness = 0.8
+collision_base_size = 0.0

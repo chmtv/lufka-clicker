@@ -1,0 +1,83 @@
+[gd_scene load_steps=13 format=3 uid="uid://bng1iaojtidd4"]
+
+[ext_resource type="Texture2D" uid="uid://b1rsckmwdcydx" path="res://Sprites/Jaracz/jaracz_idle-1.png" id="1_hnqbe"]
+[ext_resource type="Script" path="res://Scenes/Hotbox/JaraczNPC.gd" id="2_2y5nm"]
+[ext_resource type="Texture2D" uid="uid://bgsv022mlof44" path="res://Sprites/Jaracz/jaracz_walk-1.png" id="3_x3xk3"]
+[ext_resource type="Texture2D" uid="uid://c6sbn8lj318xn" path="res://Sprites/Jaracz/jaracz_walk-2.png" id="4_g375q"]
+[ext_resource type="Texture2D" uid="uid://64f82prd1yat" path="res://Sprites/Jaracz/jaracz_walk-3.png" id="5_igoij"]
+[ext_resource type="Texture2D" uid="uid://g5kcse664cne" path="res://Sprites/Jaracz/jaracz_walk-4.png" id="6_sxsd3"]
+
+[sub_resource type="Animation" id="Animation_y3xjq"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_hnqbe")]
+}
+
+[sub_resource type="Animation" id="Animation_mx08o"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_x3xk3"), ExtResource("4_g375q"), ExtResource("5_igoij"), ExtResource("6_sxsd3")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r8l6f"]
+_data = {
+"idle": SubResource("Animation_y3xjq"),
+"walk": SubResource("Animation_mx08o")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tvfkk"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c8o2s"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ndyt6"]
+states/idle/node = SubResource("AnimationNodeAnimation_tvfkk")
+states/idle/position = Vector2(297, 145)
+states/walk/node = SubResource("AnimationNodeAnimation_c8o2s")
+states/walk/position = Vector2(456, 97)
+
+[node name="Jaracz" type="Sprite2D" node_paths=PackedStringArray("anim_tree")]
+z_index = 4096
+texture = ExtResource("1_hnqbe")
+script = ExtResource("2_2y5nm")
+anim_tree = NodePath("AnimationTree")
+
+[node name="RandomMovement" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="Despawn" type="Timer" parent="."]
+wait_time = 60.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_r8l6f")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_ndyt6")
+anim_player = NodePath("../AnimationPlayer")
+
+[connection signal="timeout" from="RandomMovement" to="." method="_on_random_movement_timeout"]
+[connection signal="timeout" from="Despawn" to="." method="_on_despawn_timeout"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj8evakgf8njc"]
+
+[ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_su47x"]
+[ext_resource type="Texture2D" uid="uid://cjqcy5rrjge46" path="res://Sprites/wtf.jpg" id="2_8whl5"]
+
+[node name="Palenie" instance=ExtResource("1_su47x")]
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="3"]
+billboard = 1
+texture = ExtResource("2_8whl5")

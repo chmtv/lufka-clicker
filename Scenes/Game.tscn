@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=108 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://btoxmtddvtp0l" path="res://Scenes/SeriesUpgradeButton.tscn" id="2_5b5lg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Shader" path="res://shaders/fire.gdshader" id="3_5fd2q"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
 [ext_resource type="PackedScene" uid="uid://booyvfiyhr7o2" path="res://Scenes/Dialog.tscn" id="3_t7nru"]
+[ext_resource type="Script" path="res://Scripts/PrestigeManager.gd" id="4_23you"]
 [ext_resource type="Script" path="res://Scenes/Samara/SamaraManager.gd" id="4_oei3e"]
 [ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
 [ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
@@ -34,7 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://cs2dt58b6w4a2" path="res://Sprites/burnProgressBg.png" id="17_7x0qa"]
 [ext_resource type="PackedScene" uid="uid://ctrfds0jrtqpr" path="res://Scenes/palenie/lufka.tscn" id="17_8vf6j"]
 [ext_resource type="Script" path="res://Scripts/MenuToggle.gd" id="17_f0ukf"]
-[ext_resource type="Script" path="res://Scenes/buildingProgressBars.gd" id="17_su7yk"]
+[ext_resource type="PackedScene" uid="uid://bj8evakgf8njc" path="res://Scenes/palenie/joint.tscn" id="17_nq38r"]
 [ext_resource type="Script" path="res://Scripts/StonerPortrait.gd" id="18_2uv6r"]
 [ext_resource type="Texture2D" uid="uid://b30r55ov5cjmf" path="res://Sprites/stonerPortrait/jaracz-1.png" id="19_m7wn1"]
 [ext_resource type="StyleBox" uid="uid://1hoqteq1kcs6" path="res://Theme/TopekStyleBox.tres" id="20_0sxsr"]
@@ -76,6 +77,9 @@
 [ext_resource type="Texture2D" uid="uid://b0lu4nwgydtog" path="res://Sprites/Growing/lufkonewka.png" id="60_53l4s"]
 [ext_resource type="Texture2D" uid="uid://nmm580qpwgll" path="res://Sprites/Growing/fertilizerIcon.png" id="61_4ok8p"]
 [ext_resource type="Material" uid="uid://diwoudl2x8nr6" path="res://Materials/lightSwipe.tres" id="61_t2pfc"]
+[ext_resource type="Script" path="res://Scripts/RotatingSprite.gd" id="75_g844c"]
+[ext_resource type="PackedScene" uid="uid://b667ywxntwo48" path="res://Scenes/Hotbox/Hotbox.tscn" id="76_h4pr0"]
+[ext_resource type="Script" path="res://Scripts/StatsManager.gd" id="78_hxe4c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jxrca"]
 shader = ExtResource("3_5fd2q")
@@ -236,24 +240,41 @@ gradient = SubResource("Gradient_1d3sg")
 width = 50
 height = 5
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_abo8k"]
+
 [node name="Node2D" type="Node3D"]
 
-[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("charPortrait", "upgradesScrollContainer", "samaraManager", "uiMover", "popupManager", "GrowingManager", "burnProgressBar", "buyShakePlayer", "seriesUpgradesThcContainer", "upgradeVBox", "buildingsVisualManager2D")]
+[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("charPortrait", "upgradesScrollContainer", "NoUpgLabel", "samaraManager", "uiMover", "popupManager", "prestigeManager", "buildingVBox", "mapVBox", "GrowingManager", "burnProgressBar", "buyShakePlayer", "seriesUpgradesThcContainer", "upgradeVBox", "buildingsVisualManager2D")]
 script = ExtResource("3")
+godmode = true
 godTHCmultiplier = 1.0
 charPortrait = NodePath("Stoner Portrait Panel")
-upgradesScrollContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/NormalUpgrades")
+upgradesScrollContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/NormalUpgrades")
+NoUpgLabel = NodePath("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
 samaraManager = NodePath("../SamaraManager")
 uiMover = NodePath("../Options SlidingMenu/GrowingSwiper")
 popupManager = NodePath("../Popup Manager")
+prestigeManager = NodePath("PrestigeManager")
+buildingVBox = NodePath("UpgradeShopContainer/UpgradeShop/S/VBoxContainer")
+mapVBox = NodePath("UpgradeShopContainer/UpgradeShop/M/VBoxContainer")
 GrowingManager = NodePath("../Growing")
-burnProgressBar = NodePath("Burn Button/Burn Progress")
+burnProgressBar = NodePath("Stoner Portrait Panel/Radial Burn Progress")
 buyShakePlayer = NodePath("UpgradeShopContainer/Shake")
-seriesUpgradesThcContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/SeriesUpgrades")
+seriesUpgradesThcContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/SeriesUpgrades")
 seriesUpgradeButton = ExtResource("2_5b5lg")
-upgradeVBox = NodePath("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/NormalUpgrades")
+upgradeVBox = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/NormalUpgrades")
+starting_THC = -1.0
 fireBox = ExtResource("9_diekk")
 buildingsVisualManager2D = NodePath("Burn Button/Smoke/Buildings2D")
+
+[node name="PrestigeManager" type="Node" parent="Game Manager" node_paths=PackedStringArray("mainManager", "detoxLabel")]
+script = ExtResource("4_23you")
+mainManager = NodePath("..")
+detoxLabel = NodePath("../UpgradeShopContainer/UpgradeShop/Detox/DetoxStatus")
+
+[node name="DetoxUpdate" type="Timer" parent="Game Manager/PrestigeManager"]
+wait_time = 4.942
+autostart = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
 texture_filter = 1
@@ -316,14 +337,14 @@ texture_filter = 1
 texture_repeat = 2
 material = ExtResource("9_ss1v0")
 anchors_preset = -1
-anchor_left = 0.176
-anchor_top = 0.182
-anchor_right = 0.833
-anchor_bottom = 0.318
-offset_left = -0.00800133
-offset_top = 0.0559998
-offset_right = 0.0359955
-offset_bottom = -0.0560036
+anchor_left = 0.333
+anchor_top = 0.167
+anchor_right = 0.991
+anchor_bottom = 0.302
+offset_left = 0.0359993
+offset_top = -2.064
+offset_right = -0.0280151
+offset_bottom = -1.984
 focus_mode = 0
 mouse_filter = 1
 theme = ExtResource("9")
@@ -334,7 +355,6 @@ theme_override_styles/pressed = ExtResource("9_diekk")
 shortcut_feedback = false
 language = "pl_PL"
 script = ExtResource("2")
-metadata/_edit_use_anchors_ = true
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Game Manager/Burn Button"]
 transform = Transform3D(1, 5.96046e-08, 2.6054e-15, 0, -4.37114e-08, 1, 5.96046e-08, -1, -4.37114e-08, -1.90735e-06, 14.5767, 0.691341)
@@ -372,6 +392,8 @@ surface_material_override/0 = ExtResource("11_kydvk")
 [node name="Wiadro" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_f0xfi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11)
 
+[node name="Joint" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("17_nq38r")]
+
 [node name="Bonio" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("9_wa3p7")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13, 0, 0)
 
@@ -398,8 +420,8 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.986
 anchor_bottom = 0.963
-offset_right = -0.0059967
-offset_bottom = -0.00100136
+offset_right = -0.00600433
+offset_bottom = -0.00100327
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 0, 0, 0.407843)
 text = "Pal"
@@ -407,16 +429,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
+z_index = 1695
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.042
-anchor_top = 1.231
-anchor_right = 2.451
-anchor_bottom = 1.5
-offset_left = 0.0180013
-offset_top = -0.00599861
-offset_right = -0.0209961
+anchor_left = -0.493
+anchor_top = -0.192
+anchor_right = 5.494
+anchor_bottom = 0.077
+offset_left = 0.00299072
+offset_top = -0.00800085
+offset_right = -254.074
+offset_bottom = -0.00199986
 value = 100.0
 texture_under = ExtResource("17_7x0qa")
 texture_progress = SubResource("GradientTexture2D_bl1k2")
@@ -424,6 +448,8 @@ texture_progress_offset = Vector2(1, 1)
 script = ExtResource("15_dc6li")
 
 [node name="Smoke" parent="Game Manager/Burn Button" instance=ExtResource("22_w2f7x")]
+visible = false
+z_index = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.268
@@ -435,6 +461,8 @@ offset_top = 0.343999
 offset_right = -0.0339966
 offset_bottom = 1.71602
 script = ExtResource("23_ku74s")
+shutdown = true
+metadata/_edit_use_anchors_ = true
 
 [node name="Buildings2D" type="Node2D" parent="Game Manager/Burn Button/Smoke" node_paths=PackedStringArray("smokeManager")]
 position = Vector2(57, 66)
@@ -493,10 +521,7 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 4.0
-offset_right = 2.0
-offset_bottom = 4.0
+offset_right = 12.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 size_flags_stretch_ratio = 20.0
@@ -504,87 +529,98 @@ mouse_filter = 0
 theme = ExtResource("9")
 theme_override_styles/panel = SubResource("StyleBoxFlat_eca77")
 tab_alignment = 1
+current_tab = 1
 clip_tabs = false
+all_tabs_in_front = true
 use_hidden_tabs_for_min_size = true
 script = ExtResource("16_pkvfo")
 
-[node name="S" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
-mouse_filter = 2
-tab_alignment = 1
-script = ExtResource("17_su7yk")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/S"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 6.10352e-05
-size_flags_horizontal = 2
-follow_focus = true
-horizontal_scroll_mode = 0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/S/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 15
-
-[node name="U" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+[node name="S" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 0
-mouse_filter = 2
-tab_alignment = 1
+follow_focus = true
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 6.10352e-05
+[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/S"]
+layout_mode = 2
+size_flags_horizontal = 15
+
+[node name="U" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+layout_mode = 2
 size_flags_horizontal = 2
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="UpgContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer"]
+[node name="UpgContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
 layout_mode = 2
 size_flags_horizontal = 15
 
-[node name="NormalUpgrades" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer"]
+[node name="NormalUpgrades" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/UpgContainer"]
 layout_mode = 2
 
-[node name="SeriesUpgrades" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer"]
+[node name="SeriesUpgrades" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U/UpgContainer"]
 layout_mode = 2
 
 [node name="NoUpgLabel" type="Label" parent="Game Manager/UpgradeShopContainer/UpgradeShop/U"]
+visible = false
 layout_mode = 2
-anchor_right = 1.046
-anchor_bottom = 0.468
-offset_right = 0.0319977
-offset_bottom = -0.0280075
 text = "Brak ulepszen"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="M" type="TabBar" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+[node name="M" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
 visible = false
 layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/M"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 6.10352e-05
 size_flags_horizontal = 2
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/M/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Game Manager/UpgradeShopContainer/UpgradeShop/M"]
 layout_mode = 2
 size_flags_horizontal = 15
+
+[node name="Detox" type="Panel" parent="Game Manager/UpgradeShopContainer/UpgradeShop"]
+visible = false
+custom_minimum_size = Vector2(144, 200)
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="Game Manager/UpgradeShopContainer/UpgradeShop/Detox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.09
+anchor_top = 0.175
+anchor_right = 0.903
+anchor_bottom = 0.46
+offset_left = 0.039999
+offset_right = -0.0320129
+bbcode_enabled = true
+text = "[center]Detox resetuje twój postęp w zamian za [color=#990099]Tolerancję[/color], każdy punkt [color=#990099]Tolerancji[/color] daje [color=yellow]+4.2% THCpS[/color]"
+
+[node name="DetoxButton" type="Button" parent="Game Manager/UpgradeShopContainer/UpgradeShop/Detox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.243
+anchor_top = 0.62
+anchor_right = 0.826
+anchor_bottom = 0.76
+offset_left = 0.00799942
+offset_right = 0.0559921
+offset_bottom = -1.52588e-05
+theme_override_colors/font_color = Color(0.793018, 0.000489393, 0.793012, 1)
+text = "Zrób Detox"
+
+[node name="DetoxStatus" type="RichTextLabel" parent="Game Manager/UpgradeShopContainer/UpgradeShop/Detox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.097
+anchor_top = 0.435
+anchor_right = 0.937
+anchor_bottom = 0.625
+offset_left = 0.0319996
+offset_right = 0.071991
+bbcode_enabled = true
 
 [node name="ShopClose" type="Button" parent="Game Manager/UpgradeShopContainer"]
 z_index = 3
@@ -626,28 +662,50 @@ stream = ExtResource("20_e8q2b")
 autostart = true
 
 [node name="SaveTimer" type="Timer" parent="Game Manager"]
-wait_time = 2.0
+wait_time = 20.0
 autostart = true
 
-[node name="Stoner Portrait Panel" type="Panel" parent="Game Manager"]
+[node name="Stoner Portrait Panel" type="Panel" parent="Game Manager" node_paths=PackedStringArray("sprite")]
 self_modulate = Color(0, 0.517647, 0, 0.917647)
 texture_filter = 1
 texture_repeat = 2
 anchors_preset = -1
-anchor_left = 0.194
-anchor_top = 0.562
-anchor_right = 0.194
-anchor_bottom = 0.562
-offset_left = 0.0480003
-offset_top = 0.0919647
-offset_right = 70.048
-offset_bottom = 70.092
+anchor_top = 0.255
+anchor_bottom = 0.255
+offset_left = -1.0
+offset_top = -34.96
+offset_right = 69.0
+offset_bottom = 35.04
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_mn4x0")
 script = ExtResource("18_2uv6r")
 textures = Array[Texture]([ExtResource("19_m7wn1"), ExtResource("20_7tfc1"), ExtResource("21_af0dc"), ExtResource("22_kmmba")])
+sprite = NodePath("Radial Burn Progress/Stoner Portrait")
+metadata/_edit_use_anchors_ = true
 
-[node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/Stoner Portrait Panel"]
-position = Vector2(35, 35)
+[node name="Radial Burn Progress" type="TextureProgressBar" parent="Game Manager/Stoner Portrait Panel"]
+z_index = 1695
+texture_filter = 1
+material = ExtResource("9_ss1v0")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.043
+anchor_right = 1.0
+anchor_bottom = 1.086
+offset_left = -2.0
+offset_top = -0.00999999
+offset_right = 2.0
+offset_bottom = -0.0200043
+value = 100.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("20_7qegm")
+texture_progress_offset = Vector2(1, 1)
+script = ExtResource("15_dc6li")
+metadata/_edit_use_anchors_ = true
+
+[node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/Stoner Portrait Panel/Radial Burn Progress"]
+position = Vector2(37, 32)
 scale = Vector2(2, 2)
 texture = ExtResource("19_m7wn1")
 
@@ -1031,6 +1089,7 @@ offset_left = -0.0165234
 offset_top = -0.0126419
 offset_right = 0.0266972
 offset_bottom = -0.00518799
+focus_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Light Button"]
 layout_mode = 1
@@ -1058,6 +1117,7 @@ offset_left = -0.0408211
 offset_top = -0.0126457
 offset_right = 0.00239944
 offset_bottom = -0.00518799
+focus_mode = 0
 mouse_filter = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Airflow Button"]
@@ -1087,6 +1147,7 @@ offset_left = -0.0346107
 offset_top = -0.0126457
 offset_right = 0.00860596
 offset_bottom = -0.0051918
+focus_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="Growing/Container/Skun Pielegnacja/Water Button"]
 layout_mode = 1
@@ -1115,6 +1176,7 @@ offset_left = -0.0283966
 offset_top = -0.0126457
 offset_right = 0.0148163
 offset_bottom = -0.00519562
+focus_mode = 0
 
 [node name="Label" type="Label" parent="Growing/Container/Skun Pielegnacja/Feed"]
 layout_mode = 1
@@ -1202,6 +1264,7 @@ expand_mode = 1
 stretch_mode = 1
 
 [node name="LED Lamp" type="TextureRect" parent="Growing"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.055
@@ -1218,16 +1281,63 @@ expand_mode = 2
 stretch_mode = 4
 
 [node name="Airflow Increase" type="Timer" parent="Growing"]
-wait_time = 150.0
+wait_time = 60.0
 autostart = true
 
 [node name="Airflow Decay" type="Timer" parent="Growing"]
-wait_time = 900.0
+wait_time = 120.0
 autostart = true
 
 [node name="Water Need" type="Timer" parent="Growing"]
 wait_time = 300.0
 autostart = true
+
+[node name="BG Fan" type="Sprite2D" parent="Growing"]
+visible = false
+position = Vector2(50.1421, 80.9988)
+rotation = 1.88845
+scale = Vector2(2, 2)
+texture = ExtResource("59_82ypb")
+script = ExtResource("75_g844c")
+
+[node name="HotboxSlidingMenu" parent="." instance=ExtResource("21_indd3")]
+
+[node name="MenuToggle" parent="HotboxSlidingMenu" index="0"]
+anchor_top = 0.703
+anchor_right = 0.0
+anchor_bottom = 0.703
+offset_top = -25.976
+offset_right = 47.0
+offset_bottom = 0.0240021
+pivot_offset = Vector2(0, 26.275)
+text = "Hotbox
+"
+
+[node name="Hotbox" parent="HotboxSlidingMenu/Panel" index="1" instance=ExtResource("76_h4pr0")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="StatsSlidingMenu" parent="." instance=ExtResource("21_indd3")]
+
+[node name="StatsManager" type="RichTextLabel" parent="StatsSlidingMenu/Panel" index="1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+bbcode_enabled = true
+script = ExtResource("78_hxe4c")
+
+[node name="PhoneSlidingMenu" parent="." instance=ExtResource("21_indd3")]
+
+[node name="MenuToggle" parent="PhoneSlidingMenu" index="0"]
+text = "Telefon"
+
+[node name="Panel" parent="PhoneSlidingMenu" index="1"]
+theme_override_styles/panel = SubResource("StyleBoxTexture_abo8k")
 
 [node name="Options SlidingMenu" parent="." instance=ExtResource("21_indd3")]
 
@@ -1237,6 +1347,7 @@ anchor_right = 0.0
 offset_top = -26.08
 offset_right = 40.74
 offset_bottom = -0.0800171
+pivot_offset = Vector2(0, 26.58)
 text = "Opcje"
 
 [node name="Panel" parent="Options SlidingMenu" index="1"]
@@ -1265,12 +1376,15 @@ text = "Ulepszenia"
 [node name="GrowingSwiper" type="Button" parent="Options SlidingMenu"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.432
-anchor_bottom = 0.432
-offset_left = 1.0
-offset_top = 0.0559998
-offset_right = 45.0
-offset_bottom = 45.056
+anchor_left = 0.009
+anchor_top = 0.573
+anchor_right = 0.009
+anchor_bottom = 0.573
+offset_left = 1.01
+offset_top = -45.016
+offset_right = 45.01
+offset_bottom = -0.0160065
+pivot_offset = Vector2(0, 46)
 icon = ExtResource("55_nyee8")
 
 [node name="Leaf" type="Sprite2D" parent="."]
@@ -1278,11 +1392,13 @@ modulate = Color(1, 0, 1, 1)
 position = Vector2(-168, 94)
 texture = ExtResource("54_lty31")
 
+[connection signal="timeout" from="Game Manager/PrestigeManager/DetoxUpdate" to="Game Manager/PrestigeManager" method="_on_detox_update_timeout"]
 [connection signal="timeout" from="Game Manager/SubViewportContainer/SubViewport/CameraMover/Rotation" to="Game Manager/SubViewportContainer/SubViewport/CameraMover" method="_on_Rotation_timeout"]
 [connection signal="burnPress" from="Game Manager/Burn Button" to="Game Manager" method="_on_burn_press"]
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
 [connection signal="button_up" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_release"]
+[connection signal="pressed" from="Game Manager/UpgradeShopContainer/UpgradeShop/Detox/DetoxButton" to="Game Manager/PrestigeManager" method="_on_detox_button_pressed"]
 [connection signal="pressed" from="Game Manager/UpgradeShopContainer/ShopClose" to="Game Manager/MenuToggler" method="_on_shop_close_pressed"]
 [connection signal="timeout" from="Game Manager/Upg Button Disable" to="Game Manager" method="_on_Upg_Button_Disable_timeout"]
 [connection signal="timeout" from="Game Manager/SaveTimer" to="Game Manager" method="_on_SaveTimer_timeout"]
@@ -1302,4 +1418,7 @@ texture = ExtResource("54_lty31")
 [editable path="Game Manager/Burn Button/Buildings/Lighter"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad/wodospad"]
+[editable path="HotboxSlidingMenu"]
+[editable path="StatsSlidingMenu"]
+[editable path="PhoneSlidingMenu"]
 [editable path="Options SlidingMenu"]

@@ -72,7 +72,7 @@ var buffs = [
 	Buff.new("Amnesia", "THCpS zmwiększony o [color=light_green]120%[/color] na [color=yellow]20s[/color]", "#ece6b3", buffTHCpS),
 	Buff.new("Super Silver Haze", "[color=light_green]Minuta THCpS[/color] natychmiastowo", "#0055ff", instaBank),
 	Buff.new("Cheese", "[color=yellow]Zapalniczka[/color] +1", "#FFFF00", buildingAddOne),
-	Buff.new("Purple Haze", "Zapalniczka THCpS zwiększony o [color=light_green]500%[/color] na [color=yellow]15s[/color]", "#A020F0", buildingBuff)
+	Buff.new("Purple Haze", "Zapalniczka THCpS zwiększony o [color=light_green]500%[/color] na [color=yellow]90s[/color]", "#A020F0", buildingBuff)
 ]
 func refreshBuffsText():
 	# Set the insta-building
@@ -169,12 +169,15 @@ func removeMenu():
 	await get_tree().create_timer(0.5).timeout
 	musicManager.samaraClose()
 	await get_tree().create_timer(0.5).timeout
-	
+
+	mainManager.setSamaraNextBuilding()
+
 	if is_instance_valid(curUIInstance):
 		curUIInstance.queue_free()
 	return
 func setNextSamaraTimer():
 	var randomTime = randf_range(minTime,maxTime)
+	
 	await get_tree().create_timer(randomTime).timeout
 	_on_next_samara_timeout()
 

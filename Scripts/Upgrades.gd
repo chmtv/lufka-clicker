@@ -1,3 +1,7 @@
+# The series upgrades (the ones that act like buildings) are in Manager.gd
+# Why?
+# I'm fucking fried 24/7 and can't think for shit that's why
+
 class Upgrade:
 	var cost
 	var additiveMultiplier = 0
@@ -77,8 +81,11 @@ enum BuildingIds {
 	Butla,
 	Wiadro,
 	Bongo,
+	Joint,
 	Wapo,
 	Dab,
+	Wulkan,
+	
 }
 
 var upgrades = [
@@ -117,10 +124,20 @@ var upgrades = [
 	MultiplicativeMultiplierUpgrade.new("Bongo II", "", BuildingIds.Bongo, 8000000, 2, 15),
 	MultiplicativeMultiplierUpgrade.new("Bongo III", "", BuildingIds.Bongo, 10000000, 2, 30), # Also too cheap TPS=20g, the earlier ones also need fixing ig
 	MultiplicativeMultiplierUpgrade.new("Bongo IV", "", BuildingIds.Bongo, 20000000, 1.5, 75),
+	# Joint
+	MultiplicativeMultiplierUpgrade.new("Joint I", "", BuildingIds.Joint, 5000000, 2, 5),
+	MultiplicativeMultiplierUpgrade.new("Joint II", "", BuildingIds.Joint, 5000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Joint III", "", BuildingIds.Joint, 5000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Joint IV", "", BuildingIds.Joint, 5000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Joint V", "", BuildingIds.Joint, 5000000, 1.5, 25), # This shit is broken as fuck
+	MultiplicativeMultiplierUpgrade.new("Joint VI", "", BuildingIds.Joint, 5000000, 1.5, 30),
+	MultiplicativeMultiplierUpgrade.new("Joint VII", "", BuildingIds.Joint, 5000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Joint VIII", "", BuildingIds.Joint, 5000000, 1.5, 75),
+	MultiplicativeMultiplierUpgrade.new("Joint IX", "", BuildingIds.Joint, 5000000, 1.5, 100),
 	# Wapo
 	MultiplicativeMultiplierUpgrade.new("Waporyzator I", "", BuildingIds.Wapo, 20000000000, 2, 5),
 	MultiplicativeMultiplierUpgrade.new("Waporyzator II", "", BuildingIds.Wapo, 50000000000, 2, 10),
-	MultiplicativeMultiplierUpgrade.new("Waporyzator III", "", BuildingIds.Wapo, 100000000000, 2, 20),
+	MultiplicativeMultiplierUpgrade.new("Waporyzator III", "", BuildingIds.Wapo, 100000000000, 3, 20),
 	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 300000000000, 1.5, 30),
 	MultiplicativeMultiplierUpgrade.new("Waporyzator IV", "", BuildingIds.Wapo, 3000000000000, 2,100),
 	# Dab
@@ -131,6 +148,14 @@ var upgrades = [
 	MultiplicativeMultiplierUpgrade.new("Dab pen V", "", BuildingIds.Dab, 4200000000000000000, 1.5, 50),
 	MultiplicativeMultiplierUpgrade.new("Dab pen VI", "", BuildingIds.Dab, 4200000000000000000, 1.333, 75),
 	MultiplicativeMultiplierUpgrade.new("Dab pen VII", "", BuildingIds.Dab, 4200000000000000000, 1.25, 115),
+	# Wulkan
+	MultiplicativeMultiplierUpgrade.new("Wulkan I", "", BuildingIds.Dab, 42000000000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Wulkan II", "", BuildingIds.Dab, 420000000000000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Wulkan III", "", BuildingIds.Dab, 4200000000000000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Wulkan IV", "", BuildingIds.Dab, 4200000000000000000, 1.25, 30),
+	MultiplicativeMultiplierUpgrade.new("Wulkan V", "", BuildingIds.Dab, 4200000000000000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Wulkan VI", "", BuildingIds.Dab, 4200000000000000000, 1.333, 75),
+	MultiplicativeMultiplierUpgrade.new("Wulkan VII", "", BuildingIds.Dab, 4200000000000000000, 1.25, 115),
 ]
 
 # Stare ulepszenia :>

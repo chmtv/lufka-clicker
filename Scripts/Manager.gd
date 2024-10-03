@@ -8,12 +8,12 @@ func enableGodmode():
 	GrowingManager.phsMult = 1000
 	samaraManager.minTime = 0
 	samaraManager.maxTime = 12
-	thc = 999999999999999999999.0
+	thc = 1000000050000000000000000000.0
 	burnPctPerSec = 0.2
 	# burnPctDrainPerSec = 1
 func disableGodmode():
 	godmode = false
-	thc = 0
+	thc = 0.0
 	GrowingManager.lightGodMult = 1
 	GrowingManager.phsMult = 1
 	samaraManager.minTime = 45
@@ -21,6 +21,9 @@ func disableGodmode():
 	loadGame()
 # var thc : float = 999999999999
 var thc : float = 0
+var thcThisPrestige : float = 0
+var toleranceMult : float = 1
+var tolerance : int = 0
 var opalanie : float = 0.0
 var burnPercentage = 0.3
 var isBurning = false
@@ -41,12 +44,13 @@ func instaBank():
 @export var upgradesScrollContainer : VBoxContainer # get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer")
 @onready var burnButton : Button = get_node("Burn Button") 
 @onready var buildingsVisualManager = get_node("Burn Button/Buildings")
-@onready var NoUpgLabel = get_node("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
+@export var NoUpgLabel : Node
 @onready var ShopTabContainer : TabContainer = get_node("UpgradeShopContainer/UpgradeShop")
 @onready var subViewportContainer = get_node("SubViewportContainer");
 @export var samaraManager : Node
 @export var uiMover : Node
 @export var popupManager : Node
+@export var prestigeManager : Node
 var THCpSToDisplay
 var elapsedTime = 0
 
@@ -63,15 +67,23 @@ func thcWithNumberAffix(_thc, add_affix = true):
 		"g",          # Gram
 		"kg",         # Kilogram
 		"t",          # Metric ton
-		"Pg",         # Peta gram (Quadrillion grams)
-		"Eg",         # Exa gram (Quintillion grams)
-		"Zg",         # Zetta gram (Sextillion grams)
-		"Yg",         # Yotta gram (Octillion grams)
-		"Yg",         # Yotta gram (Nonillion grams)
-		"Dg",         # Deka gram (Ten grams) xd ??
-		"Hdag",       # Hecto deka gram (Hundred grams) tar
-		"Kdag",       # Kilo deka gram (Thousand grams)
-		# old 
+		"Kt",         # Peta gram (Quadrillion grams)
+		"Mt",         # Exa gram (Quintillion grams)
+		"Gt",         # Zetta gram (Sextillion grams)
+		"Tt",         # Yotta gram (Octillion grams)
+		"Pt",         # Yotta gram (Nonillion grams)
+		"Et",         # Deka gram (Ten grams) xd ??
+		"Zt",       # Hecto deka gram (Hundred grams) tar
+		"Yt",       # Kilo deka gram (Thousand grams)
+		"Zt",
+		"αg",
+		"βg",
+		"γg",
+		"δg",
+		"εg",
+		"ζg",
+		"ηg",
+		"θg",
 		#"µg",
 		#"mg", # 1000
 		#"g", # 1000 000
@@ -116,19 +128,21 @@ func saveGame():
 		seriesThcLevels.append(upg.level)
 	for upg in seriesUpgradesLeaves:
 		seriesLeafLevels.append(upg.level)
-	var curDate = Time.get_unix_time_from_system()
+	lastDate = Time.get_unix_time_from_system()
 	var saveData = {
 		"buildingLevels": buildingLevels,
 		"boughtUpgradesIds": boughtUpgradesIds,
 		"thc": thc,
-		"lastDate": curDate,
+		"thcThisPrestige": thcThisPrestige,
+		"tolerance": tolerance,
+		"lastDate": lastDate,
 		"seriesThcLevels": seriesThcLevels,
 		"seriesLeafLevels": seriesLeafLevels,
 		"leaves": leaves,
 		"phs": GrowingManager.get_phs()
 	}
 	var saveFile = FileAccess.open(saveFilePath, FileAccess.WRITE)
-	saveFile.store_line(JSON.new().stringify(saveData))
+	saveFile.store_line(JSON.stringify(saveData))
 func loadGame():
 	if godmode:
 		return
@@ -151,15 +165,21 @@ func loadGame():
 		# Make the model showing the building visible if it is bought
 		if buildings[i].level > 0:
 			buildingsVisualManager.setModelVisibility(i)
-	for i in seriesUpgradesThc.size()-1:
+	for i in seriesUpgradesThc.size():
 		seriesUpgradesThc[i].level = dataToLoad["seriesThcLevels"][i]
-	for i in seriesUpgradesLeaves.size()-1:
+		seriesUpgradesThc[i].recalculateCost()
+		seriesUpgradesThc[i].recalculateTHCpS()
+	for i in seriesUpgradesLeaves.size():
 		seriesUpgradesLeaves[i].level = dataToLoad["seriesLeafLevels"][i]
+		seriesUpgradesLeaves[i].recalculateCost()
+		seriesUpgradesLeaves[i].recalculateTHCpS()
 	boughtUpgradesIds = dataToLoad["boughtUpgradesIds"]
 	for i in boughtUpgradesIds.size():
 		Upgrades.upgrades[boughtUpgradesIds[i]].bought = true
 	
 	thc = dataToLoad["thc"]
+	thcThisPrestige = dataToLoad["thcThisPrestige"]
+	tolerance = dataToLoad["tolerance"]
 	leaves = dataToLoad["leaves"]
 	GrowingManager.set_leaves(leaves)
 	print("jeubany phs to:", dataToLoad["phs"])
@@ -174,11 +194,15 @@ func loadGame():
 	recalculateTHCpS()
 
 func offlineProgression():
+	
 	var deltaTime = 0
 	var curTime = Time.get_unix_time_from_system()
 	
 	if lastDate:
 		deltaTime = curTime - lastDate
+		print("Offline progression deltaTime = ", deltaTime)
+	if deltaTime < 15:
+		return
 	var offlineTHC = THCpS * deltaTime
 	var thcToDisplay = thcWithNumberAffix(offlineTHC)
 	addTHC(offlineTHC)
@@ -196,6 +220,11 @@ func offlineProgression():
 	
 	var text : String = "Witaj spowrotem! Nie było cię przez[color=yellow][wave]%s %s %s %s[/wave][/color] \n Zdobyłeś przez ten czas %s THC" % [daysStr, hoursStr, minutesStr, secondsStr, thcToDisplay]
 	popupManager.offlineProgPopup(text)
+
+
+func _notification(what: int):
+	if what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		offlineProgression()
 
 var boughtMaps = [
 	
@@ -227,8 +256,8 @@ var boughtMaps = [
 var currentMapPath = "res://Sprites/Maps/piwnica.jpg"
 
 var buildingButtonList = []
-var buildingVBoxPath = "UpgradeShopContainer/UpgradeShop/S/ScrollContainer/VBoxContainer"
-@onready var buildingVBox = get_node(buildingVBoxPath)
+var buildingVBoxPath = "UpgradeShopContainer/UpgradeShop/S/VBoxContainer"
+@export var buildingVBox : Node # = get_node(buildingVBoxPath)
 func addMap(index, name, fileName, description):
 	var map = {
 		"index": index,
@@ -275,8 +304,9 @@ func setMapButton(map, button):
 	button.get_node("Change Button").map = map
 	button.get_node("Name").text = map.name
 	button.get_node("Description").text = map.description
+@export var mapVBox : Node
 func updateMapsMenu():
-	var mapVBox = get_node("UpgradeShopContainer/UpgradeShop/M/ScrollContainer/VBoxContainer")
+	# var mapVBox = get_node("UpgradeShopContainer/UpgradeShop/M/ScrollContainer/VBoxContainer")
 	# Reset the VBox to its' initial state
 	for n in mapVBox.get_children():
 		mapVBox.remove_child(n)
@@ -323,10 +353,10 @@ class Building:
 	var level = 0
 	var baseCost
 	var cost
-	var THCpS = 0
-	var baseTHCpS = 0
-	var THCpSWhileBurning = 0
-	var baseTHCpSWhileBurning = 0
+	var THCpS = 0.0
+	var baseTHCpS = 0.0
+	var THCpSWhileBurning : float = 0.0
+	var baseTHCpSWhileBurning : float= 0.0
 	var costExponent
 	var THCpSExponent
 	var name = ""
@@ -376,16 +406,17 @@ class Building:
 		recalculateCost()
 		recalculateTHCpS()
 var buildings = [
-	Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.31, 5), # 0
+	Building.new("Zapalniczka", 0.5, 0.1, 0.0, afterBuyRef, 1.31, 5), # 0
 	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2, 5), # 1
 	Building.new("Lufka", 600, 50, 0, afterBuyRef, 1.14, 5), # 2
 	Building.new("Wodospad", 160000, 7500, 0, afterBuyRef, 1.14, 5), # 4
-	Building.new("Wiadro", 7500000000, 300000000, 0, afterBuyRef, 1.09, 5),
-	# Building.new("Joint", chuj wie co dalej)	# 5
-	Building.new("Bongo", 750000000000000, 5000000000000, 0, afterBuyRef, 1.12),	# 6
-	Building.new("Waporyzator", 10000000000000000000.0, 600000000000000000.0, 0, afterBuyRef, 1.11),	# 7
-	Building.new("Dab pen",1500000000000000000000000, 80000000000000000000000, 0, afterBuyRef, 1.1),	# 8
-	# Building.new("Bongo grawitacyjne", 420000000, 405, 0, afterBuyRef, 1.2), # 9
+	Building.new("Wiadro", 750000000, 30000000, 0, afterBuyRef, 1.09, 5),
+	Building.new("Bongo", 750000000000000, 5000000000000, 0, afterBuyRef, 1.12),	# 7
+	Building.new("Joint", 4200000000000000000000, 4000000000000000, 0, afterBuyRef, 1.18),	# 6
+	Building.new("Waporyzator", 200000000000000000000000000.0, 3000000000000000000000.0, 0.0, afterBuyRef, 1.16),	# 8
+	Building.new("Dab pen",3000000000000000000000000000000000000.0, 70000000000000000000000000.0, 0.0, afterBuyRef, 1.1),	# 9
+	Building.new("Wulkan", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 10
+	# Building.new("Klepsydra", 420000000, 405, 0, afterBuyRef, 1.2),
 ]
 
 var nextBuildingID = 0
@@ -394,10 +425,13 @@ func afterSamara():
 	updateBuildingShop()
 func setSamaraNextBuilding():
 	var maxBuildingID = 0
+	
 	for building in buildings:
 		if building.level > 0:
 			maxBuildingID = building.index
-	nextBuildingID = max(0, randi_range(0, maxBuildingID))
+	var minBuildingID = max(0, maxBuildingID - 2) # max minus 2, or 0 if negative
+	nextBuildingID = randi_range(minBuildingID, maxBuildingID)
+	
 	samaraManager.refreshBuffsText()
 func getInstaBuilding():
 	buildings[nextBuildingID].addOne()
@@ -408,7 +442,7 @@ func samaraBuildingBuff():
 	buildings[nextBuildingID].recalculateTHCpS()
 	afterSamara()
 	setSamaraNextBuilding()
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(90.0).timeout
 	buildings[nextBuildingID].samaraMult = 1.0
 	afterSamara()
 var leafTexture
@@ -438,6 +472,10 @@ func afterBuildingBuy():
 	
 func makeBuildingShop():
 	var button = preload("res://Scenes/BuildingButton.tscn")
+	# Reset the VBox to its' initial state
+	for n in buildingVBox.get_children():
+		buildingVBox.remove_child(n)
+		n.queue_free()
 	for i in buildings.size():
 		var building = buildings[i]
 		var currentButton = button.instantiate()
@@ -467,8 +505,12 @@ func makeBuildingShop():
 		currentButton.get_node("Buy Button").connect(
 			"BuildingBuy",
 			_on_BuildingBuy)
+		print("The motherfucking building VBOX")
+		print(buildingVBox.get_children())
+		buildingVBox.visible = true
 		buildingVBox.add_child(currentButton)
-		updateUpgradesShop()
+		#updateBuildingShop()
+		#updateUpgradesShop()
 func updateBuildingShop():
 	# Reset the VBox to its' initial state
 	#for n in buildingVBox.get_children():
@@ -503,7 +545,7 @@ func updateBuildingShop():
 		var curBuyButton = currentButton.get_node("Buy Button")
 		if !curBuyButton.is_connected("BuildingBuy", _on_BuildingBuy):
 			curBuyButton.connect("BuildingBuy", _on_BuildingBuy)
-		buildingVBox.add_child(currentButton)
+		# buildingVBox.add_child(currentButton)
 		updateUpgradesShop()
 
 func shopLightSwipe():
@@ -515,15 +557,15 @@ func shopLightSwipe():
 var seriesUpgradesThc = [
 	# Building example: 
 	# Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.31, 5), # 0
-	Building.new("THC +50%", 20000000000000, 0, 0, afterBuyRef, 4, 1, -1),
-	Building.new("THC ×1.2", 50000000000000, 0, 0, afterBuyRef, 4, 1, -1),
-	Building.new("Liście +50%", 200000000000000, 0, 0, afterBuyRef, 4, 1, -1)
+	Building.new("THC +15%", 20000000000000, 0, 0, afterBuyRef, 12, 1, -1),
+	Building.new("THC ×1.10", 50000000000000, 0, 0, afterBuyRef, 12, 1, -1),
+	Building.new("Liście +25%", 200000000000000, 0, 0, afterBuyRef, 16, 1, -1)
 ]
 var seriesUpgradesLeaves = [
-	Building.new("THC +100%", 3, 0, 0, afterBuyRef, 4, 1, -1),
-	Building.new("THC ×120%", 3, 0, 0, afterBuyRef, 4, 1, -1),
+	Building.new("THC +15%", 4, 0, 0, afterBuyRef, 4, 1, -1),
+	Building.new("THC ×120%", 4, 0, 0, afterBuyRef, 4, 1, -1),
 	Building.new("Liście +50%", 4, 0, 0, afterBuyRef, 4, 1, -1),
-	Building.new("Liście ×1.5", 4, 0, 0, afterBuyRef, 4, 1, -1)
+	Building.new("Liście ×1.25", 4, 0, 0, afterBuyRef, 4, 1, -1)
 ]
 var thcSeriesAddMult = 1
 var thcSeriesMultMultiplicative = 1
@@ -544,11 +586,11 @@ func updateSeriesUpgrades():
 	# Probabaly bad idea to code it like this but idc
 	## THC upgrades
 	thcSeriesAddMult = 1 + seriesUpgradesThc[0].level
-	thcSeriesMultMultiplicative = pow(2, seriesUpgradesThc[1].level)
+	thcSeriesMultMultiplicative = pow(1.10, seriesUpgradesThc[1].level)
 	GrowingManager.set_leaf_add_mult_thc_level(seriesUpgradesThc[2].level)
 	## Leaf upgrades
-	growingThcAddMult = 1 + seriesUpgradesLeaves[0].level
-	growingThcMultMultiplicative = pow(2, seriesUpgradesLeaves[1].level)
+	growingThcAddMult = 1 + seriesUpgradesLeaves[0].level * 0.15
+	growingThcMultMultiplicative = pow(1.2, seriesUpgradesLeaves[1].level)
 	GrowingManager.set_leaf_add_mult_leaf_level(seriesUpgradesLeaves[2].level)
 	GrowingManager.set_leaf_multiplicative_mult_leaf_level(seriesUpgradesLeaves[3].level)
 @export var seriesUpgradesThcContainer : VBoxContainer
@@ -617,8 +659,10 @@ func updateUpgradesShop():
 					_on_UpgradeBuy)
 				upgradeVBox.add_child(currentButton)
 	var visibleUpgradesAmount = upgradeVBox.get_child_count()
+	# Code for the label that shows that there are no upgrades
+	# Useless because of series upgrades
 	if visibleUpgradesAmount <= 0:
-		NoUpgLabel.visible = true
+		NoUpgLabel.visible = false
 		ShopTabContainer.setUpgradesHightlight(false)
 	else:
 		NoUpgLabel.visible = false
@@ -688,9 +732,11 @@ func recalculateTHCpS():
 		THCpSWhileBurning += buildings[i].THCpSWhileBurning
 		THCpS += buildings[i].THCpS
 		# update_Discord()
-	THCpS = THCpS * globalAdditiveMultiplier * burnPercentage * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult * growingThcMultMultiplicative
+	THCpS = THCpS * toleranceMult * globalAdditiveMultiplier * burnPercentage * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult * growingThcMultMultiplicative
+@export var starting_THC : float
 func _ready():
 	leafTexture = load("res://Sprites/cannabis.png")
+	# Starter thc lmao
 	# Godmode (disabled on release build)
 	print("godmode", godmode)
 	if godmode:
@@ -699,16 +745,19 @@ func _ready():
 		disableGodmode()
 	
 
-	addMap(0, "Piwnica", "piwnica.jpg", "Od czegoś trzeba zacząć")
+
+	addMap(0, "Piwnica", "piwnica.jpg", "Nie jest najlepsza. ale od czegoś trzeba zacząć")
 	loadGame()
+	prestigeManager.recalculateToleranceMult()
 	recalculateTHCpS()
 	makeBuildingShop()
-	# updateBuildingShop()
+	updateBuildingShop()
 	updateUpgradesShop()
 	updateSeriesUpgrades()
 	updateMapsMenu()
 	refreshBuildingsList()
-	offlineProgression()
+	if(starting_THC != 1):
+		addTHC(starting_THC)
 	
 func refreshBuildingsList():
 	var buildingListNode = get_node(buildingVBoxPath)
@@ -742,7 +791,7 @@ func refreshTHCpS():
 	recalculateTHCpS()
 
 func getVisualTHCCoefficient():
-	return sqrt( 2 * (thc)/(999999999999999999999999.0) )
+	return sqrt( 2 * (thc)/(99999999999999999999999999999999999999999999.0) )
 @onready var burnButtonLabel = get_node("Burn Button/Pal")
 func updateBurnButtonLabel():
 	var thcCoefficient = getVisualTHCCoefficient()
@@ -791,6 +840,7 @@ func addTHC(amount):
 	# Change the THCps label's text
 	globalTHCpSLabel.text = "THCpS: " + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" + thcWithNumberAffix(THCpS) + ")" + " "
 	
+	thcThisPrestige += godTHCmultiplier * amount
 	thc += godTHCmultiplier * amount
 	
 	var thcTemplate = "%s"
@@ -810,9 +860,10 @@ func _on_Upg_Button_Disable_timeout():
 		var index = i
 		var cost = buildings[index].cost
 		# Check whether the building is outside of the level range and hide it if it is so.
-		if i > 1 and buildings[index - 2].level == 0:
+		if i > 1 and buildings[index - 2].level == 0: # I NEED TO CHECK IF IT IS NAN OR UNDEFINED OR SOMETHING
 			buildingVBox.get_child(index).visible = false
 		else:
+			# Setting this fucking piece of garbage to false accidentaly gave me such a fucking headache god fucking dammit
 			buildingVBox.get_child(index).visible = true
 		if cost > thc:
 			buildingVBox.get_child(index).get_node("Buy Button").disabled = true
