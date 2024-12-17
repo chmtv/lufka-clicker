@@ -6,6 +6,7 @@ func makePlantThirsty():
 func rehydratePlant():
 	create_tween().tween_property(self, "modulate", Color(1,1,1,1), 2.0)
 
+
 # Utility
 # var rng = RandomNumberGenerator.new()
 func RandomV2(min, max, seed = randi()):

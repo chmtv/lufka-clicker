@@ -69,11 +69,16 @@ var canIncreaseAirflow = true
 func decreaseAirflow():
 	airflowLevel = max(airflowLevel-1, 0)
 	airflowProgress.value = airflowLevel
+	refreshRotatingFan()
 func increaseAirflow():
 	airflowLevel = min(airflowLevel+1, maxAirflow)
 	airflowProgress.value = airflowLevel
 	airflowDecayTimer.start(airflowDecayTime)
-
+# Visuals on the button
+@export var bg_fan : Sprite2D
+func refreshRotatingFan():
+	var _velocity = airflowLevel * (12.0/5.0)
+	bg_fan.rot_vel = 1.0 + _velocity
 # TODO Later: Disease
 
 # Nutrients
@@ -137,13 +142,13 @@ func addPhotosynthesis(phs):
 func getPhaseName():
 	var name := ""
 	if photosynthesis < 500:
-		name = "Kiełkowanie"
+		name = "Kiełkowanie (1/4)"
 	elif photosynthesis < 1000:
-		name = "Wegetacja"
+		name = "Wegetacja (2/4)"
 	elif photosynthesis < 1500:
-		name = "Kwitnienie"
+		name = "Kwitnienie (3/4)"
 	elif photosynthesis < 2000:
-		name = "Zbieranie"
+		name = "Zbieranie (4/4)"
 	return name
 func getPhasePhsProgress(phs = photosynthesis):
 	return int(snapped(fmod(min(phs, 2000) / 500, 4), 1))
@@ -177,7 +182,7 @@ func _process(delta):
 	lightProgressBar.value = light
 	PlantVisuals.setLight(light)
 	# Photosynthesis calculation and display
-	var phs = 10 * delta * getPhotosynthesisCoeffTotal()
+	var phs = 10 * delta * getPhotosynthesisCoeffTotal() 
 	addPhotosynthesis(phs)
 	
 	updatePhsLabels()
@@ -192,7 +197,9 @@ func _ready():
 		)
 	airflowDecayTimer.start()
 	airflowIncreaseTimer.start()
-
+	refreshRotatingFan()
+	PlantVisuals.refreshPlant(photosynthesis)
+	airflow_progress.max_value = airflowDecayTime
 
 func _on_airflow_button_pressed():
 	if canIncreaseAirflow:
@@ -206,3 +213,16 @@ func _on_water_need_timeout():
 
 func _on_water_button_pressed():
 	rehydratePlant()
+
+
+func _on_check_timeout():
+	pass # Replace with function body.
+
+
+@export var airflow_progress : TextureProgressBar
+func refresh_airflow_progress():
+	airflow_progress.value = airflowDecayTime - airflowIncreaseTimer.time_left
+	if airflowButton.disabled:
+		airflow_progress.visible = true
+	else:
+		airflow_progress.visible = false

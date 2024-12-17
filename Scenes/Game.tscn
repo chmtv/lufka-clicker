@@ -1,16 +1,15 @@
-[gd_scene load_steps=108 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=109 format=3 uid="uid://d4jv7m03tl1yb"]
 
+[ext_resource type="Script" path="res://Scripts/Manager.gd" id="1_5s2d2"]
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://btoxmtddvtp0l" path="res://Scenes/SeriesUpgradeButton.tscn" id="2_5b5lg"]
 [ext_resource type="Script" path="res://Scenes/SubViewportResize.gd" id="2_26dat"]
-[ext_resource type="Script" path="res://Scripts/Manager.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://btoxmtddvtp0l" path="res://Scenes/SeriesUpgradeButton.tscn" id="2_m55ce"]
 [ext_resource type="Shader" path="res://shaders/fire.gdshader" id="3_5fd2q"]
 [ext_resource type="Script" path="res://Scripts/CameraMovement.gd" id="3_ef5wr"]
 [ext_resource type="PackedScene" uid="uid://booyvfiyhr7o2" path="res://Scenes/Dialog.tscn" id="3_t7nru"]
 [ext_resource type="Script" path="res://Scripts/PrestigeManager.gd" id="4_23you"]
 [ext_resource type="Script" path="res://Scenes/Samara/SamaraManager.gd" id="4_oei3e"]
 [ext_resource type="PackedScene" uid="uid://7j44skowq6xl" path="res://Scenes/Samara/SamaraChoice.tscn" id="5_mllu4"]
-[ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="6_ekn02"]
 [ext_resource type="PackedScene" uid="uid://3bu61tvax12l" path="res://Scenes/Samara/Samara.tscn" id="6_jex7c"]
 [ext_resource type="PackedScene" uid="uid://bvbaeva83aiif" path="res://Scenes/palenie/Lighter.tscn" id="7_bq0rx"]
 [ext_resource type="Script" path="res://Scripts/Growing.gd" id="7_l7e0w"]
@@ -23,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="9_wa3p7"]
 [ext_resource type="Texture2D" uid="uid://crfxjfdqsqi46" path="res://Sprites/Maps/piwnica.jpg" id="10_35qj5"]
 [ext_resource type="PackedScene" uid="uid://ds4ylnrjh3lds" path="res://Scenes/palenie/wodospad.tscn" id="10_71f1s"]
+[ext_resource type="Script" path="res://Scenes/BuildingVisuals.gd" id="11_587k6"]
 [ext_resource type="PackedScene" uid="uid://dgx4nx4ogr6pp" path="res://Scenes/palenie/wiadro.tscn" id="11_f0xfi"]
 [ext_resource type="Material" uid="uid://b8n20xpwoyx1m" path="res://plastic.tres" id="11_kydvk"]
 [ext_resource type="PackedScene" uid="uid://dgxxlxt4mn1iw" path="res://Scenes/palenie/apple.tscn" id="11_wxpln"]
@@ -39,7 +39,6 @@
 [ext_resource type="Script" path="res://Scripts/StonerPortrait.gd" id="18_2uv6r"]
 [ext_resource type="Texture2D" uid="uid://b30r55ov5cjmf" path="res://Sprites/stonerPortrait/jaracz-1.png" id="19_m7wn1"]
 [ext_resource type="StyleBox" uid="uid://1hoqteq1kcs6" path="res://Theme/TopekStyleBox.tres" id="20_0sxsr"]
-[ext_resource type="Texture2D" uid="uid://bp663trhrr3fh" path="res://Sprites/stonerPortrait/bgCircle.png" id="20_7qegm"]
 [ext_resource type="Texture2D" uid="uid://clqj3dj5gtwre" path="res://Sprites/stonerPortrait/jaracz-2.png" id="20_7tfc1"]
 [ext_resource type="AudioStream" uid="uid://bokoc4op3r5nv" path="res://SFX/menuOpen.ogg" id="20_e8q2b"]
 [ext_resource type="AudioStream" uid="uid://cneabb8lpw17a" path="res://SFX/menuClose.ogg" id="20_tkqao"]
@@ -60,6 +59,7 @@
 [ext_resource type="AudioStream" uid="uid://koxkr3t5e7x0" path="res://Music/ChangaReggae.wav" id="40_uvhaa"]
 [ext_resource type="Script" path="res://Scripts/MusicManager.gd" id="41_0oo2a"]
 [ext_resource type="AudioStream" uid="uid://deiivarwjnv7" path="res://Music/MedycznyBlancik.wav" id="42_4tfd7"]
+[ext_resource type="Texture2D" uid="uid://lm73jj7bvol0" path="res://Sprites/stonerPortrait/circleProgress.png" id="42_ar3wi"]
 [ext_resource type="AudioStream" uid="uid://cvaajua3uu4v6" path="res://Music/ReachTheSky.wav" id="43_nvcgi"]
 [ext_resource type="AudioStream" uid="uid://b1ufu10ks7h3" path="res://Music/Herbalist.wav" id="44_dgimk"]
 [ext_resource type="AudioStream" uid="uid://dldu7n03itv01" path="res://Music/Ratata.wav" id="44_emum2"]
@@ -77,6 +77,7 @@
 [ext_resource type="Texture2D" uid="uid://b0lu4nwgydtog" path="res://Sprites/Growing/lufkonewka.png" id="60_53l4s"]
 [ext_resource type="Texture2D" uid="uid://nmm580qpwgll" path="res://Sprites/Growing/fertilizerIcon.png" id="61_4ok8p"]
 [ext_resource type="Material" uid="uid://diwoudl2x8nr6" path="res://Materials/lightSwipe.tres" id="61_t2pfc"]
+[ext_resource type="Texture2D" uid="uid://dugqhu7saeidy" path="res://Sprites/cooldownProgress.png" id="72_c86kv"]
 [ext_resource type="Script" path="res://Scripts/RotatingSprite.gd" id="75_g844c"]
 [ext_resource type="PackedScene" uid="uid://b667ywxntwo48" path="res://Scenes/Hotbox/Hotbox.tscn" id="76_h4pr0"]
 [ext_resource type="Script" path="res://Scripts/StatsManager.gd" id="78_hxe4c"]
@@ -171,8 +172,7 @@ _data = {
 "shopSlide": SubResource("Animation_8a8p8")
 }
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mn4x0"]
-texture = ExtResource("20_7qegm")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgo1n"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_siwkp"]
 color = Color(0.258824, 0.258824, 0.258824, 0.584314)
@@ -245,25 +245,24 @@ height = 5
 [node name="Node2D" type="Node3D"]
 
 [node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("charPortrait", "upgradesScrollContainer", "NoUpgLabel", "samaraManager", "uiMover", "popupManager", "prestigeManager", "buildingVBox", "mapVBox", "GrowingManager", "burnProgressBar", "buyShakePlayer", "seriesUpgradesThcContainer", "upgradeVBox", "buildingsVisualManager2D")]
-script = ExtResource("3")
-godmode = true
+visible = false
+script = ExtResource("1_5s2d2")
 godTHCmultiplier = 1.0
 charPortrait = NodePath("Stoner Portrait Panel")
 upgradesScrollContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/NormalUpgrades")
 NoUpgLabel = NodePath("UpgradeShopContainer/UpgradeShop/U/NoUpgLabel")
 samaraManager = NodePath("../SamaraManager")
-uiMover = NodePath("../Options SlidingMenu/GrowingSwiper")
+uiMover = NodePath("GrowingMover")
 popupManager = NodePath("../Popup Manager")
 prestigeManager = NodePath("PrestigeManager")
 buildingVBox = NodePath("UpgradeShopContainer/UpgradeShop/S/VBoxContainer")
 mapVBox = NodePath("UpgradeShopContainer/UpgradeShop/M/VBoxContainer")
 GrowingManager = NodePath("../Growing")
 burnProgressBar = NodePath("Stoner Portrait Panel/Radial Burn Progress")
-buyShakePlayer = NodePath("UpgradeShopContainer/Shake")
+buyShakePlayer = NodePath("Burn Button/Button Press Anim")
 seriesUpgradesThcContainer = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/SeriesUpgrades")
-seriesUpgradeButton = ExtResource("2_5b5lg")
+seriesUpgradeButton = ExtResource("2_m55ce")
 upgradeVBox = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/NormalUpgrades")
-starting_THC = -1.0
 fireBox = ExtResource("9_diekk")
 buildingsVisualManager2D = NodePath("Burn Button/Smoke/Buildings2D")
 
@@ -273,7 +272,7 @@ mainManager = NodePath("..")
 detoxLabel = NodePath("../UpgradeShopContainer/UpgradeShop/Detox/DetoxStatus")
 
 [node name="DetoxUpdate" type="Timer" parent="Game Manager/PrestigeManager"]
-wait_time = 4.942
+wait_time = 2.5
 autostart = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Game Manager"]
@@ -337,14 +336,14 @@ texture_filter = 1
 texture_repeat = 2
 material = ExtResource("9_ss1v0")
 anchors_preset = -1
-anchor_left = 0.333
-anchor_top = 0.167
-anchor_right = 0.991
-anchor_bottom = 0.302
-offset_left = 0.0359993
-offset_top = -2.064
-offset_right = -0.0280151
-offset_bottom = -1.984
+anchor_left = 0.407
+anchor_top = 0.203
+anchor_right = 0.944
+anchor_bottom = 0.307
+offset_left = 0.0439987
+offset_top = 0.0239983
+offset_right = 0.0479965
+offset_bottom = 0.0559998
 focus_mode = 0
 mouse_filter = 1
 theme = ExtResource("9")
@@ -365,9 +364,10 @@ spot_range = 42.449
 spot_angle = 12.27
 
 [node name="Buildings" type="Node3D" parent="Game Manager/Burn Button"]
-script = ExtResource("6_ekn02")
+script = ExtResource("11_587k6")
 
 [node name="Lighter" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("7_bq0rx")]
+script = null
 
 [node name="BurnParticles" parent="Game Manager/Burn Button/Buildings/Lighter" index="1"]
 visible = false
@@ -429,6 +429,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Burn Progress" type="TextureProgressBar" parent="Game Manager/Burn Button"]
+visible = false
 z_index = 1695
 texture_filter = 1
 layout_mode = 1
@@ -452,10 +453,10 @@ visible = false
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.268
+anchor_left = -0.535606
 anchor_top = -0.244
-anchor_right = 1.254
-anchor_bottom = 4.934
+anchor_right = 1.01456
+anchor_bottom = 5.08785
 offset_left = 0.027998
 offset_top = 0.343999
 offset_right = -0.0339966
@@ -677,7 +678,7 @@ offset_top = -34.96
 offset_right = 69.0
 offset_bottom = 35.04
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_mn4x0")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fgo1n")
 script = ExtResource("18_2uv6r")
 textures = Array[Texture]([ExtResource("19_m7wn1"), ExtResource("20_7tfc1"), ExtResource("21_af0dc"), ExtResource("22_kmmba")])
 sprite = NodePath("Radial Burn Progress/Stoner Portrait")
@@ -689,23 +690,22 @@ texture_filter = 1
 material = ExtResource("9_ss1v0")
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.043
-anchor_right = 1.0
-anchor_bottom = 1.086
+anchor_top = 0.564
+anchor_bottom = 0.564
 offset_left = -2.0
-offset_top = -0.00999999
-offset_right = 2.0
-offset_bottom = -0.0200043
+offset_top = -36.48
+offset_right = 72.0
+offset_bottom = 36.52
 value = 100.0
 fill_mode = 4
 nine_patch_stretch = true
-texture_progress = ExtResource("20_7qegm")
+texture_progress = ExtResource("42_ar3wi")
 texture_progress_offset = Vector2(1, 1)
 script = ExtResource("15_dc6li")
 metadata/_edit_use_anchors_ = true
 
 [node name="Stoner Portrait" type="Sprite2D" parent="Game Manager/Stoner Portrait Panel/Radial Burn Progress"]
-position = Vector2(37, 32)
+position = Vector2(38, 36)
 scale = Vector2(2, 2)
 texture = ExtResource("19_m7wn1")
 
@@ -814,7 +814,7 @@ autoplay = true
 script = ExtResource("41_0oo2a")
 musicStreams = Array[AudioStream]([ExtResource("40_uvhaa"), ExtResource("42_4tfd7"), ExtResource("43_nvcgi"), ExtResource("44_dgimk"), ExtResource("44_emum2")])
 
-[node name="Mover" type="Control" parent="Game Manager" node_paths=PackedStringArray("growing", "nodesToMove", "musicManager")]
+[node name="GrowingMover" type="Control" parent="Game Manager" node_paths=PackedStringArray("growing", "nodesToMove", "musicManager")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -882,7 +882,7 @@ wait_time = 20.0
 
 [node name="Chemol" type="Timer" parent="SamaraManager"]
 
-[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("PlantVisuals", "mainManager", "lightProgressBar", "waterButton", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "leavesLabel", "multLabel", "photosynthesis_label", "phs_phase_label", "phs_progress_bar")]
+[node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("PlantVisuals", "mainManager", "lightProgressBar", "waterButton", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "bg_fan", "leavesLabel", "multLabel", "photosynthesis_label", "phs_phase_label", "phs_progress_bar", "airflow_progress")]
 z_index = 2500
 texture_filter = 1
 texture_repeat = 2
@@ -899,6 +899,7 @@ offset_bottom = 2.384
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.997167, 0.987669)
+mouse_filter = 1
 script = ExtResource("7_l7e0w")
 PlantVisuals = NodePath("Plant")
 mainManager = NodePath("../Game Manager")
@@ -908,12 +909,14 @@ airflowIncreaseTimer = NodePath("Airflow Increase")
 airflowDecayTimer = NodePath("Airflow Decay")
 airflowProgress = NodePath("Container/Airflow Bar")
 airflowButton = NodePath("Container/Skun Pielegnacja/Airflow Button")
+bg_fan = NodePath("Container/Skun Pielegnacja/Airflow Button/CenterContainer/BG Fan")
 leavesLabel = NodePath("Container/Leaf Label")
 collectButton = ExtResource("53_n1twt")
 multLabel = NodePath("Container/Mult Label")
 photosynthesis_label = NodePath("Container/TextureProgressBar/PHS")
 phs_phase_label = NodePath("Container/Phase")
 phs_progress_bar = NodePath("Container/TextureProgressBar")
+airflow_progress = NodePath("Container/Skun Pielegnacja/Airflow Button/CenterContainer/TextureProgressBar")
 
 [node name="Plant" type="Control" parent="Growing"]
 z_index = 4096
@@ -1131,10 +1134,23 @@ grow_horizontal = 2
 grow_vertical = 2
 use_top_left = true
 
-[node name="Airflow Icon" parent="Growing/Container/Skun Pielegnacja/Airflow Button/CenterContainer" instance=ExtResource("57_cx4hn")]
-position = Vector2(-16.3295, -15.4781)
+[node name="BG Fan" type="Sprite2D" parent="Growing/Container/Skun Pielegnacja/Airflow Button/CenterContainer"]
 texture = ExtResource("59_82ypb")
-centered = false
+region_rect = Rect2(0, 31.1, 100, 100)
+script = ExtResource("75_g844c")
+rot_vel = 12.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Growing/Container/Skun Pielegnacja/Airflow Button/CenterContainer"]
+self_modulate = Color(1, 1, 1, 0.313726)
+layout_mode = 2
+max_value = 150.0
+value = 70.0
+fill_mode = 4
+texture_progress = ExtResource("72_c86kv")
+
+[node name="check" type="Timer" parent="Growing/Container/Skun Pielegnacja/Airflow Button/CenterContainer/TextureProgressBar"]
+wait_time = 0.5
+autostart = true
 
 [node name="Water Button" type="Button" parent="Growing/Container/Skun Pielegnacja"]
 layout_mode = 1
@@ -1292,14 +1308,6 @@ autostart = true
 wait_time = 300.0
 autostart = true
 
-[node name="BG Fan" type="Sprite2D" parent="Growing"]
-visible = false
-position = Vector2(50.1421, 80.9988)
-rotation = 1.88845
-scale = Vector2(2, 2)
-texture = ExtResource("59_82ypb")
-script = ExtResource("75_g844c")
-
 [node name="HotboxSlidingMenu" parent="." instance=ExtResource("21_indd3")]
 
 [node name="MenuToggle" parent="HotboxSlidingMenu" index="0"]
@@ -1406,19 +1414,21 @@ texture = ExtResource("54_lty31")
 [connection signal="finished" from="Game Manager/MusicManager" to="Game Manager/MusicManager" method="_on_finished"]
 [connection signal="timeout" from="SamaraManager/THCpSBuff" to="SamaraManager" method="_on_th_cp_s_buff_timeout"]
 [connection signal="timeout" from="SamaraManager/BurnPctBuff" to="SamaraManager" method="_on_burn_pct_buff_timeout"]
-[connection signal="pressed" from="Growing/Container/Toggle" to="Game Manager/Mover" method="setGamemodeGrowing"]
+[connection signal="pressed" from="Growing/Container/Toggle" to="Game Manager/GrowingMover" method="setGamemodeGrowing"]
 [connection signal="button_down" from="Growing/Container/Skun Pielegnacja/Light Button" to="Growing" method="_on_light_button_down"]
 [connection signal="button_up" from="Growing/Container/Skun Pielegnacja/Light Button" to="Growing" method="_on_light_button_up"]
 [connection signal="pressed" from="Growing/Container/Skun Pielegnacja/Airflow Button" to="Growing" method="_on_airflow_button_pressed"]
+[connection signal="timeout" from="Growing/Container/Skun Pielegnacja/Airflow Button/CenterContainer/TextureProgressBar/check" to="Growing" method="refresh_airflow_progress"]
 [connection signal="pressed" from="Growing/Container/Skun Pielegnacja/Water Button" to="Growing" method="_on_water_button_pressed"]
 [connection signal="timeout" from="Growing/Water Need" to="Growing" method="_on_water_need_timeout"]
 [connection signal="pressed" from="Options SlidingMenu/ShopOpen" to="Game Manager/MenuToggler" method="_on_shop_open_pressed"]
-[connection signal="pressed" from="Options SlidingMenu/GrowingSwiper" to="Game Manager/Mover" method="setGamemodeGrowing"]
+[connection signal="pressed" from="Options SlidingMenu/GrowingSwiper" to="Game Manager/GrowingMover" method="setGamemodeGrowing"]
 
 [editable path="Game Manager/Burn Button/Buildings/Lighter"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad"]
 [editable path="Game Manager/Burn Button/Buildings/Wodospad/wodospad"]
 [editable path="HotboxSlidingMenu"]
+[editable path="HotboxSlidingMenu/Panel/Hotbox"]
 [editable path="StatsSlidingMenu"]
 [editable path="PhoneSlidingMenu"]
 [editable path="Options SlidingMenu"]

@@ -1,8 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://cd8fomqo6qcj"]
+[gd_scene load_steps=8 format=3 uid="uid://cd8fomqo6qcj"]
 
 [ext_resource type="Texture2D" uid="uid://ju8whc5puct7" path="res://Sprites/Growing/wind.png" id="1_8a2h3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vbtjn"]
+
+[sub_resource type="Curve" id="Curve_f35a4"]
+max_value = 75.81
+_data = [Vector2(0.0234742, 0), 0.0, 0.0, 0, 0, Vector2(0.14554, 0.843086), 0.0, 0.0, 0, 0, Vector2(0.997653, 80.5529), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_afv6t"]
+curve_x = SubResource("Curve_f35a4")
 
 [sub_resource type="Curve" id="Curve_bofwm"]
 min_value = -500.0
@@ -20,8 +28,9 @@ emission_box_extents = Vector3(1, 100, 1)
 spread = 0.0
 initial_velocity_min = 100.0
 initial_velocity_max = 130.0
-angular_velocity_min = -10.0
-angular_velocity_max = 10.0
+directional_velocity_min = 1.0
+directional_velocity_max = 1.0
+directional_velocity_curve = SubResource("CurveXYZTexture_afv6t")
 orbit_velocity_min = -0.05
 orbit_velocity_max = 0.05
 radial_velocity_curve = SubResource("CurveTexture_i0yqv")
@@ -31,10 +40,10 @@ turbulence_noise_speed = Vector3(10, 0, 0)
 
 [node name="Wind" type="GPUParticles2D"]
 material = SubResource("ShaderMaterial_vbtjn")
-position = Vector2(1, 96)
+position = Vector2(-107, 93)
 amount = 3
 process_material = SubResource("ParticleProcessMaterial_cwcix")
 texture = ExtResource("1_8a2h3")
 lifetime = 2.5
-explosiveness = 0.8
+speed_scale = 1.3
 collision_base_size = 0.0

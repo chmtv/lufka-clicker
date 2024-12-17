@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://by3yxwwmc4dku"]
+
+[ext_resource type="PackedScene" uid="uid://bir62bcf71u7g" path="res://Scenes/palenie/bonio.tscn" id="1_8ikqj"]
+
+[node name="Template" type="SubViewportContainer"]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="Palenie" parent="SubViewport" instance=ExtResource("1_8ikqj")]

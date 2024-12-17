@@ -38,23 +38,22 @@ void fragment() {
 	
 	uv.y += time*3.0;
 	uv.x += sin(SCREEN_UV.y*mod(time, 50.0)/5.0)/5.0;
-	// uv.x += sin(uv.y*TIME*4.0)/20.0;
+	// uv.x += sin(uv.y*TIME*4.0)/20.0;                                                                 
 	
 	float gradient = 1.0-SCREEN_UV.y;
 	
 	vec2 pos = uv;
 	float n = noise(pos);
-	n += 0.3;
-	n = n *3.0 * gradient;
+	// n += 0.3;
+	n = n * 3.0 * gradient;
 	n = mix(1.0, n, jaranie);
 	// I fucking give up with cutting off the smoke it doesnt fucking work god fucking dammit
 	
-	//if(n>0.99) {
-		//n = 0.7;
-	//}
+    // jebac tp
 	// n = smoothstep(0.0, n, (jaranie)*SCREEN_UV.y) / 1.0;
     //n = step(jaranie, n);
 	// currently disabling to test the navier stokes smoke
+    n *= 1.3;
 	COLOR *= vec4(vec3(n), 1.0);
 }
 

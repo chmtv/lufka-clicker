@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7coc10rulpsn"]
+
+[ext_resource type="Texture2D" uid="uid://0xsjops7s5oq" path="res://Sprites/Icons/warning.png" id="1_32c4o"]
+
+[sub_resource type="Animation" id="Animation_bt8g3"]
+resource_name = "onready"
+length = 2.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4, 0.9, 1.5, 1.85, 2.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.03, 1.03), Vector2(0.87, 0.87), Vector2(1.09, 1.09), Vector2(0.95, 0.95), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fh1a4"]
+_data = {
+"onready": SubResource("Animation_bt8g3")
+}
+
+[node name="Sprite2D" type="Sprite2D"]
+position = Vector2(72, 45)
+texture = ExtResource("1_32c4o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_fh1a4")
+}
+autoplay = "onready"
+speed_scale = 1.3
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="queue_free"]

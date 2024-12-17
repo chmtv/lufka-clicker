@@ -10,7 +10,11 @@ func spawnWeedExplosion(pos = Vector2(-1, -1)):
 	else:
 		weedExplosion.position = pos
 	get_tree().root.add_child(weedExplosion)
-
+func spawnWarning(pos = Vector2(50, 70)):
+	var warningScene = preload("res://Scenes/WarningIcon.tscn").instantiate()
+	warningScene.position = pos
+func float_to_pct_str(number : float):
+	return str(number * 100) + "%"
 enum CURRENCIES {
 	THC,
 	LEAF

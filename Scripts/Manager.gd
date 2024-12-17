@@ -370,7 +370,7 @@ class Building:
 	var lastUpgLv = 0
 	var nextUpgLv = 1
 	# buys and returns the new currency amount
-	func buy(amount, currency = Globals.CURRENCIES.THC):
+	func buy(amount, currency = Globals.CURRENCIES.THC, multibuy_n : int = 1):
 		var new_amount = amount
 		print("chuj")
 		print(Globals.CURRENCIES)
@@ -412,9 +412,9 @@ var buildings = [
 	Building.new("Wodospad", 160000, 7500, 0, afterBuyRef, 1.14, 5), # 4
 	Building.new("Wiadro", 750000000, 30000000, 0, afterBuyRef, 1.09, 5),
 	Building.new("Bongo", 750000000000000, 5000000000000, 0, afterBuyRef, 1.12),	# 7
-	Building.new("Joint", 4200000000000000000000, 4000000000000000, 0, afterBuyRef, 1.18),	# 6
-	Building.new("Waporyzator", 200000000000000000000000000.0, 3000000000000000000000.0, 0.0, afterBuyRef, 1.16),	# 8
-	Building.new("Dab pen",3000000000000000000000000000000000000.0, 70000000000000000000000000.0, 0.0, afterBuyRef, 1.1),	# 9
+	Building.new("Joint", 4200000000000000000000, 4000000000000000, 0, afterBuyRef, 1.12),	# 6
+	Building.new("Waporyzator", 10000000000000000000000000000, 3000000000000000000000, 0.0, afterBuyRef, 1.2),	# 8
+	Building.new("Dab pen",300000000000000000000000000000000000, 70000000000000000000000000.0, 0.0, afterBuyRef, 1.26),	# 9
 	Building.new("Wulkan", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 10
 	# Building.new("Klepsydra", 420000000, 405, 0, afterBuyRef, 1.2),
 ]

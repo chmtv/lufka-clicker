@@ -10,7 +10,7 @@ func calcPrestigeReward():
 	)
 func updateLabel():
 	var reward = str(calcPrestigeReward())
-	detoxLabel.text = "[center][color=#990099]Aktualna Tolerancja: "+str(mainManager.tolerance)+"\n Za zrobienie Detoxu: "+reward
+	detoxLabel.text = "[center][color=#990099]Aktualna Tolerancja: "+str(mainManager.tolerance)+"\n Za zrobienie Detoxu: "+reward+"\n THCpS% za Tolerancję: "+ Globals.float_to_pct_str(mainManager.toleranceMult)
 
 func recalculateToleranceMult():
 	mainManager.toleranceMult = 1 + (mainManager.tolerance * 0.042)
