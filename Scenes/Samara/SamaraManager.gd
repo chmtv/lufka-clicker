@@ -1,6 +1,6 @@
 extends Control
 
-var canSpawn : bool = true
+var canSpawn : bool = false
 @export var SamaraUI : Resource
 @export var Samara : Resource
 @onready var nextSamaraTimer = $NextSamara
@@ -72,7 +72,7 @@ var buffs = [
 	Buff.new("Amnesia", "THCpS zmwiększony o [color=light_green]120%[/color] na [color=yellow]20s[/color]", "#ece6b3", buffTHCpS),
 	Buff.new("Super Silver Haze", "[color=light_green]Minuta THCpS[/color] natychmiastowo", "#0055ff", instaBank),
 	Buff.new("Cheese", "[color=yellow]Zapalniczka[/color] +1", "#FFFF00", buildingAddOne),
-	Buff.new("Purple Haze", "Zapalniczka THCpS zwiększony o [color=light_green]500%[/color] na [color=yellow]90s[/color]", "#A020F0", buildingBuff)
+	Buff.new("Purple Haze", "Zapalniczka THCpS zwiększony o [color=light_green]500%[/color] na [color=yellow]60s[/color]", "#A020F0", buildingBuff)
 ]
 func refreshBuffsText():
 	# Set the insta-building
@@ -198,25 +198,26 @@ func pressSamara():
 
 func _on_next_samara_timeout():
 	setNextSamaraTimer()
-	var samaraInstance = Samara.instantiate()
-	var randX = randf_range(0,size.x) 
-	var randY = randf_range(0,size.y)
-	var randRot = randf_range(0,360)
-	
-	samaraInstance.position = Vector2(randX, randY)
-	samaraInstance.rotation = randRot
-	# tween_property(worldEnvironment.environment, "volumetric_fog_density", 0.01, 0.8)
-	samaraInstance.scale = Vector2(0,0)
-	samaraInstance.connect("pressed", pressSamara)
-	# cannot assign to a constant wtf
-	# get_tree().create_timer(timeToRemoveSamara).timeout = func():
-	# 	samaraInstance.queue_free()
-	curSamaraInstance = samaraInstance
-	add_child(samaraInstance)
-	var scaleTween = get_tree().create_tween().tween_property(samaraInstance,"scale", Vector2(1.0,1.0), 5).set_trans(Tween.TRANS_ELASTIC)
-	var samaraToRemove = curSamaraInstance
-	var timeToRemoveSamara = (maxTime - minTime) / 2
-	await get_tree().create_timer(timeToRemoveSamara).timeout
-	if is_instance_valid(samaraToRemove):
-		samaraToRemove.queue_free()
+	if canSpawn:
+		var samaraInstance = Samara.instantiate()
+		var randX = randf_range(0,size.x) 
+		var randY = randf_range(0,size.y)
+		var randRot = randf_range(0,360)
+		
+		samaraInstance.position = Vector2(randX, randY)
+		samaraInstance.rotation = randRot
+		# tween_property(worldEnvironment.environment, "volumetric_fog_density", 0.01, 0.8)
+		samaraInstance.scale = Vector2(0,0)
+		samaraInstance.connect("pressed", pressSamara)
+		# cannot assign to a constant wtf
+		# get_tree().create_timer(timeToRemoveSamara).timeout = func():
+		# 	samaraInstance.queue_free()
+		curSamaraInstance = samaraInstance
+		add_child(samaraInstance)
+		var scaleTween = get_tree().create_tween().tween_property(samaraInstance,"scale", Vector2(1.0,1.0), 5).set_trans(Tween.TRANS_ELASTIC)
+		var samaraToRemove = curSamaraInstance
+		var timeToRemoveSamara = (maxTime - minTime) / 2
+		await get_tree().create_timer(timeToRemoveSamara).timeout
+		if is_instance_valid(samaraToRemove):
+			samaraToRemove.queue_free()
 

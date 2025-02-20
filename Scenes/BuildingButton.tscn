@@ -38,7 +38,7 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kmpx"]
 bg_color = Color(0.403922, 0.403922, 0.403922, 1)
 
-[sub_resource type="Shader" id="Shader_hwqw1"]
+[sub_resource type="Shader" id="Shader_av2nn"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -59,7 +59,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy5dh"]
 resource_local_to_scene = true
-shader = SubResource("Shader_hwqw1")
+shader = SubResource("Shader_av2nn")
 shader_parameter/time = 0.0
 
 [node name="BuildingPanel" type="Panel"]
@@ -200,13 +200,13 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.127
 anchor_top = 0.88
-anchor_right = 0.653
+anchor_right = 0.753
 anchor_bottom = 0.98
 offset_left = -0.0494938
-offset_right = 89.0526
+offset_right = 0.053009
 min_value = 25.0
 max_value = 50.0
-value = 45.0
+value = 50.0
 texture_progress = ExtResource("4_ni8rk")
 texture_progress_offset = Vector2(1, 1)
 script = ExtResource("5_flpwx")

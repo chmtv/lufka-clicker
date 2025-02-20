@@ -2,6 +2,11 @@
 # Why?
 # I'm fucking fried 24/7 and can't think for shit that's why
 
+enum UnlockUpgsIDs {
+	Samara,
+	Growbox
+}
+
 class Upgrade:
 	var cost
 	var additiveMultiplier = 0
@@ -13,16 +18,18 @@ class Upgrade:
 	var globalMultiplier = -1
 	var buildingLevel = 0
 	var burnRateMultplier = 1
+	var specialID
 	func afterBuy():
 		pass
-	func _init(_name = "Brak nazwy", _description = "", _buildingID = 0 ,_cost = 0, _additiveMultiplier = 0, _multiplicativeMultiplier = 0, _buildingLevel = 0):
+	func _init(_name = "Brak nazwy", _description = "",_cost = 0, _specialID = -1):
 		name = _name
 		description = _description
+		specialID = _specialID
 		cost = _cost
-		additiveMultiplier = _additiveMultiplier
-		multiplicativeMultiplier = _multiplicativeMultiplier
-		buildingID = _buildingID
-		buildingLevel = _buildingLevel
+		# additiveMultiplier = _additiveMultiplier
+		# multiplicativeMultiplier = _multiplicativeMultiplier
+		# buildingID = _buildingID
+		# buildingLevel = _buildingLevel
 
 class AdditiveMultiplierUpgrade extends Upgrade:
 	func _init(_name, _description, _buildingID, _cost, _multiplier, _buildingLevel = 0):
@@ -73,7 +80,6 @@ class SeriesPropertyUpgrade extends Upgrade:
 		propertyName = _propertyName
 		costExponent = _costExponent
 		propertyIncrease = _propertyIncrease # The property increases linearly
-
 enum BuildingIds {
 	Zapalniczka,
 	Jablko,
@@ -84,19 +90,137 @@ enum BuildingIds {
 	Joint,
 	Wapo,
 	Dab,
+	Klepsydra,
 	Wulkan,
-	
 }
 
 var upgrades = [
 	# SeriesPropertyUpgrade.new("chuj wie", "THC +%", "thcAddSeriesMult", 1.5, 1),
 
 	# Zapalniczka
-	AdditiveMultiplierUpgrade.new("Mechanizm zapalający", "Przycisk zapalniczki zrobiony z lżejszego plastiku dodaje wygody", BuildingIds.Zapalniczka, 10, 0.5, 5),
-	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 50, 0.5, 10),
-	AdditiveMultiplierUpgrade.new("Lepszy gaz", "Płyn do zapalniczki o starannie dobranych proporcjach wytwarza większy płomień", BuildingIds.Zapalniczka, 500, 0.5, 25), # too much
-	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 2000, 2.5, 50),
-	AdditiveMultiplierUpgrade.new("Zapalniczka V", "", BuildingIds.Zapalniczka, 7000, 2.5, 75),
+	AdditiveMultiplierUpgrade.new("Mechanizm zapalający", "Przycisk zapalniczki zrobiony z lżejszego plastiku dodaje wygody", BuildingIds.Zapalniczka, 5, 1, 5),
+	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 10, 1, 10),
+	MultiplicativeMultiplierUpgrade.new("Zapasowy gaz", "Zapasy butli z płynem do zapalniczek rozwiązuje problem pustych zapalniczek", BuildingIds.Zapalniczka, 1500, 5, 25), # too much
+		AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 10000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Zapalniczka - Mastery", "a chuj nie mastery", BuildingIds.Zapalniczka, 1000000000, 4.2, 75),
+	MultiplicativeMultiplierUpgrade.new("Zapalniczka - Mastery", "", BuildingIds.Zapalniczka, 1500, 2.5, 75),
+	# Jabłko
+	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie I", "", BuildingIds.Jablko, 300, 1.5, 5),
+	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie II", "", BuildingIds.Jablko, 2000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Jablko III", "tu jakies sick ulepszenie powinno byc bo powoduje ze jablko jest lepsze niz lufa i zapalara", BuildingIds.Jablko, 6000, 3, 20),
+	MultiplicativeMultiplierUpgrade.new("Jablko III", "tu jakies sick ulepszenie powinno byc bo powoduje ze jablko jest lepsze niz lufa i zapalara", BuildingIds.Jablko, 10000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Jablko - Mastery", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Jablko, 1000000000, 4.2, 75),
+	# Lufka
+	AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 10000, 0.4, 5),
+	# AdditiveMultiplierUpgrade.new("Lufka II", "", BuildingIds.Lufka, 75000, 0.4, 10), # I don't think this one is necesssary
+	MultiplicativeMultiplierUpgrade.new("Lufka III", "", BuildingIds.Lufka, 200000, 1.4, 15),
+	Upgrade.new("Kontakty I", "Odblokowywuje samary z tematem z efektami ubocznymi po spaleniu", 100000, UnlockUpgsIDs.Samara),
+	MultiplicativeMultiplierUpgrade.new("Lufka IV", "", BuildingIds.Lufka, 3500000, 5, 30),
+	AdditiveMultiplierUpgrade.new("Turbo dojebany upg do lufki", "", BuildingIds.Lufka, 50000000, 5, 50),
+	# AdditiveMultiplierUpgrade.new("Lufka I", "", BuildingIds.Lufka, 2000, 2, 50),
+	# Wodospad
+	MultiplicativeMultiplierUpgrade.new("Wprawa", "Wprawa w wypalaniu otworu pomocna w wydajnym i wygodnym paleniu", BuildingIds.Butla, 1000000, 1.5, 5),
+	MultiplicativeMultiplierUpgrade.new("Wodospad II", "", BuildingIds.Butla,  5000000, 1.5, 10),
+	MultiplicativeMultiplierUpgrade.new("Wodospad III", "", BuildingIds.Butla, 30000000, 1.5, 25),
+	MultiplicativeMultiplierUpgrade.new("Wodospad IV", "", BuildingIds.Butla,  100000000, 1.5, 30),
+	# Wiadro
+	MultiplicativeMultiplierUpgrade.new("Wiadro I", "", BuildingIds.Wiadro, 500000000, 1.75, 10),
+	# MultiplicativeMultiplierUpgrade.new("Wiadro II", "", BuildingIds.Wiadro, 50000, 1,5, 15), to jest troche niepotrzebne
+	MultiplicativeMultiplierUpgrade.new("Wiadro III", "", BuildingIds.Wiadro, 5000000000000, 1.5, 25),
+	MultiplicativeMultiplierUpgrade.new("Wiadro IV", "", BuildingIds.Wiadro, 200000, 1.5, 40),
+	Upgrade.new("Growbox", "Odblokowywuje sadzenie skuna", 50000000000, UnlockUpgsIDs.Growbox),
+	# Bongo
+	MultiplicativeMultiplierUpgrade.new("Bongo I", "", BuildingIds.Bongo, 5000000, 3, 7),
+	MultiplicativeMultiplierUpgrade.new("Bongo II", "", BuildingIds.Bongo, 8000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Bongo III", "", BuildingIds.Bongo, 10000000, 2, 30),
+	MultiplicativeMultiplierUpgrade.new("Bongo IV", "", BuildingIds.Bongo, 20000000, 1.5, 75),
+	# Joint
+	MultiplicativeMultiplierUpgrade.new("Joint I", "", BuildingIds.Joint, 5000000, 2, 5),
+	MultiplicativeMultiplierUpgrade.new("Joint II", "", BuildingIds.Joint, 5000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Joint III", "", BuildingIds.Joint, 5000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Joint IV", "", BuildingIds.Joint, 5000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Joint V", "", BuildingIds.Joint, 5000000, 1.5, 25), # This shit is broken as fuck
+	MultiplicativeMultiplierUpgrade.new("Joint VI", "", BuildingIds.Joint, 5000000, 1.5, 30),
+	MultiplicativeMultiplierUpgrade.new("Joint VII", "", BuildingIds.Joint, 5000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Joint VIII", "", BuildingIds.Joint, 5000000, 1.5, 75),
+	MultiplicativeMultiplierUpgrade.new("Joint IX", "", BuildingIds.Joint, 5000000, 1.5, 100),
+	# Wapo
+	MultiplicativeMultiplierUpgrade.new("Pojemna bateria", "", BuildingIds.Wapo, 20000000000, 2, 5),
+	MultiplicativeMultiplierUpgrade.new("Solidna konstrukcja", "", BuildingIds.Wapo, 50000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Szklany ustnik", "", BuildingIds.Wapo, 100000000000, 3, 20),
+	MultiplicativeMultiplierUpgrade.new("Tytanowa komora grzewcza", "", BuildingIds.Wapo, 300000000000, 1.5, 30),
+	MultiplicativeMultiplierUpgrade.new("Bubbler", "", BuildingIds.Wapo, 3000000000000, 2,100),
+	# Dab
+	MultiplicativeMultiplierUpgrade.new("Dab pen I", "", BuildingIds.Dab, 42000000000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Dab pen II", "", BuildingIds.Dab, 420000000000000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Dab pen III", "", BuildingIds.Dab, 4200000000000000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Dab pen IV", "", BuildingIds.Dab, 4200000000000000000, 1.25, 30),
+	MultiplicativeMultiplierUpgrade.new("Dab pen V", "", BuildingIds.Dab, 4200000000000000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Dab pen VI", "", BuildingIds.Dab, 4200000000000000000, 1.333, 75),
+	MultiplicativeMultiplierUpgrade.new("Dab pen VII", "", BuildingIds.Dab, 4200000000000000000, 1.25, 115),
+	# Wulkan
+	MultiplicativeMultiplierUpgrade.new("Wulkan I", "", BuildingIds.Wulkan, 42000000000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Wulkan II", "", BuildingIds.Wulkan, 420000000000000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Wulkan III", "", BuildingIds.Wulkan, 4200000000000000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Wulkan IV", "", BuildingIds.Wulkan, 4200000000000000000, 1.25, 30),
+	MultiplicativeMultiplierUpgrade.new("Wulkan V", "", BuildingIds.Wulkan, 4200000000000000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Wulkan VI", "", BuildingIds.Wulkan, 4200000000000000000, 1.333, 75),
+	MultiplicativeMultiplierUpgrade.new("Wulkan VII", "", BuildingIds.Wulkan, 4200000000000000000, 1.25, 115),
+]
+
+# Stare ulepszenia :>
+#	MultiplicativeMultiplierUpgrade.new("Lepszy gaz I", "", 1, 100, 0.15),
+#	MultiplicativeMultiplierUpgrade.new("Lepszy gaz II", "", 1, 1000, 0.15),
+#	AdditiveMultiplierUpgrade.new("Wytrzymałość szkła I", "", 2, 500, 0.3),
+#	AdditiveMultiplierUpgrade.new("Wytrzymałość szkła II", "", 2, 1250, 0.5),
+#	MultiplicativeMultiplierUpgrade.new("Lepsza odmiana I", "", 3, 2500, 0.2),
+#	MultiplicativeMultiplierUpgrade.new("Lepsza odmiana II", "", 3, 5000, 0.2),
+#	MultiplicativeMultiplierUpgrade.new("Lepsza odmiana III", "", 3, 7500, 0.2),
+#	MultiplicativeMultiplierUpgrade.new("Przeworski Haze", "", 3, 12000, 1.2),
+#	AdditiveMultiplierUpgrade.new("Wodne filtrowanie I", "", 4, 15000, 1),
+#	AdditiveMultiplierUpgrade.new("Wodne filtrowanie II", "", 4, 20000, 0.8),
+#	AdditiveMultiplierUpgrade.new("Wodne filtrowanie III", "", 4, 30000, 0.6),
+#	MultiplicativeMultiplierUpgrade.new("Paragon I", "", 5, 45000, 0.8),
+#	MultiplicativeMultiplierUpgrade.new("Paragon II", "", 5, 80000, 1.2),
+#	MultiplicativeMultiplierUpgrade.new("Paragon III", "", 5, 139000, 1.5),
+#	AdditiveMultiplierUpgrade.new("Zakrycie rękoma I","",6, 150000, 0.5),
+#	AdditiveMultiplierUpgrade.new("Zakrycie rękoma II","",6, 300000, 0.5),
+#	AdditiveMultiplierUpgrade.new("Zakrycie rękoma III","",6, 450000, 1),
+#	AdditiveMultiplierUpgrade.new("Pojemność płuc I","",7, 175000, 1.5),
+#	AdditiveMultiplierUpgrade.new("Pojemność płuc II","",7, 240000,1.9),
+#	AdditiveMultiplierUpgrade.new("Pojemność płuc III","",7, 380000, 2.4),
+#	AdditiveMultiplierUpgrade.new("Aorta ciemiężnego alfonsa", "", 1, 5000000, 500),
+#	AdditiveMultiplierUpgrade.new("Kammerurlo gówno z cebulą", "", 2, 7000000, 500),
+
+var mapUpgrades = [
+	# MapUpgrade.new("Przedmostki", "", 500, 0.5, "przedMostki.jpg"),
+	MapUpgrade.new("Piwnica", "Ktoś nie zamknął drzwi w klatce, więc korzystaj", 0, 0, "piwnica.jpg"),
+	MapUpgrade.new("DRB Górka", "Spot w krzakach", 10000, 0.4, "drbgorka.jpg"),
+	MapUpgrade.new("Altana", "Altanka przy placu zabaw często odwiedzana w weekendy przez lokalnych chlejusów", 20000, 1, "altana.jpg"),
+	MapUpgrade.new("Mostki", "Znana i sprawdzona melina względnie daleko od cywilizacji", 150000, 1, "mostki.jpg"),
+	MapUpgrade.new("Diamentowy Las", "Mostki cz.2", 300000, 0.5, "Diamentowylas.jpg"),
+	# MapUpgrade.new("Staromieście", "", 10000, 0.2, "staromiescie.jpg"),
+	MapUpgrade.new("Spiżarnia", "Upizgany siedzisz w spiżarni", 200000000000, 0.3, "spizarnia.jpg"),
+	MapUpgrade.new("Piekło", "Cmentarz zgonów", 2000000000000, 0.5, "piejlo.jpg"),
+	MapUpgrade.new("Parapet", "Puste mieszkanie do hash-komory", 60000000000000, 0.5, "parapet.jpg"),
+	MapUpgrade.new("Taras u Wolana", "...", 4180000000000000, 0.6, "wolan.jpg"),
+	MapUpgrade.new("Dom Pompki", "...", 41900000000000000, 0.6, "lilpump.jpg"),
+	MapUpgrade.new("Speluna", "...", 420000000000000000, 0.7, "speluna.jpg"),
+]
+
+# wynajmuje ogrodki dzialkowe i sadze tam skuna
+# splacam pozyczke kruwaaaaaa
+
+func upgrades_prestige():
+	upgrades = [
+	# SeriesPropertyUpgrade.new("chuj wie", "THC +%", "thcAddSeriesMult", 1.5, 1),
+
+	# Zapalniczka
+	AdditiveMultiplierUpgrade.new("Mechanizm zapalający", "Przycisk zapalniczki zrobiony z lżejszego plastiku dodaje wygody", BuildingIds.Zapalniczka, 5, 0.5, 5),
+	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 10, 0.5, 10),
+	AdditiveMultiplierUpgrade.new("Lepszy gaz", "Płyn do zapalniczki o starannie dobranych proporcjach wytwarza większy płomień", BuildingIds.Zapalniczka, 50, 0.5, 25), # too much
+	AdditiveMultiplierUpgrade.new("Przełączanie na +", "Przełączenie zaworu pozwala na podawanie większej ilości gazu", BuildingIds.Zapalniczka, 200, 2.5, 50),
+	AdditiveMultiplierUpgrade.new("Zapalniczka V", "", BuildingIds.Zapalniczka, 1500, 2.5, 75),
 	# Jabłko
 	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie I", "", BuildingIds.Jablko, 20, 1.5, 5),
 	MultiplicativeMultiplierUpgrade.new("Precyzyjne cięcie II", "", BuildingIds.Jablko, 200, 1.5, 15),
@@ -149,40 +273,15 @@ var upgrades = [
 	MultiplicativeMultiplierUpgrade.new("Dab pen VI", "", BuildingIds.Dab, 4200000000000000000, 1.333, 75),
 	MultiplicativeMultiplierUpgrade.new("Dab pen VII", "", BuildingIds.Dab, 4200000000000000000, 1.25, 115),
 	# Wulkan
-	MultiplicativeMultiplierUpgrade.new("Wulkan I", "", BuildingIds.Dab, 42000000000000000, 2, 10),
-	MultiplicativeMultiplierUpgrade.new("Wulkan II", "", BuildingIds.Dab, 420000000000000000, 2, 15),
-	MultiplicativeMultiplierUpgrade.new("Wulkan III", "", BuildingIds.Dab, 4200000000000000000, 1.5, 20),
-	MultiplicativeMultiplierUpgrade.new("Wulkan IV", "", BuildingIds.Dab, 4200000000000000000, 1.25, 30),
-	MultiplicativeMultiplierUpgrade.new("Wulkan V", "", BuildingIds.Dab, 4200000000000000000, 1.5, 50),
-	MultiplicativeMultiplierUpgrade.new("Wulkan VI", "", BuildingIds.Dab, 4200000000000000000, 1.333, 75),
-	MultiplicativeMultiplierUpgrade.new("Wulkan VII", "", BuildingIds.Dab, 4200000000000000000, 1.25, 115),
-]
-
-# Stare ulepszenia :>
-#	MultiplicativeMultiplierUpgrade.new("Lepszy gaz I", "", 1, 100, 0.15),
-#	MultiplicativeMultiplierUpgrade.new("Lepszy gaz II", "", 1, 1000, 0.15),
-#	AdditiveMultiplierUpgrade.new("Wytrzymałość szkła I", "", 2, 500, 0.3),
-#	AdditiveMultiplierUpgrade.new("Wytrzymałość szkła II", "", 2, 1250, 0.5),
-#	MultiplicativeMultiplierUpgrade.new("Lepsza odmiana I", "", 3, 2500, 0.2),
-#	MultiplicativeMultiplierUpgrade.new("Lepsza odmiana II", "", 3, 5000, 0.2),
-#	MultiplicativeMultiplierUpgrade.new("Lepsza odmiana III", "", 3, 7500, 0.2),
-#	MultiplicativeMultiplierUpgrade.new("Przeworski Haze", "", 3, 12000, 1.2),
-#	AdditiveMultiplierUpgrade.new("Wodne filtrowanie I", "", 4, 15000, 1),
-#	AdditiveMultiplierUpgrade.new("Wodne filtrowanie II", "", 4, 20000, 0.8),
-#	AdditiveMultiplierUpgrade.new("Wodne filtrowanie III", "", 4, 30000, 0.6),
-#	MultiplicativeMultiplierUpgrade.new("Paragon I", "", 5, 45000, 0.8),
-#	MultiplicativeMultiplierUpgrade.new("Paragon II", "", 5, 80000, 1.2),
-#	MultiplicativeMultiplierUpgrade.new("Paragon III", "", 5, 139000, 1.5),
-#	AdditiveMultiplierUpgrade.new("Zakrycie rękoma I","",6, 150000, 0.5),
-#	AdditiveMultiplierUpgrade.new("Zakrycie rękoma II","",6, 300000, 0.5),
-#	AdditiveMultiplierUpgrade.new("Zakrycie rękoma III","",6, 450000, 1),
-#	AdditiveMultiplierUpgrade.new("Pojemność płuc I","",7, 175000, 1.5),
-#	AdditiveMultiplierUpgrade.new("Pojemność płuc II","",7, 240000,1.9),
-#	AdditiveMultiplierUpgrade.new("Pojemność płuc III","",7, 380000, 2.4),
-#	AdditiveMultiplierUpgrade.new("Aorta ciemiężnego alfonsa", "", 1, 5000000, 500),
-#	AdditiveMultiplierUpgrade.new("Kammerurlo gówno z cebulą", "", 2, 7000000, 500),
-
-var mapUpgrades = [
+	MultiplicativeMultiplierUpgrade.new("Wulkan I", "", BuildingIds.Wulkan, 42000000000000000, 2, 10),
+	MultiplicativeMultiplierUpgrade.new("Wulkan II", "", BuildingIds.Wulkan, 420000000000000000, 2, 15),
+	MultiplicativeMultiplierUpgrade.new("Wulkan III", "", BuildingIds.Wulkan, 4200000000000000000, 1.5, 20),
+	MultiplicativeMultiplierUpgrade.new("Wulkan IV", "", BuildingIds.Wulkan, 4200000000000000000, 1.25, 30),
+	MultiplicativeMultiplierUpgrade.new("Wulkan V", "", BuildingIds.Wulkan, 4200000000000000000, 1.5, 50),
+	MultiplicativeMultiplierUpgrade.new("Wulkan VI", "", BuildingIds.Wulkan, 4200000000000000000, 1.333, 75),
+	MultiplicativeMultiplierUpgrade.new("Wulkan VII", "", BuildingIds.Wulkan, 4200000000000000000, 1.25, 115),
+	]
+	mapUpgrades = [
 	# MapUpgrade.new("Przedmostki", "", 500, 0.5, "przedMostki.jpg"),
 	MapUpgrade.new("Altana", "Lokalna altana przy placu zabaw", 2500, 0.2, "altana.jpg"),
 	MapUpgrade.new("DRB Górka", "Spot w krzakach", 20000, 0.2, "drbgorka.jpg"),
@@ -191,11 +290,8 @@ var mapUpgrades = [
 	# MapUpgrade.new("Staromieście", "", 10000, 0.2, "staromiescie.jpg"),
 	MapUpgrade.new("Spiżarnia", "Upizgany siedzisz w spiżarni", 200000000000, 0.3, "spizarnia.jpg"),
 	MapUpgrade.new("Piekło", "Cmentarz zgonów", 2000000000000, 0.5, "piejlo.jpg"),
-	MapUpgrade.new("Parapet", "Puste mieszkanie do hash-komory", 10000000000000, 0.5, "parapet.jpg"),
+	MapUpgrade.new("Parapet", "Puste mieszkanie do hash-komory", 60000000000000, 0.5, "parapet.jpg"),
 	MapUpgrade.new("Taras u Wolana", "...", 4180000000000000, 0.6, "wolan.jpg"),
 	MapUpgrade.new("Dom Pompki", "...", 41900000000000000, 0.6, "lilpump.jpg"),
 	MapUpgrade.new("Speluna", "...", 420000000000000000, 0.7, "speluna.jpg"),
-]
-
-# wynajmuje ogrodki dzialkowe i sadze tam skuna
-# splacam pozyczke kruwaaaaaa
+	]

@@ -44,7 +44,7 @@ _data = {
 "flip": SubResource("Animation_i28ld")
 }
 
-[sub_resource type="Shader" id="Shader_dxldn"]
+[sub_resource type="Shader" id="Shader_twf3j"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -65,10 +65,10 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g2hjp"]
 resource_local_to_scene = true
-shader = SubResource("Shader_dxldn")
+shader = SubResource("Shader_twf3j")
 shader_parameter/time = -1.2
 
-[sub_resource type="Shader" id="Shader_oi7yi"]
+[sub_resource type="Shader" id="Shader_kp2ex"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -89,10 +89,10 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3b2r2"]
 resource_local_to_scene = true
-shader = SubResource("Shader_oi7yi")
+shader = SubResource("Shader_kp2ex")
 shader_parameter/time = -1.2
 
-[sub_resource type="Shader" id="Shader_nkg65"]
+[sub_resource type="Shader" id="Shader_xpcm4"]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
@@ -113,7 +113,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k316x"]
 resource_local_to_scene = true
-shader = SubResource("Shader_nkg65")
+shader = SubResource("Shader_xpcm4")
 shader_parameter/time = -1.2
 
 [sub_resource type="Animation" id="Animation_6eiwy"]

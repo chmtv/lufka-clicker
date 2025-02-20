@@ -48,6 +48,6 @@ func _on_shop_close_pressed():
 func _on_shop_open_pressed():
 	menuOpenPlayer.play()
 	#animationPlayer.play("shopSlide")
-	get_tree().create_tween().tween_property(upgradeShop, "position", Vector2(0,66), 0.7).set_trans(Tween.TRANS_ELASTIC)
+	get_tree().create_tween().tween_property(upgradeShop, "position", Vector2(0,47), 0.7).set_trans(Tween.TRANS_ELASTIC)
 	musicManager.shopOpen()
 	mainManager.shopLightSwipe()

@@ -9,7 +9,8 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udsb4"]
 albedo_color = Color(1, 0, 0, 1)
 albedo_texture = ExtResource("3_5wcie")
-roughness = 0.67
+emission = Color(0.831373, 0.686275, 0.215686, 1)
+emission_energy_multiplier = 0.5
 normal_texture = SubResource("CompressedTexture2D_uotse")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eq38d"]

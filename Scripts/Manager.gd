@@ -8,7 +8,7 @@ func enableGodmode():
 	GrowingManager.phsMult = 1000
 	samaraManager.minTime = 0
 	samaraManager.maxTime = 12
-	thc = 1000000050000000000000000000.0
+	thc = 100000005000000000000000000000000000000000000.0
 	burnPctPerSec = 0.2
 	# burnPctDrainPerSec = 1
 func disableGodmode():
@@ -22,6 +22,7 @@ func disableGodmode():
 # var thc : float = 999999999999
 var thc : float = 0
 var thcThisPrestige : float = 0
+var thcLifetime : float = 0
 var toleranceMult : float = 1
 var tolerance : int = 0
 var opalanie : float = 0.0
@@ -31,12 +32,17 @@ var burnPctPerSec = 0.015
 var burnPctDrainPerSec = 0.01
 var burnPctMinimum = 0.25
 var THCpS = 0.1
+var THCpSbeforeMult := 0.0
 var THCpSWhileBurning = 0
 
 var samaraTHCPSbonus = 1.0
 var samaraBurnPctBonus = 1.0
-func instaBank():
-	addTHC(THCpS * 60)
+@export var thc_get_indicator_res : Resource
+func instaBank(minutes : float = 1.0):
+	addTHC(THCpS * 60 * minutes)
+	var thc_get_indicator = thc_get_indicator_res.instantiate()
+	thc_get_indicator.text = thcWithNumberAffix(THCpS * 60 * minutes)
+	get_tree().root.add_child(thc_get_indicator)
 
 @onready var worldEnvironment = get_node("WorldEnvironment")
 @export var charPortrait : Panel
@@ -57,7 +63,7 @@ var elapsedTime = 0
 var afterBuyRef = Callable(self, "updateBuildingShop")
 var Upgrades = preload("res://Scripts/Upgrades.gd").new()
 var boughtUpgradesIds = []
-var globalAdditiveMultiplier = 1
+var globalMultiplier = 1 # A multiplier from maps, idk why i called it like that, the maps implementation fucking sucks balls
 var lastDate # = Time.get_unix_time_from_system()
 
 func thcWithNumberAffix(_thc, add_affix = true):
@@ -75,7 +81,9 @@ func thcWithNumberAffix(_thc, add_affix = true):
 		"Et",         # Deka gram (Ten grams) xd ??
 		"Zt",       # Hecto deka gram (Hundred grams) tar
 		"Yt",       # Kilo deka gram (Thousand grams)
-		"Zt",
+		"Rt",
+		"Qt",
+		"at",
 		"αg",
 		"βg",
 		"γg",
@@ -122,18 +130,24 @@ func saveGame():
 	var buildingLevels = []
 	var seriesThcLevels = []
 	var seriesLeafLevels = []
+	var boughtMapsIds = []
 	for building in buildings:
 		buildingLevels.append(building.level)
 	for upg in seriesUpgradesThc:
 		seriesThcLevels.append(upg.level)
 	for upg in seriesUpgradesLeaves:
 		seriesLeafLevels.append(upg.level)
+	for i in Upgrades.mapUpgrades.size():
+		if Upgrades.mapUpgrades[i].bought:
+			boughtMapsIds.append(i)
 	lastDate = Time.get_unix_time_from_system()
 	var saveData = {
 		"buildingLevels": buildingLevels,
 		"boughtUpgradesIds": boughtUpgradesIds,
+		"boughtMapsIds": boughtMapsIds, #3#######33###33#
 		"thc": thc,
 		"thcThisPrestige": thcThisPrestige,
+		"thcLifetime": thcLifetime,
 		"tolerance": tolerance,
 		"lastDate": lastDate,
 		"seriesThcLevels": seriesThcLevels,
@@ -175,14 +189,21 @@ func loadGame():
 		seriesUpgradesLeaves[i].recalculateTHCpS()
 	boughtUpgradesIds = dataToLoad["boughtUpgradesIds"]
 	for i in boughtUpgradesIds.size():
-		Upgrades.upgrades[boughtUpgradesIds[i]].bought = true
+		var curUpg = Upgrades.upgrades[boughtUpgradesIds[i]]
+		curUpg.bought = true
+	for map_i in dataToLoad["boughtMapsIds"]:
+		if map_i == 0:
+			continue
+		var map_upg = Upgrades.mapUpgrades[map_i]
+		map_upg.bought = true
+		addMap(map_i, map_upg.name, map_upg.mapPath, map_upg.description)
 	
 	thc = dataToLoad["thc"]
 	thcThisPrestige = dataToLoad["thcThisPrestige"]
+	thcLifetime = dataToLoad["thcLifetime"]
 	tolerance = dataToLoad["tolerance"]
 	leaves = dataToLoad["leaves"]
 	GrowingManager.set_leaves(leaves)
-	print("jeubany phs to:", dataToLoad["phs"])
 	GrowingManager.set_phs(dataToLoad["phs"])
 	lastDate = dataToLoad["lastDate"]
 	updateBuildingShop()
@@ -200,14 +221,12 @@ func offlineProgression():
 	
 	if lastDate:
 		deltaTime = curTime - lastDate
-		print("Offline progression deltaTime = ", deltaTime)
 	if deltaTime < 15:
 		return
-	var offlineTHC = THCpS * deltaTime
+	var offlineTHC = THCpS * deltaTime * 0.1
 	var thcToDisplay = thcWithNumberAffix(offlineTHC)
 	addTHC(offlineTHC)
 	var timeDict = Time.get_datetime_dict_from_unix_time(deltaTime)
-	print(timeDict)
 	var minutes = timeDict.minute
 	var hours = timeDict.hour
 	var seconds = timeDict.second
@@ -224,7 +243,9 @@ func offlineProgression():
 
 func _notification(what: int):
 	if what == NOTIFICATION_APPLICATION_FOCUS_IN:
-		offlineProgression()
+		pass
+		# offlineProgression()
+		# jebane kurwa zbugowane gowno
 
 var boughtMaps = [
 	
@@ -258,11 +279,11 @@ var currentMapPath = "res://Sprites/Maps/piwnica.jpg"
 var buildingButtonList = []
 var buildingVBoxPath = "UpgradeShopContainer/UpgradeShop/S/VBoxContainer"
 @export var buildingVBox : Node # = get_node(buildingVBoxPath)
-func addMap(index, name, fileName, description):
+func addMap(index, name, mapPath, description):
 	var map = {
 		"index": index,
 		"name": name,
-		"filename": fileName,
+		"mapPath": mapPath,
 		"description": description,
 		"boughtId": boughtMaps.size() - 1
 	}
@@ -271,7 +292,7 @@ func addMap(index, name, fileName, description):
 @onready var prevMapButton = get_node("SubViewportContainer/SubViewport/PrevMapButton/MapSwitcher")
 func changeMap(map):
 	var mapTemplate = "res://Sprites/Maps/"
-	currentMapPath = mapTemplate + map.filename
+	currentMapPath = mapTemplate + map.mapPath
 	worldEnvironment.environment.sky.sky_material.panorama = load(currentMapPath)
 	
 	# Set map names on the 3D buttons
@@ -294,13 +315,12 @@ func changeMapById(id):
 	if id < boughtMaps.size():
 		map = {
 			"index": id,
-			"filename": Upgrades.mapUpgrades[boughtUpgradesIds[id]].mapPath,
+			"mapPath": Upgrades.mapUpgrades[boughtUpgradesIds[id]].mapPath,
 			"name": Upgrades.mapUpgrades[boughtUpgradesIds[id]].name,
 			"description": Upgrades.mapUpgrades[boughtUpgradesIds[id]].description,
 		}
 	changeMap(map)
 func setMapButton(map, button):
-	# button.get_node("Change Button").filename = map["filename"]
 	button.get_node("Change Button").map = map
 	button.get_node("Name").text = map.name
 	button.get_node("Description").text = map.description
@@ -313,13 +333,14 @@ func updateMapsMenu():
 		n.queue_free()
 	# Generate and place all the bought map buttons
 	for i in boughtMaps.size():
-		var currentButton = load("res://Scenes/MapChangeButton.tscn").instantiate()
-		setMapButton(boughtMaps[i], currentButton)
+		print("chuj")
+		# var currentButton = load("res://Scenes/MapChangeButton.tscn").instantiate()
+		# setMapButton(boughtMaps[i], currentButton)
 		
-		currentButton.get_node("Change Button").connect(
-			"MapChange", 
-			changeMap)
-		mapVBox.add_child(currentButton)
+		# currentButton.get_node("Change Button").connect(
+		# 	"MapChange", 
+		# 	changeMap)
+		# mapVBox.add_child(currentButton)
 		
 	
 	# Generate the map buy buttons
@@ -341,6 +362,15 @@ func updateMapsMenu():
 				"UpgradeBuy", 
 				_on_UpgradeBuy)
 			mapVBox.add_child(currentButton)
+		else:
+			# If the map is bought then create the map change button
+			var currentButton = load("res://Scenes/MapChangeButton.tscn").instantiate()
+			setMapButton(Upgrades.mapUpgrades[i], currentButton)
+			
+			currentButton.get_node("Change Button").connect(
+				"MapChange", 
+				changeMap)
+			mapVBox.add_child(currentButton)
 		
 
 @export var GrowingManager : Node
@@ -353,6 +383,7 @@ class Building:
 	var level = 0
 	var baseCost
 	var cost
+	var multibuy_n : int = 1
 	var THCpS = 0.0
 	var baseTHCpS = 0.0
 	var THCpSWhileBurning : float = 0.0
@@ -376,7 +407,6 @@ class Building:
 		print(Globals.CURRENCIES)
 		if (currency == Globals.CURRENCIES.THC and amount >= cost) or (currency == Globals.CURRENCIES.LEAF and amount >= cost):
 			new_amount = amount - cost
-			print("cjuyh")
 			level += 1
 			recalculateCost()
 			recalculateTHCpS()
@@ -388,11 +418,15 @@ class Building:
 		recalculateCost()
 		recalculateTHCpS()
 		afterBuyFnRef.call()
-	func recalculateCost():
-		cost = snapped(baseCost + baseCost * pow(level, costExponent), 0.02)
+	func recalculateCost(): # TUTAJ TO KURWA ZMIENIANE BYLO !!!!!!!!!!!!!!!!!!!!!!!!!!!
+		cost = snapped(baseCost * pow(costExponent, (level)), 0.02)
+		if multibuy_n > 1:
+			cost = get_cost_of_n(multibuy_n)
 	func recalculateTHCpS():
 		THCpS = baseTHCpS * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier * samaraMult
 		THCpSWhileBurning = baseTHCpSWhileBurning * level * upgradeAdditiveMultiplier * upgradeMultiplicativeMultiplier * samaraMult
+	func get_cost_of_n(n:int):
+		return baseCost*( pow(costExponent,level) * (pow(costExponent,n)-1) / (costExponent-1))
 	func _init(_name = "",_cost = 0, _THCpS = 0, _THCpSWhileBurning = 0, afterBuyFn = "", _costExponent = 1.2, _THCpSExponent = 1, _defaultNextUpgLv = 5):
 		
 		baseCost = _cost
@@ -407,17 +441,41 @@ class Building:
 		recalculateTHCpS()
 var buildings = [
 	Building.new("Zapalniczka", 0.5, 0.1, 0.0, afterBuyRef, 1.31, 5), # 0
-	Building.new("Jabłko", 20, 3, 0, afterBuyRef, 1.2, 5), # 1
-	Building.new("Lufka", 600, 50, 0, afterBuyRef, 1.14, 5), # 2
-	Building.new("Wodospad", 160000, 7500, 0, afterBuyRef, 1.14, 5), # 4
-	Building.new("Wiadro", 750000000, 30000000, 0, afterBuyRef, 1.09, 5),
-	Building.new("Bongo", 750000000000000, 5000000000000, 0, afterBuyRef, 1.12),	# 7
-	Building.new("Joint", 4200000000000000000000, 4000000000000000, 0, afterBuyRef, 1.12),	# 6
-	Building.new("Waporyzator", 10000000000000000000000000000, 3000000000000000000000, 0.0, afterBuyRef, 1.2),	# 8
-	Building.new("Dab pen",300000000000000000000000000000000000, 70000000000000000000000000.0, 0.0, afterBuyRef, 1.26),	# 9
-	Building.new("Wulkan", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 10
+	Building.new("Jabłko", 50, 0.5, 0, afterBuyRef, 1.2, 5), # 1
+	Building.new("Lufka", 2500, 10, 0, afterBuyRef, 1.24, 5), # 2
+	Building.new("Wodospad", 500000, 100, 0, afterBuyRef, 1.15, 5), # 4
+	Building.new("Wiadro", 40000000, 1000, 0, afterBuyRef, 1.18, 5),
+	Building.new("Bongo", 10000000000, 15000, 0, afterBuyRef, 1.12, 7),	# 7
+	Building.new("Joint", 4200000000000000000000., 400000000000000000, 0, afterBuyRef, 1.12),	# 6
+	Building.new("Waporyzator", 10000000000000000000000000000., 300000000000000000000000., 0.0, afterBuyRef, 1.2),	# 8
+	Building.new("Dab pen", 300000000000000000000000000000000000000., 2000000000000000000000000000000.0, 0.0, afterBuyRef, 1.26, 1.0, 10),	# 9
+	Building.new("Bongo grawitacyjne", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 10
+	Building.new("Wulkan", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 11
 	# Building.new("Klepsydra", 420000000, 405, 0, afterBuyRef, 1.2),
 ]
+
+# Snapshot of buildings 08 feb 2025
+#
+# var buildings = [
+# 	Building.new("Zapalniczka", 0.5, 0.1, 0.0, afterBuyRef, 1.31, 5), # 0
+# 	Building.new("Jabłko", 50, 1, 0, afterBuyRef, 1.2, 5), # 1
+# 	Building.new("Lufka", 1500, 50, 0, afterBuyRef, 1.14, 5), # 2
+# 	Building.new("Wodospad", 160000, 7500, 0, afterBuyRef, 1.14, 5), # 4
+# 	Building.new("Wiadro", 3000000000, 30000000, 0, afterBuyRef, 1.09, 5),
+# 	Building.new("Bongo", 750000000000000, 5000000000000, 0, afterBuyRef, 1.12),	# 7
+# 	Building.new("Joint", 4200000000000000000000., 400000000000000000, 0, afterBuyRef, 1.12),	# 6
+# 	Building.new("Waporyzator", 10000000000000000000000000000., 300000000000000000000000., 0.0, afterBuyRef, 1.2),	# 8
+# 	Building.new("Dab pen", 300000000000000000000000000000000000000., 2000000000000000000000000000000.0, 0.0, afterBuyRef, 1.26, 1.0, 10),	# 9
+# 	Building.new("Bongo grawitacyjne", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 10
+# 	Building.new("Wulkan", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 11
+# 	# Building.new("Klepsydra", 420000000, 405, 0, afterBuyRef, 1.2),
+# ]
+
+func getTotalBuildings():
+	var total = 0
+	for building in buildings:
+		total += building.level
+	return total
 
 var nextBuildingID = 0
 func afterSamara():
@@ -440,10 +498,11 @@ func getInstaBuilding():
 func samaraBuildingBuff():
 	buildings[nextBuildingID].samaraMult = 5.0
 	buildings[nextBuildingID].recalculateTHCpS()
+	var curBuildingID = nextBuildingID
 	afterSamara()
 	setSamaraNextBuilding()
-	await get_tree().create_timer(90.0).timeout
-	buildings[nextBuildingID].samaraMult = 1.0
+	await get_tree().create_timer(15.0).timeout
+	buildings[curBuildingID].samaraMult = 1.0
 	afterSamara()
 var leafTexture
 
@@ -505,8 +564,8 @@ func makeBuildingShop():
 		currentButton.get_node("Buy Button").connect(
 			"BuildingBuy",
 			_on_BuildingBuy)
-		print("The motherfucking building VBOX")
-		print(buildingVBox.get_children())
+		# print("The motherfucking building VBOX")
+		# print(buildingVBox.get_children())
 		buildingVBox.visible = true
 		buildingVBox.add_child(currentButton)
 		#updateBuildingShop()
@@ -642,11 +701,16 @@ func updateUpgradesShop():
 		var upgrade = Upgrades.upgrades[i]
 		var buildingIndex = upgrade.buildingID
 		var buildingLevel = upgrade.buildingLevel
-		if buildings[buildingIndex].level >= buildingLevel and not upgrade.bought:
+		if ((buildingIndex != null and buildings[buildingIndex].level >= buildingLevel and not upgrade.bought)
+			or 
+			(buildingIndex == null and not upgrade.bought and thc >= upgrade.cost/10.0)
+			):
 				var currentButton = buttonNode.instantiate()
 				currentButton.get_node("Buy Button").index = i
 				currentButton.get_node("Name").text = upgrade.name
-				var THCpStext = buildings[upgrade.buildingID].name + " "
+				var THCpStext = ""
+				if buildingIndex:
+					THCpStext = buildings[upgrade.buildingID].name + " "
 				if upgrade.additiveMultiplier:
 					THCpStext += "+" + str(upgrade.additiveMultiplier * 100) + "%" + " THCpS "
 				if upgrade.multiplicativeMultiplier:
@@ -667,6 +731,11 @@ func updateUpgradesShop():
 	else:
 		NoUpgLabel.visible = false
 		ShopTabContainer.setUpgradesHightlight(true)
+func refreshMapsEffects():
+	globalMultiplier = 1
+	for upg in Upgrades.mapUpgrades:
+		if upg.bought and upg.globalMultiplier != -1:
+			globalMultiplier *= 1 + upg.globalMultiplier
 func refreshUpgradeEffects():
 	for i in buildings.size():
 		buildings[i].upgradeAdditiveMultiplier = 1.0
@@ -675,12 +744,23 @@ func refreshUpgradeEffects():
 	for i in boughtUpgradesIds.size():
 		var curUpg = Upgrades.upgrades[boughtUpgradesIds[i]]
 		
-		buildings[curUpg.buildingID].upgradeAdditiveMultiplier += curUpg.additiveMultiplier
+		if curUpg.additiveMultiplier:
+			buildings[curUpg.buildingID].upgradeAdditiveMultiplier += curUpg.additiveMultiplier
 		if curUpg.multiplicativeMultiplier:
 			buildings[curUpg.buildingID].upgradeMultiplicativeMultiplier *= curUpg.multiplicativeMultiplier
-		buildings[curUpg.buildingID].recalculateTHCpS()
+		if curUpg.buildingID:
+			buildings[curUpg.buildingID].recalculateTHCpS()
+
+
+
+		if curUpg.specialID == Upgrades.UnlockUpgsIDs.Samara:
+			samaraManager.canSpawn = true
 		# ?????? Kurwa nie działa co ja tu kurwa odjebałem po chuj to tak najebany pisałem w piwnicy ziemniaka jebanej ????????
 		
+		# Dobra to tez nie dziala innym razem bo do roboty trzeba leciec
+		# if("mapPath" in curUpg):
+		# 	addMap(curUpg.index, curUpg.name, curUpg.mapPath, curUpg.description)
+
 		# Drunk code niggggggaaaaaaaaaaaaaaaaaaaa
 		# if(Upgrades.upgrades[boughtUpgradesIds[i]].burnRateMultiplier):
 			# Bumbaclot ;dddddddddddddddddddddddd
@@ -702,21 +782,22 @@ func buyUpgrade(index, isMapUpgrade = false):
 	else:
 		curUpg = Upgrades.upgrades[index]
 		# Set the upgraded building's last upgrade level (for progress bar calculation)
-		buildings[curUpg.buildingID].lastUpgLv = curUpg.buildingLevel
+		if curUpg.buildingID:
+			buildings[curUpg.buildingID].lastUpgLv = curUpg.buildingLevel
 		# Set the next upgrade level if it exists (on the next upgrade lmao) and if there is one (shit doesn't work fuck me)
 		if Upgrades.upgrades[index+1].buildingID == curUpg.buildingID:
 			buildings[curUpg.buildingID].nextUpgLv = Upgrades.upgrades[index+1].buildingLevel
 	if(thc >= curUpg.cost):
 		thc -= curUpg.cost
-		boughtUpgradesIds.append(index)
+		if not isMapUpgrade:
+			boughtUpgradesIds.append(index)
 		if("mapPath" in curUpg):
 			addMap(index, curUpg.name, curUpg.mapPath, curUpg.description)
-		if(curUpg.globalMultiplier != -1):
-			globalAdditiveMultiplier += curUpg.globalMultiplier
 		curUpg.bought = true
 		Globals.spawnWeedExplosion()
 		clickStreamPlayer.play()
 		refreshUpgradeEffects()
+		refreshMapsEffects()
 		updateBuildingShop()
 		updateMapsMenu()
 		updateUpgradesShop()
@@ -732,7 +813,8 @@ func recalculateTHCpS():
 		THCpSWhileBurning += buildings[i].THCpSWhileBurning
 		THCpS += buildings[i].THCpS
 		# update_Discord()
-	THCpS = THCpS * toleranceMult * globalAdditiveMultiplier * burnPercentage * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult * growingThcMultMultiplicative
+		THCpSbeforeMult = THCpS
+	THCpS = THCpS * toleranceMult * globalMultiplier * burnPercentage * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult * growingThcMultMultiplicative
 @export var starting_THC : float
 func _ready():
 	leafTexture = load("res://Sprites/cannabis.png")
@@ -744,8 +826,6 @@ func _ready():
 	if not OS.is_debug_build():
 		disableGodmode()
 	
-
-
 	addMap(0, "Piwnica", "piwnica.jpg", "Nie jest najlepsza. ale od czegoś trzeba zacząć")
 	loadGame()
 	prestigeManager.recalculateToleranceMult()
@@ -755,6 +835,7 @@ func _ready():
 	updateUpgradesShop()
 	updateSeriesUpgrades()
 	updateMapsMenu()
+	refreshMapsEffects()
 	refreshBuildingsList()
 	if(starting_THC != 1):
 		addTHC(starting_THC)
@@ -838,9 +919,14 @@ func _on_burn_press():
 
 func addTHC(amount):
 	# Change the THCps label's text
-	globalTHCpSLabel.text = "THCpS: " + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" + thcWithNumberAffix(THCpS) + ")" + " "
-	
+	var mult1 = snapped(globalMultiplier * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult * growingThcMultMultiplicative, 0.02)
+	globalTHCpSLabel.text = (
+		"THCpS: " + thcWithNumberAffix(THCpSbeforeMult) + " × " + str(mult1) + " × [color='orange']" + str(burnPercentage) + "[/color]" + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" 
+		+ thcWithNumberAffix(THCpS) + ")" + " "
+	)
+
 	thcThisPrestige += godTHCmultiplier * amount
+	thcLifetime += godTHCmultiplier * amount
 	thc += godTHCmultiplier * amount
 	
 	var thcTemplate = "%s"

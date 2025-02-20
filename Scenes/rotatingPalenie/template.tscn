@@ -5,5 +5,13 @@
 [node name="Template" type="SubViewportContainer"]
 
 [node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+render_target_update_mode = 4
 
 [node name="Palenie" parent="SubViewport" instance=ExtResource("1_8ikqj")]
+
+[node name="Circle" parent="SubViewport/Palenie/bonio" index="0"]
+transform = Transform3D(0.0465169, -0.132963, -0.0614138, -0.0565699, 0.0431252, -0.136216, 0.135095, 0.0638411, -0.0358927, 0, 0, 0)
+
+[editable path="SubViewport/Palenie"]
+[editable path="SubViewport/Palenie/bonio"]

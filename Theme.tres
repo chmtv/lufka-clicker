@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://dvrbpvnjt7j30"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dvrbpvnjt7j30"]
 
 [ext_resource type="FontFile" uid="uid://b3nlcteh01yby" path="res://Fonts/m5x7.ttf" id="1_myp1c"]
 [ext_resource type="StyleBox" uid="uid://bvgxb3mgksl2l" path="res://Theme/GrassyBorderStyleBox.tres" id="1_v7j6e"]
@@ -8,8 +8,15 @@
 [sub_resource type="StyleBoxFlat" id="3"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lye7c"]
+bg_color = Color(0.207843, 0.301961, 0.196078, 1)
+skew = Vector2(5.665, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3kwv4"]
 bg_color = Color(0.321569, 0.45098, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gi1tf"]
+bg_color = Color(0.207843, 0.301961, 0.196078, 1)
 
 [sub_resource type="StyleBoxEmpty" id="4"]
 
@@ -36,6 +43,7 @@ ProgressBar/styles/background = ExtResource("2_4kv6w")
 RichTextLabel/colors/default_color = Color(0, 1, 0, 1)
 RichTextLabel/colors/font_outline_color = Color(0.0862745, 0.32549, 0, 1)
 ScrollContainer/styles/bg = SubResource("3")
+TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_lye7c")
 TabContainer/colors/font_color_bg = Color(0.69, 0.69, 0.69, 1)
 TabContainer/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)
 TabContainer/colors/font_color_fg = Color(0.94, 0.94, 0.94, 1)
@@ -54,6 +62,7 @@ TabContainer/styles/panel = null
 TabContainer/styles/tab_bg = SubResource("StyleBoxFlat_3kwv4")
 TabContainer/styles/tab_disabled = null
 TabContainer/styles/tab_fg = null
+TabContainer/styles/tabbar_background = SubResource("StyleBoxFlat_gi1tf")
 VScrollBar/constants/rect = 0
 VScrollBar/icons/decrement = null
 VScrollBar/icons/decrement_highlight = null

@@ -38,10 +38,11 @@ func _process(delta):
 
 func startChemol():
 	var prevCamPos = camera.position
-	camera.position = Vector3(0,0,0)
+	var tween = create_tween()
+	tween.tween_property(camera, "position", Vector3(0,0,0),2.0)
 	await get_tree().create_timer(30.0).timeout
 	camera.position = prevCamPos
-
+	tween.tween_property(camera, "position", prevCamPos,2.0)
 
 
 var mouse_sens = 0.3

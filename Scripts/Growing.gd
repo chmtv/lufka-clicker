@@ -57,6 +57,10 @@ func rehydratePlant():
 	isWatered = true
 	PlantVisuals.rehydratePlant()
 
+@export var menuToggleSwiper : Button
+func sendWarningAlert():
+	Globals.spawnWarning(menuToggleSwiper.position + Vector2(16,16))
+
 # Airflow
 var airflowLevel = 0
 var maxAirflow = 5
@@ -120,7 +124,7 @@ func get_total_mult():
 	return leafMultiplicativeMultLeaf * leafAddMultLeaf * leafAddMultThc
 @export var multLabel = RichTextLabel
 func show_mult():
-	multLabel.text = "[color=#ffff00][wave]Po zebraniu: +"+str(leavesPerCollect)+"Liście ×" + str(snapped(get_total_mult(),0.01)) + "[/wave]"
+	multLabel.text = "[color=#ffff00][wave]Po zebraniu: +"+str(leavesPerCollect)+" × " + str(snapped(get_total_mult(),0.01)) + " Liście[/wave]"
 var deltaPhs = 510
 func get_phs():
 	return photosynthesis
@@ -168,24 +172,26 @@ func updatePhsLabels():
 	# text += "Fotosynteza: x" + str(getPhotosynthesisCoeffTotal()*100) + "%"
 	text += "Fotosynteza: " + str(getPhotosynthesisForPhase()) + "/500"
 	text += "\n"
-	text += "x" + str(getPhotosynthesisCoeffTotal()*100) + "%"
+	text += "×" + str(getPhotosynthesisCoeffTotal()*100) + "%"
 	text += "\n"
 	text += "[center]"
 	photosynthesis_label.text = text
 	phs_phase_label.text = '[wave][center]'+getPhaseName()+'[/center][/wave]'
+@export var running : bool = false
 func _process(delta):
 	# Light decay and increasing
-	if isLighting:
-		light += delta * lightPerSec * lightGodMult
-	else:
-		light = max(light - delta * lightPerSec * 0.125 * lightGodMult, 0.0)
-	lightProgressBar.value = light
-	PlantVisuals.setLight(light)
-	# Photosynthesis calculation and display
-	var phs = 10 * delta * getPhotosynthesisCoeffTotal() 
-	addPhotosynthesis(phs)
-	
-	updatePhsLabels()
+	if running:
+		if isLighting:
+			light += delta * lightPerSec * lightGodMult
+		else:
+			light = max(light - delta * lightPerSec * 0.125 * lightGodMult, 0.0)
+		lightProgressBar.value = light
+		PlantVisuals.setLight(light)
+		# Photosynthesis calculation and display
+		var phs = 10 * delta * getPhotosynthesisCoeffTotal() 
+		addPhotosynthesis(phs)
+		
+		updatePhsLabels()
 
 func _ready():
 	airflowDecayTimer.connect("timeout", func():
@@ -194,12 +200,17 @@ func _ready():
 	airflowIncreaseTimer.connect("timeout", func():
 		canIncreaseAirflow = true
 		airflowButton.disabled = false
+		sendWarningAlert()
 		)
 	airflowDecayTimer.start()
 	airflowIncreaseTimer.start()
 	refreshRotatingFan()
 	PlantVisuals.refreshPlant(photosynthesis)
 	airflow_progress.max_value = airflowDecayTime
+	if not running:
+		menuToggleSwiper.visible = false
+	else:
+		menuToggleSwiper.visible = true
 
 func _on_airflow_button_pressed():
 	if canIncreaseAirflow:

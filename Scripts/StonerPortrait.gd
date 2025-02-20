@@ -6,7 +6,7 @@ var burnPercentage = 0.5
 #@export var texture3 : Texture
 #@export var texture4 : Texture
 @export var textures : Array[Texture]
-@export var sprite : Sprite2D
+@export var sprite : TextureRect
 func refreshPortrait():
 	var curPortraitIndex = min(
 		ceil( (burnPercentage-0.35) * textures.size() ),

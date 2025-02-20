@@ -1,0 +1,163 @@
+[gd_scene load_steps=14 format=3 uid="uid://dm67lh47mnyb0"]
+
+[ext_resource type="PackedScene" uid="uid://cm0qunhjwq10t" path="res://Models/wiadro.dae" id="1_q3fdn"]
+[ext_resource type="Script" path="res://Scripts/Minigames/WiadroMinigame.gd" id="2_kk7j7"]
+[ext_resource type="Material" uid="uid://b8n20xpwoyx1m" path="res://plastic.tres" id="2_v0xly"]
+[ext_resource type="PackedScene" uid="uid://h47830m7t50h" path="res://Scenes/SwipingLabel.tscn" id="4_i8i5x"]
+[ext_resource type="PackedScene" uid="uid://bc48x8sur68to" path="res://Scenes/Smoke Spawner.tscn" id="4_twaju"]
+[ext_resource type="Texture2D" uid="uid://bw0r60ljj7qxv" path="res://Sprites/whitePuff00.png" id="5_ax7yc"]
+[ext_resource type="Texture2D" uid="uid://rwik7mm1pft3" path="res://Sprites/white.png" id="7_yij0j"]
+
+[sub_resource type="Animation" id="Animation_hka7r"]
+resource_name = "rotation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("wiadro:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ccjgh"]
+resource_name = "swipe_in"
+length = 1.5
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("wiadro/Circle_002")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, -20, 0, 1, 1, 0, -0.424528, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("wiadro/Circle")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.4, 1, 0, -20, 0, 1.3, 1, 0, 0, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_le64y"]
+_data = {
+"rotation": SubResource("Animation_hka7r"),
+"swipe_in": SubResource("Animation_ccjgh")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_48ncc"]
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, 10, 0)
+turbulence_enabled = true
+turbulence_noise_scale = 1.12
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpjan"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.0470588)
+albedo_texture = ExtResource("5_ax7yc")
+emission_enabled = true
+emission = Color(0.388235, 0.388235, 0.388235, 1)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_rcq3e"]
+lightmap_size_hint = Vector2i(7, 7)
+material = SubResource("StandardMaterial3D_kpjan")
+size = Vector2(2, 2)
+
+[node name="Wiadro Minigame" type="Node3D"]
+
+[node name="Wiadro2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.103809, 0, 0.54859)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Wiadro2"]
+libraries = {
+"": SubResource("AnimationLibrary_le64y")
+}
+autoplay = "swipe_in"
+
+[node name="wiadro" parent="Wiadro2" instance=ExtResource("1_q3fdn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.183283, 0, -0.256067)
+
+[node name="Circle_002" parent="Wiadro2/wiadro" index="0" node_paths=PackedStringArray("debug_label", "root_node", "bg", "msg_label")]
+transform = Transform3D(0.0189119, 0, -0.61061, 0, 0.610903, 0, 0.61061, 0, 0.0189119, 0, -0.424528, 0)
+surface_material_override/0 = ExtResource("2_v0xly")
+script = ExtResource("2_kk7j7")
+debug_label = NodePath("../../../debug text")
+swipingLabel = ExtResource("4_i8i5x")
+root_node = NodePath("../../..")
+bg = NodePath("../../../Sprite3D")
+msg_label = NodePath("../../../wiadro msg")
+
+[node name="Smoke Spawner" parent="Wiadro2/wiadro/Circle_002" index="0" instance=ExtResource("4_twaju")]
+transform = Transform3D(1.63692, 0, -9.7568e-08, 0, 1.63692, 0, 9.7568e-08, 0, 1.63692, -0.0122671, 15.2225, -0.0285086)
+
+[node name="FireLight" type="OmniLight3D" parent="Wiadro2/wiadro/Circle_002/Smoke Spawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0189229, 0, 0.1004)
+light_color = Color(1, 0.47451, 0, 1)
+light_energy = 4.649
+light_indirect_energy = 6.838
+light_volumetric_fog_energy = 0.5
+omni_range = 3.49614
+
+[node name="BurnParticles" type="GPUParticles3D" parent="Wiadro2/wiadro/Circle_002" index="1"]
+transform = Transform3D(1.63692, 0, -9.7568e-08, 0, 1.63692, 0, 9.7568e-08, 0, 1.63692, -7.20322e-05, 15.2893, 0.0442525)
+amount = 150
+lifetime = 3.73
+explosiveness = 0.04
+randomness = 0.06
+process_material = SubResource("ParticleProcessMaterial_48ncc")
+draw_pass_1 = SubResource("QuadMesh_rcq3e")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Wiadro2/wiadro/Circle_002/BurnParticles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.30987e-07, 2.09566, 5.55303)
+size = Vector3(5, 0.5, 10)
+
+[node name="Circle" parent="Wiadro2/wiadro" index="1"]
+surface_material_override/0 = ExtResource("2_v0xly")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Wiadro2"]
+transform = Transform3D(-0.50742, 0.492742, -0.706916, -0.861049, -0.321794, 0.393756, -0.0334617, 0.808489, 0.587559, 3.81966, 8.58278, 4.60481)
+
+[node name="debug text" type="RichTextLabel" parent="."]
+visible = false
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.987
+offset_bottom = -0.0250015
+bbcode_enabled = true
+text = "sdsd"
+
+[node name="wiadro msg" type="RichTextLabel" parent="."]
+anchors_preset = -1
+anchor_top = 0.927
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.0159912
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center][shake][rainbow]Podnoś wiadro do góry"
+
+[node name="update msg" type="Timer" parent="wiadro msg"]
+wait_time = 0.6
+autostart = true
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(400, 0, 0, 0, 229.791, 0, 0, 0, 229.791, 0.3172, 2.51061, -16.6828)
+modulate = Color(0, 0, 0, 1)
+billboard = 1
+texture = ExtResource("7_yij0j")
+
+[connection signal="timeout" from="wiadro msg/update msg" to="Wiadro2/wiadro/Circle_002" method="_on_update_msg_timeout"]
+
+[editable path="Wiadro2/wiadro"]

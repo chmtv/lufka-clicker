@@ -17,6 +17,10 @@ boot_splash/show_image=false
 boot_splash/image="res://Topek.icon.png"
 config/icon="res://Topek.icon.png"
 
+[audio]
+
+general/text_to_speech=true
+
 [autoload]
 
 Globals="*res://globals.gd"
@@ -29,7 +33,7 @@ window/size/window_width_override=1000
 window/size/window_height_override=1000
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-window/stretch/scale=0.6
+window/stretch/scale=0.5
 window/handheld/orientation=1
 mouse_cursor/custom_image="res://Sprites/lufcursor.png"
 

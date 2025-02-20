@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://jwjrlipwod68"]
+[gd_scene load_steps=9 format=3 uid="uid://jwjrlipwod68"]
 
 [ext_resource type="PackedScene" uid="uid://bc48x8sur68to" path="res://Scenes/Smoke Spawner.tscn" id="1_siuq5"]
 [ext_resource type="Script" path="res://Scenes/ModelMovement.gd" id="1_vpb0n"]
@@ -27,8 +27,29 @@ lightmap_size_hint = Vector2i(7, 7)
 material = SubResource("StandardMaterial3D_kpjan")
 size = Vector2(2, 2)
 
-[node name="Palenie" type="Node3D"]
+[sub_resource type="Animation" id="Animation_awub3"]
+resource_name = "music_beat"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position.y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 10, 0), Vector3(0, 1, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eqsa7"]
+_data = {
+"music_beat": SubResource("Animation_awub3")
+}
+
+[node name="Palenie" type="Node3D" node_paths=PackedStringArray("anim_player")]
 script = ExtResource("1_vpb0n")
+anim_player = NodePath("AnimationPlayer")
 
 [node name="Smoke Spawner" parent="." instance=ExtResource("1_siuq5")]
 transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.107381, 1.83556, -0.0324419)
@@ -55,3 +76,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.30987e-07, 2.09566, 5.55303
 size = Vector3(5, 0.5, 10)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eqsa7")
+}
