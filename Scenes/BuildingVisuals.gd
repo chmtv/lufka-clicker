@@ -1,6 +1,7 @@
 extends Node3D
 
 var burnPercentage := 0.25
+var buildingLevels = [0,0,0,0,0,0,0,0,0,0,0]
 
 @onready var lufkaMaterial = get_node("Lufka/lufka/Circle").get_surface_override_material(0)
 var buildingsAmount
@@ -102,5 +103,36 @@ func _on_music_beat_timeout():
 	if next_building_index > max_building_index:
 		next_building_index = 1
 	var model_node = children[next_building_index]
-	print(max_building_index)
 	play_music_beat_animation(model_node)
+
+
+
+# Lighter visuals
+var next_lighter_target : int = 2 # Starts from 2 becuase the first node is the lighter and because of the subtraction
+var lighter_swap_time : float = 2
+@export var lighter_timer : Timer
+@onready var lighter_node = children[0]
+func _on_lighter_movement_timeout():
+	lighter_swap_time = 1 + 4 * (1-burnPercentage)
+	lighter_timer.wait_time = lighter_swap_time
+	next_lighter_target += 1
+	if next_lighter_target > max_building_index:
+		next_lighter_target = 1
+	
+
+	var lighter_tween = create_tween()
+	var next_target_node = children[next_lighter_target]
+	var position_offset = children[next_lighter_target].smoke_spawner_position
+	var final_target_pos = next_target_node.position + position_offset
+	lighter_node.look_at(final_target_pos)
+	lighter_tween.tween_property(lighter_node, "position", next_target_node.position + position_offset, lighter_swap_time/3.0).set_trans(Tween.TRANS_QUAD)
+
+
+
+
+func _on_topek_insert_timeout():
+	var prob = 0.2
+	for child in children:
+		var diceResult = randf_range(0,1)
+		if child.get_script() and diceResult <= prob: # bullshit way to check if ModelMovement.gd is there
+			child.topek_insert_play()

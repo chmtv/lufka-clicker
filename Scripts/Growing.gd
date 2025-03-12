@@ -8,6 +8,8 @@ var leafAddMultLeafLevel = 0
 var leafAddMultLeaf = 1
 var leafMultiplicativeMultLeaf = 1
 var leafAddMultThc = 1
+var thc_airflow_mult = 1
+var thc_growth_mult := 1
 
 func set_leaf_add_mult_thc_level(level):
 	leafAddMultThcLevel = level
@@ -21,6 +23,10 @@ func set_leaf_add_mult_leaf_level(level):
 	leafAddMultLeafLevel = level
 	leafAddMultLeaf = 1 + leafAddMultLeafLevel * 0.5
 	show_mult()
+func set_thc_airflow_upg_level(level):
+	thc_airflow_mult = pow(0.9, level)
+func set_thc_growth_upgrade_level(level):
+	thc_growth_mult = pow(1.25, level)
 
 # Photosynthesis, the meeting point of the other currencies
 var photosynthesis := 0.5
@@ -69,7 +75,8 @@ var canIncreaseAirflow = true
 @export var airflowDecayTimer : Timer
 @export var airflowProgress : TextureProgressBar
 @export var airflowButton : Button
-@onready var airflowDecayTime = airflowDecayTimer.wait_time
+@onready var airflowDecayTimeOnStart = airflowDecayTimer.wait_time
+@onready var airflowDecayTime = airflowDecayTimeOnStart
 func decreaseAirflow():
 	airflowLevel = max(airflowLevel-1, 0)
 	airflowProgress.value = airflowLevel
@@ -172,7 +179,7 @@ func updatePhsLabels():
 	# text += "Fotosynteza: x" + str(getPhotosynthesisCoeffTotal()*100) + "%"
 	text += "Fotosynteza: " + str(getPhotosynthesisForPhase()) + "/500"
 	text += "\n"
-	text += "×" + str(getPhotosynthesisCoeffTotal()*100) + "%"
+	text += str(snapped(thc_growth_mult,0.01)) + " × " + str(getPhotosynthesisCoeffTotal()*100) + "%"
 	text += "\n"
 	text += "[center]"
 	photosynthesis_label.text = text
@@ -193,6 +200,7 @@ func _process(delta):
 		
 		updatePhsLabels()
 
+@onready var airflowIncreaseTimeOnStart = airflowIncreaseTimer.wait_time
 func _ready():
 	airflowDecayTimer.connect("timeout", func():
 		decreaseAirflow()
@@ -203,14 +211,19 @@ func _ready():
 		sendWarningAlert()
 		)
 	airflowDecayTimer.start()
+	airflowIncreaseTimer.wait_time = airflowDecayTimeOnStart * thc_airflow_mult
 	airflowIncreaseTimer.start()
 	refreshRotatingFan()
 	PlantVisuals.refreshPlant(photosynthesis)
 	airflow_progress.max_value = airflowDecayTime
+	set_swiper_visibility()
+
+func set_swiper_visibility():
 	if not running:
 		menuToggleSwiper.visible = false
 	else:
 		menuToggleSwiper.visible = true
+
 
 func _on_airflow_button_pressed():
 	if canIncreaseAirflow:

@@ -186,7 +186,7 @@ func setNextSamaraTimer():
 # not working
 func rollForChemol():
 	# Roll a 1/15 chance of giving a chemol
-	var diceResult = randi_range(1,15);
+	var diceResult = randi_range(1,1/chemolChance);
 	if diceResult == 1:
 		return true
 	return false

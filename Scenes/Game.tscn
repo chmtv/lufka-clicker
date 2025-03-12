@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=3 uid="uid://d4jv7m03tl1yb"]
+[gd_scene load_steps=120 format=3 uid="uid://d4jv7m03tl1yb"]
 
 [ext_resource type="Script" path="res://Scripts/Manager.gd" id="1_5s2d2"]
 [ext_resource type="Script" path="res://Scripts/Topek.gd" id="2"]
@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://dgx4nx4ogr6pp" path="res://Scenes/palenie/wiadro.tscn" id="11_f0xfi"]
 [ext_resource type="Material" uid="uid://b8n20xpwoyx1m" path="res://plastic.tres" id="11_kydvk"]
 [ext_resource type="PackedScene" uid="uid://dgxxlxt4mn1iw" path="res://Scenes/palenie/apple.tscn" id="11_wxpln"]
+[ext_resource type="ArrayMesh" uid="uid://bei2v685hf1wi" path="res://Models/topek_brylka.obj" id="12_e5odo"]
 [ext_resource type="PackedScene" path="res://Scenes/FPS Counter.tscn" id="14"]
 [ext_resource type="PackedScene" uid="uid://bqnpima4o6jlk" path="res://Scenes/palenie/wapo.tscn" id="14_ndhf2"]
 [ext_resource type="Texture2D" uid="uid://bg4rl3cjkvce2" path="res://Textures/burnProgress2D.tres" id="15_0o5ra"]
@@ -93,6 +94,31 @@ shader_parameter/jaranie = 0.5
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k3jkr"]
 viewport_path = NodePath("Game Manager/SubViewportContainer/SubViewport")
+
+[sub_resource type="Curve" id="Curve_74rw0"]
+_data = [Vector2(0.0140351, 0.0171185), 0.0, 0.0, 0, 0, Vector2(0.0947368, 1), 0.0, 0.0, 0, 0, Vector2(0.175439, 0.517832), 0.0, 0.0, 0, 0, Vector2(0.249123, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_kg3u1"]
+curve = SubResource("Curve_74rw0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_txdc5"]
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector3(1, 1, 1)
+spread = 180.0
+initial_velocity_min = 0.2
+initial_velocity_max = 0.6
+angular_velocity_min = 10.0
+angular_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+radial_accel_max = 10.0
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_kg3u1")
+turbulence_noise_scale = 10.0
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
 
 [sub_resource type="Animation" id="Animation_jyt2w"]
 resource_name = "burnPress"
@@ -255,7 +281,7 @@ height = 5
 
 [node name="Node2D" type="Node3D"]
 
-[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("charPortrait", "upgradesScrollContainer", "NoUpgLabel", "samaraManager", "uiMover", "popupManager", "prestigeManager", "buildingVBox", "mapVBox", "GrowingManager", "burnProgressBar", "buyShakePlayer", "seriesUpgradesThcContainer", "upgradeVBox", "buildingsVisualManager2D")]
+[node name="Game Manager" type="Node3D" parent="." node_paths=PackedStringArray("charPortrait", "upgradesScrollContainer", "NoUpgLabel", "samaraManager", "uiMover", "popupManager", "prestigeManager", "buildingVBox", "mapVBox", "GrowingManager", "burnProgressBar", "buyShakePlayer", "seriesUpgradesThcContainer", "upgradeVBox", "buildingsVisualManager2D", "topek_particles", "camera_topek_attractor")]
 script = ExtResource("1_5s2d2")
 godTHCmultiplier = 1.0
 thc_get_indicator_res = ExtResource("2_m2lo4")
@@ -276,6 +302,8 @@ seriesUpgradeButton = ExtResource("2_m55ce")
 upgradeVBox = NodePath("UpgradeShopContainer/UpgradeShop/U/UpgContainer/NormalUpgrades")
 fireBox = ExtResource("9_diekk")
 buildingsVisualManager2D = NodePath("Burn Button/Smoke/Buildings2D")
+topek_particles = NodePath("Burn Button/TopekParticles")
+camera_topek_attractor = NodePath("SubViewportContainer/SubViewport/CameraMover/Camera3D/GPUParticlesAttractorSphere3D")
 
 [node name="PrestigeManager" type="Node" parent="Game Manager" node_paths=PackedStringArray("mainManager", "detoxLabel")]
 script = ExtResource("4_23you")
@@ -291,7 +319,7 @@ texture_filter = 1
 texture_repeat = 2
 material = SubResource("ShaderMaterial_jxrca")
 anchors_preset = -1
-anchor_top = 0.146
+anchor_top = 0.0835
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -0.0320015
@@ -303,7 +331,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SubViewport" type="SubViewport" parent="Game Manager/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(107, 164)
+size = Vector2i(107, 176)
 size_2d_override = Vector2i(600, 800)
 render_target_update_mode = 4
 script = ExtResource("2_26dat")
@@ -316,6 +344,15 @@ script = ExtResource("3_ef5wr")
 transform = Transform3D(-0.992566, 0.0527449, -0.109681, 0, 0.901209, 0.433385, 0.121705, 0.430163, -0.89451, -4.25719, 16.7789, -34.7197)
 current = true
 fov = 90.0
+
+[node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="Game Manager/SubViewportContainer/SubViewport/CameraMover/Camera3D"]
+transform = Transform3D(1, -1.49012e-08, -2.98023e-08, 2.98023e-08, 1, -3.72529e-08, -1.78814e-07, 5.21541e-08, 1, 0, 0, 0)
+strength = 30.0
+attenuation = 3.24901
+radius = 70.0
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Game Manager/SubViewportContainer/SubViewport/CameraMover/Camera3D"]
+size = Vector3(20, 20, 5)
 
 [node name="Rotation" type="Timer" parent="Game Manager/SubViewportContainer/SubViewport/CameraMover"]
 wait_time = 5.0
@@ -366,6 +403,7 @@ theme_override_styles/pressed = ExtResource("9_diekk")
 shortcut_feedback = false
 language = "pl_PL"
 script = ExtResource("2")
+metadata/_edit_use_anchors_ = true
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Game Manager/Burn Button"]
 transform = Transform3D(1, 5.96046e-08, 2.6054e-15, 0, -4.37114e-08, 1, 5.96046e-08, -1, -4.37114e-08, -1.90735e-06, 14.5767, 0.691341)
@@ -375,8 +413,23 @@ light_specular = 3.409
 spot_range = 42.449
 spot_angle = 12.27
 
-[node name="Buildings" type="Node3D" parent="Game Manager/Burn Button"]
+[node name="TopekParticles" type="GPUParticles3D" parent="Game Manager/Burn Button"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+amount = 100
+lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_txdc5")
+draw_pass_1 = ExtResource("12_e5odo")
+
+[node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="Game Manager/Burn Button/TopekParticles"]
+strength = 20.0
+radius = 100.0
+
+[node name="Timer" type="Timer" parent="Game Manager/Burn Button/TopekParticles"]
+autostart = true
+
+[node name="Buildings" type="Node3D" parent="Game Manager/Burn Button" node_paths=PackedStringArray("lighter_timer")]
 script = ExtResource("11_587k6")
+lighter_timer = NodePath("../Lighter Movement")
 
 [node name="Lighter" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("7_bq0rx")]
 script = null
@@ -410,10 +463,10 @@ surface_material_override/0 = ExtResource("11_kydvk")
 [node name="Wiadro" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("11_f0xfi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11)
 
-[node name="Joint" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("17_nq38r")]
-
 [node name="Bonio" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("9_wa3p7")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13, 0, 0)
+
+[node name="Joint" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("17_nq38r")]
 
 [node name="Wapo" parent="Game Manager/Burn Button/Buildings" instance=ExtResource("14_ndhf2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -9)
@@ -519,6 +572,13 @@ offset = Vector2(7.035, 12.98)
 
 [node name="Music Beat" type="Timer" parent="Game Manager/Burn Button"]
 wait_time = 0.82
+autostart = true
+
+[node name="Lighter Movement" type="Timer" parent="Game Manager/Burn Button"]
+autostart = true
+
+[node name="Topek Insert" type="Timer" parent="Game Manager/Burn Button"]
+wait_time = 0.5
 autostart = true
 
 [node name="UpgradeShopContainer" type="Control" parent="Game Manager"]
@@ -819,8 +879,8 @@ texture_filter = 1
 texture_repeat = 2
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.151
-offset_bottom = 0.00799942
+anchor_bottom = 0.13
+offset_bottom = 0.0399971
 theme_override_styles/panel = ExtResource("20_0sxsr")
 
 [node name="THC Points Label" type="Label" parent="Game Manager/CanvasLayer"]
@@ -828,29 +888,29 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.046
 anchor_top = 0.207
-anchor_right = 0.519
+anchor_right = 0.287
 anchor_bottom = 0.828
-offset_left = 0.0319996
+offset_left = 0.0320001
 offset_top = -0.00300026
-offset_right = -0.0520058
-offset_bottom = -0.012001
+offset_right = 0.00399971
+offset_bottom = -0.0119991
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Global THCpS Label" type="Label" parent="Game Manager/CanvasLayer"]
+[node name="Global THCpS Label" type="RichTextLabel" parent="Game Manager/CanvasLayer"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.509
+anchor_left = 0.315
 anchor_top = 0.207
 anchor_right = 0.954
-anchor_bottom = 0.793
-offset_left = 0.0279999
-offset_top = -0.00300026
-offset_right = -0.0320053
-offset_bottom = 0.00299835
+anchor_bottom = 0.828
+offset_left = -0.0200043
+offset_top = -0.00299978
+offset_right = -0.0319977
+offset_bottom = -0.012001
+grow_vertical = 2
 mouse_filter = 1
-horizontal_alignment = 1
-vertical_alignment = 1
+bbcode_enabled = true
 
 [node name="Percentage" type="Label" parent="Game Manager/CanvasLayer"]
 visible = false
@@ -871,14 +931,14 @@ vertical_alignment = 1
 [node name="VSeparator" type="VSeparator" parent="Game Manager/CanvasLayer"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.479
+anchor_left = 0.287
 anchor_top = 0.045
-anchor_right = 0.507
-anchor_bottom = 0.955
-offset_left = 3.024
-offset_top = 0.0200001
-offset_right = 2.992
-offset_bottom = -0.0200005
+anchor_right = 0.324
+anchor_bottom = 0.943
+offset_left = 0.00399971
+offset_top = -0.305
+offset_right = 0.00799942
+offset_bottom = 0.00299835
 theme_override_styles/separator = SubResource("StyleBoxLine_siwkp")
 
 [node name="Burn Progress Secondary" type="TextureProgressBar" parent="Game Manager/CanvasLayer"]
@@ -1098,7 +1158,6 @@ pivot_offset = Vector2(0, 46)
 icon = ExtResource("55_nyee8")
 
 [node name="Growing" type="Panel" parent="." node_paths=PackedStringArray("PlantVisuals", "mainManager", "lightProgressBar", "waterButton", "menuToggleSwiper", "airflowIncreaseTimer", "airflowDecayTimer", "airflowProgress", "airflowButton", "bg_fan", "leavesLabel", "multLabel", "photosynthesis_label", "phs_phase_label", "phs_progress_bar", "airflow_progress")]
-visible = false
 z_index = 2500
 texture_filter = 1
 texture_repeat = 2
@@ -1590,7 +1649,10 @@ texture = ExtResource("54_lty31")
 [connection signal="burning" from="Game Manager/Burn Button" to="Game Manager" method="_on_Topek_burning"]
 [connection signal="button_down" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_hold"]
 [connection signal="button_up" from="Game Manager/Burn Button" to="Game Manager" method="handle_Burn_Button_release"]
+[connection signal="timeout" from="Game Manager/Burn Button/TopekParticles/Timer" to="Game Manager" method="update_topek_particles"]
 [connection signal="timeout" from="Game Manager/Burn Button/Music Beat" to="Game Manager/Burn Button/Buildings" method="_on_music_beat_timeout"]
+[connection signal="timeout" from="Game Manager/Burn Button/Lighter Movement" to="Game Manager/Burn Button/Buildings" method="_on_lighter_movement_timeout"]
+[connection signal="timeout" from="Game Manager/Burn Button/Topek Insert" to="Game Manager/Burn Button/Buildings" method="_on_topek_insert_timeout"]
 [connection signal="tab_changed" from="Game Manager/UpgradeShopContainer/UpgradeShop" to="Game Manager/UpgradeShopContainer/UpgradeShop/Stat/StatsLabel" method="_on_upgrade_shop_tab_changed"]
 [connection signal="pressed" from="Game Manager/UpgradeShopContainer/UpgradeShop/Dtx/DetoxButton" to="Game Manager/PrestigeManager" method="_on_detox_button_pressed"]
 [connection signal="pressed" from="Game Manager/UpgradeShopContainer/ShopClose" to="Game Manager/MenuToggler" method="_on_shop_close_pressed"]

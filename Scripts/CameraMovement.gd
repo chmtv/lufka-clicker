@@ -56,9 +56,9 @@ func _input(event):
 	if event is InputEventMouseMotion and Input.is_action_pressed("cameraMove"):
 		stopAutoRotate()
 		mouseDelta = event.relative
-	elif event is InputEventScreenTouch:
+	elif event is InputEventScreenDrag:
 		stopAutoRotate()
-		# mouseDelta = event.position - prevTouchPos
+		mouseDelta = event.position - prevTouchPos
 		prevTouchPos = event.position
 	else:
 		mouseDelta = Vector2(0,0)

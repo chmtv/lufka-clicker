@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bojlxrdjj5nid"]
+[gd_scene load_steps=4 format=3 uid="uid://bojlxrdjj5nid"]
 
 [ext_resource type="Script" path="res://Scenes/SaveDelBut.gd" id="1_loo7j"]
 [ext_resource type="Script" path="res://Scripts/Options.gd" id="1_mengc"]
+[ext_resource type="Script" path="res://Scripts/SaveSlots.gd" id="3_o07ri"]
 
 [node name="Options Menu UI" type="Control"]
 layout_mode = 3
@@ -83,5 +84,83 @@ theme_override_colors/font_color = Color(0, 0, 0.866667, 1)
 text = "FB: @chemoltv"
 uri = "https://www.facebook.com/chemoltv"
 
+[node name="Save Slots" type="Control" parent="." node_paths=PackedStringArray("slotIndicator")]
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 23.0
+offset_right = 38.0
+offset_bottom = 164.0
+script = ExtResource("3_o07ri")
+slotIndicator = NodePath("Slot Indicator")
+
+[node name="Button" type="Button" parent="Save Slots"]
+layout_mode = 0
+offset_right = 12.0
+offset_bottom = 13.0
+text = "1"
+
+[node name="Button2" type="Button" parent="Save Slots"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 26.0
+offset_right = 17.0
+offset_bottom = 52.0
+text = "2"
+
+[node name="Button3" type="Button" parent="Save Slots"]
+layout_mode = 0
+offset_top = 52.0
+offset_right = 18.0
+offset_bottom = 78.0
+text = "3"
+
+[node name="Label" type="Label" parent="Save Slots"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.679
+anchor_top = 0.007
+anchor_right = 0.893
+anchor_bottom = 0.44
+offset_left = -0.012001
+offset_top = 0.013
+offset_right = -0.00400162
+offset_bottom = -0.0400047
+theme_override_constants/line_spacing = -5
+text = "S
+A
+V
+E"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Save Slots"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.893
+anchor_top = 0.057
+anchor_right = 1.107
+anchor_bottom = 0.489
+offset_left = -0.00400162
+offset_top = -0.0370007
+offset_right = 0.00399971
+offset_bottom = 0.0509949
+theme_override_constants/line_spacing = -5
+text = "S
+L
+O
+T"
+vertical_alignment = 1
+
+[node name="Slot Indicator" type="Label" parent="Save Slots"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 61.0
+offset_right = 62.0
+offset_bottom = 74.0
+theme_override_colors/font_shadow_color = Color(1.38376e-07, 0.107433, 1.8049e-08, 1)
+text = "4"
+
 [connection signal="pressed" from="SaveDelBut" to="SaveDelBut" method="_on_pressed"]
 [connection signal="value_changed" from="MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
+[connection signal="pressed" from="Save Slots/Button" to="Save Slots" method="setslot1"]
+[connection signal="pressed" from="Save Slots/Button2" to="Save Slots" method="setslot2"]
+[connection signal="pressed" from="Save Slots/Button3" to="Save Slots" method="setslot3"]

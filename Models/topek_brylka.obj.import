@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bei2v685hf1wi"
+path="res://.godot/imported/topek_brylka.obj-c515a4347858fb6e32187f26d6ad1fd7.mesh"
+
+[deps]
+
+files=["res://.godot/imported/topek_brylka.obj-c515a4347858fb6e32187f26d6ad1fd7.mesh"]
+
+source_file="res://Models/topek_brylka.obj"
+dest_files=["res://.godot/imported/topek_brylka.obj-c515a4347858fb6e32187f26d6ad1fd7.mesh", "res://.godot/imported/topek_brylka.obj-c515a4347858fb6e32187f26d6ad1fd7.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

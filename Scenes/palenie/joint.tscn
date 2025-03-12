@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj8evakgf8njc"]
+[gd_scene load_steps=4 format=3 uid="uid://bj8evakgf8njc"]
 
 [ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_su47x"]
 [ext_resource type="Texture2D" uid="uid://cjqcy5rrjge46" path="res://Sprites/wtf.jpg" id="2_8whl5"]
+[ext_resource type="PackedScene" uid="uid://chanqc2g7lwr2" path="res://Scenes/Particles/topek_insert_particles.tscn" id="3_fqxlh"]
 
 [node name="Palenie" instance=ExtResource("1_su47x")]
 
 [node name="Sprite3D" type="Sprite3D" parent="." index="3"]
 billboard = 1
 texture = ExtResource("2_8whl5")
+
+[node name="TopekInsert" parent="." index="4" instance=ExtResource("3_fqxlh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)

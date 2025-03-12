@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqnpima4o6jlk"]
+[gd_scene load_steps=6 format=3 uid="uid://bqnpima4o6jlk"]
 
 [ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_qdwlr"]
 [ext_resource type="PackedScene" uid="uid://dgyuxb8h6fj70" path="res://Models/wapo.dae" id="2_2wm2u"]
+[ext_resource type="PackedScene" uid="uid://chanqc2g7lwr2" path="res://Scenes/Particles/topek_insert_particles.tscn" id="3_r322w"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y05fk"]
 size = Vector3(0.052, 2, 1)
@@ -28,3 +29,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_01r25")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.11815, 3.66875, 1.23833)
 mesh = SubResource("BoxMesh_y05fk")
 surface_material_override/0 = SubResource("StandardMaterial3D_01r25")
+
+[node name="TopekInsert" parent="." index="4" instance=ExtResource("3_r322w")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 3.67523, 1)

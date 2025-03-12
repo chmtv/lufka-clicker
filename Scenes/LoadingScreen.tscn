@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://c23mgivvlwk25"]
+
+[ext_resource type="Material" uid="uid://nr2m7yrierfw" path="res://Materials/smokeFilter.tres" id="1_77d6m"]
+[ext_resource type="Script" path="res://Scripts/LoadingScreen.gd" id="1_v2iv0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wign1"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="LoadingScreen" type="Control" node_paths=PackedStringArray("tip_label", "progress_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v2iv0")
+tip_label = NodePath("Tip")
+progress_label = NodePath("Progress")
+tips = Array[String](["Mogę przestać w każdej chwili... co nie?", "Palenie z wiadra (mimo że wydaje się inaczej) wydziela toksyczne substancje", "Wiedziałeś że marihuana powoduje dziury w pamięci?", "Czasami warto zrobić sobie przerwę...", "Konopia zawiera składniki, które zmniejszają ból oraz działają przeciwzapalnieA badania potwierdzają, że konopia jest bardziej skuteczna niż aspiryna.", "Marihuana w medycynie i religii używana była od tysiącleci, aż nagle została zakazana i uznana za narkotyk przez wszechwiedzących niewolników Babilonu.", "Skun marihuana dobre geesy (dobre)", "Dobry chemol nie jest zły", "Lufen machen weeden sztachen", "Co tu kurwa robi Komisarz Buch?! Otwórzcie mu drzwi bo niestety wychodzi", "Płonie sobie zioło, płonie sobie chata, ale tu jebie skunem tata!", "Szkoda że nie możecie poczuć jak to pachnie", "Maczana dobrze wyyymaczaaaana", "Nikogo nie zabiła, a jednak zakazana!", "Sadzić! Palić! Zalegalizować!"])
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wign1")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+material = ExtResource("1_77d6m")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028
+anchor_top = 0.328
+anchor_right = 1.0
+anchor_bottom = 0.646
+offset_left = -0.0240002
+offset_top = 0.0239983
+offset_bottom = -0.0320053
+theme_override_colors/default_color = Color(0.485703, 0.485704, 0.485703, 1)
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center][wave]ŁADOWANIE"
+
+[node name="Tip" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12
+anchor_top = 0.578
+anchor_right = 0.88
+anchor_bottom = 0.75
+offset_left = 0.039999
+offset_top = 0.0240021
+offset_right = -0.0400085
+offset_bottom = -1.52588e-05
+theme_override_colors/font_color = Color(1, 0.713726, 0, 1)
+text = "Bez sensu"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Progress" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.269
+anchor_top = 0.719
+anchor_right = 0.722
+anchor_bottom = 0.917
+offset_left = -0.052002
+offset_top = -0.0480042
+offset_right = 0.0239944
+offset_bottom = -0.0640106
+text = "0%"
+horizontal_alignment = 1
+vertical_alignment = 1

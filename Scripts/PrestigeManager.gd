@@ -15,13 +15,20 @@ func updateLabel():
 	detoxLabel.text = (
 		"[center][color=#990099]" + 
 		"Aktualna Tolerancja: " + str(mainManager.tolerance) +
-		"\n Tolerancja po zrobieniu detoxu: +" + rewardStr + 
+		"\n Tolerancja po zrobieniu detoxu: " + rewardStr + 
 		"\n Spalone THC od ostatniego detoxu: " + mainManager.thcWithNumberAffix(mainManager.thcThisPrestige) +
 		"\n THCpS% za Tolerancję: " + Globals.float_to_pct_str(mainManager.toleranceMult)
 		)
 
 func recalculateToleranceMult():
 	mainManager.toleranceMult = 1 + (mainManager.tolerance * 1)
+
+func recalcToleranceUnlocks():
+	if mainManager.toleranceMult >= 50:
+		mainManager.GrowingManager.running = true
+	else:
+		mainManager.GrowingManager.running = false
+	mainManager.GrowingManager.set_swiper_visibility()
 
 # Called after buying the upgrade
 func doPrestigeReset():
@@ -40,8 +47,8 @@ func doPrestigeReset():
 	mainManager.boughtMaps = []
 	mainManager.addMap(0, "Piwnica", "piwnica.jpg", "Nie jest najlepsza. ale od czegoś trzeba zacząć")
 	mainManager.currentMapPath = "res://Sprites/Maps/piwnica.jpg"
-	for upg in mainManager.seriesUpgradesThc:
-		upg.level = 0
+	#for upg in mainManager.seriesUpgradesThc:
+	#	upg.level = 0
 	# for upg in mainManager.seriesUpgradesLeaves:
 	# 	upg.level = 0
 	for mapupg in mainManager.Upgrades.mapUpgrades:
@@ -57,10 +64,18 @@ func doPrestigeReset():
 	mainManager.updateSeriesUpgrades()
 	mainManager.updateMapsMenu()
 	mainManager.Upgrades.upgrades_prestige()
+	mainManager.recalculateTHCpS()
+	recalcToleranceUnlocks()
 	for i in range(0,7):
 		mainManager.buildingsVisualManager.modelVisibilities = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		mainManager.buildingsVisualManager.refreshModelVisibilities()
 	
+
+# Unlocks for prestige tolerance thresholds
+# progress bar 
+# with sedcondary progress bar
+
+
 
 func _on_detox_update_timeout():
 	updateLabel()

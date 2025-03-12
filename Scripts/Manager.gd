@@ -4,8 +4,11 @@ extends Node3D
 @export var godTHCmultiplier : float = 10.0
 func enableGodmode():
 	godmode = true
+	tolerance = 51
+	GrowingManager.running = true
 	GrowingManager.lightGodMult = 50
 	GrowingManager.phsMult = 1000
+	GrowingManager.set_swiper_visibility()
 	samaraManager.minTime = 0
 	samaraManager.maxTime = 12
 	thc = 100000005000000000000000000000000000000000000.0
@@ -122,7 +125,17 @@ func thcWithNumberAffix(_thc, add_affix = true):
 				result += affixes[0]
 	return result
 
-const saveFilePath = "user://lufkaClicker.sav"
+const saveSlotFilePath = "user://lufkaClickerSlot.sav"
+func getSaveFilePath():
+	# TODO 
+
+	var saveslotfile = FileAccess.open(saveSlotFilePath, FileAccess.READ)
+	var slotnum = "1"
+	if saveslotfile:
+		slotnum = saveslotfile.get_line()
+		print("gurwa ppliczke")
+		print(slotnum)
+	return "user://lufkaClicker" + slotnum + ".sav"
 func saveGame():
 	if godmode:
 		return
@@ -155,14 +168,14 @@ func saveGame():
 		"leaves": leaves,
 		"phs": GrowingManager.get_phs()
 	}
-	var saveFile = FileAccess.open(saveFilePath, FileAccess.WRITE)
+	var saveFile = FileAccess.open(getSaveFilePath(), FileAccess.WRITE)
 	saveFile.store_line(JSON.stringify(saveData))
 func loadGame():
 	if godmode:
 		return
 	
 	
-	var saveFile = FileAccess.open(saveFilePath, FileAccess.READ)
+	var saveFile = FileAccess.open(getSaveFilePath(), FileAccess.READ)
 	if not saveFile:
 		return
 	
@@ -332,8 +345,7 @@ func updateMapsMenu():
 		mapVBox.remove_child(n)
 		n.queue_free()
 	# Generate and place all the bought map buttons
-	for i in boughtMaps.size():
-		print("chuj")
+	# for i in boughtMaps.size():
 		# var currentButton = load("res://Scenes/MapChangeButton.tscn").instantiate()
 		# setMapButton(boughtMaps[i], currentButton)
 		
@@ -403,8 +415,6 @@ class Building:
 	# buys and returns the new currency amount
 	func buy(amount, currency = Globals.CURRENCIES.THC, multibuy_n : int = 1):
 		var new_amount = amount
-		print("chuj")
-		print(Globals.CURRENCIES)
 		if (currency == Globals.CURRENCIES.THC and amount >= cost) or (currency == Globals.CURRENCIES.LEAF and amount >= cost):
 			new_amount = amount - cost
 			level += 1
@@ -445,9 +455,9 @@ var buildings = [
 	Building.new("Lufka", 2500, 10, 0, afterBuyRef, 1.24, 5), # 2
 	Building.new("Wodospad", 500000, 100, 0, afterBuyRef, 1.15, 5), # 4
 	Building.new("Wiadro", 40000000, 1000, 0, afterBuyRef, 1.18, 5),
-	Building.new("Bongo", 10000000000, 15000, 0, afterBuyRef, 1.12, 7),	# 7
-	Building.new("Joint", 4200000000000000000000., 400000000000000000, 0, afterBuyRef, 1.12),	# 6
-	Building.new("Waporyzator", 10000000000000000000000000000., 300000000000000000000000., 0.0, afterBuyRef, 1.2),	# 8
+	Building.new("Bongo", 5000000000, 5000, 0, afterBuyRef, 1.12, 7),	# 7
+	Building.new("Joint", 500000000000., 25000, 0, afterBuyRef, 1.12),	# 6
+	Building.new("Waporyzator", 50000000000000., 100000., 0.0, afterBuyRef, 1.2),	# 8
 	Building.new("Dab pen", 300000000000000000000000000000000000000., 2000000000000000000000000000000.0, 0.0, afterBuyRef, 1.26, 1.0, 10),	# 9
 	Building.new("Bongo grawitacyjne", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 10
 	Building.new("Wulkan", 3000000000000000000000000000000000000.0, 405, 0, afterBuyRef, 1.2), # 11
@@ -516,7 +526,6 @@ func getTHC():
 @onready var burnProgressBarSecondary = get_node("Burn Button/Burn Progress Secondary")
 @export var buyShakePlayer : AnimationPlayer
 func _on_BuildingBuy(index, _currency = Globals.CURRENCIES.THC):
-	print("chujujujhuj")
 	thc = buildings[index].buy(thc)
 	buildingsVisualManager.setModelVisibility(index)
 	buyShakePlayer.play("shake")
@@ -615,14 +624,14 @@ func shopLightSwipe():
 # Upgrades that behave like buildings
 var seriesUpgradesThc = [
 	# Building example: 
-	# Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.31, 5), # 0
-	Building.new("THC +15%", 20000000000000, 0, 0, afterBuyRef, 12, 1, -1),
-	Building.new("THC ×1.10", 50000000000000, 0, 0, afterBuyRef, 12, 1, -1),
-	Building.new("Liście +25%", 200000000000000, 0, 0, afterBuyRef, 16, 1, -1)
+	# Building.new("Zapalniczka", 0.5, 0.1, 0, afterBuyRef, 1.31, 5), # 0 
+	Building.new("Airflow cooldown -10%", 1000000000, 0, 0, afterBuyRef, 3, 1, -1),
+	Building.new("Szybkość rośnięcia +25%", 1500000000, 0, 0, afterBuyRef, 3, 1, -1),
+	Building.new("Liście +25%", 2000000000, 0, 0, afterBuyRef, 3, 1, -1)
 ]
 var seriesUpgradesLeaves = [
-	Building.new("THC +15%", 4, 0, 0, afterBuyRef, 4, 1, -1),
-	Building.new("THC ×120%", 4, 0, 0, afterBuyRef, 4, 1, -1),
+	Building.new("THC +50%", 4, 0, 0, afterBuyRef, 3, 1, -1),
+	Building.new("THC ×2", 6, 0, 0, afterBuyRef, 4, 1, -1),
 	Building.new("Liście +50%", 4, 0, 0, afterBuyRef, 4, 1, -1),
 	Building.new("Liście ×1.25", 4, 0, 0, afterBuyRef, 4, 1, -1)
 ]
@@ -644,12 +653,14 @@ func updateSeriesUpgrades():
 	# Set the gameplay effects
 	# Probabaly bad idea to code it like this but idc
 	## THC upgrades
-	thcSeriesAddMult = 1 + seriesUpgradesThc[0].level
-	thcSeriesMultMultiplicative = pow(1.10, seriesUpgradesThc[1].level)
+	# thcSeriesAddMult = 1 + seriesUpgradesThc[0].level
+	# thcSeriesMultMultiplicative = pow(1.25, seriesUpgradesThc[1].level)
 	GrowingManager.set_leaf_add_mult_thc_level(seriesUpgradesThc[2].level)
+	GrowingManager.set_thc_airflow_upg_level(seriesUpgradesThc[0].level)
+	GrowingManager.set_thc_growth_upgrade_level(seriesUpgradesThc[1].level)
 	## Leaf upgrades
 	growingThcAddMult = 1 + seriesUpgradesLeaves[0].level * 0.15
-	growingThcMultMultiplicative = pow(1.2, seriesUpgradesLeaves[1].level)
+	growingThcMultMultiplicative = pow(2, seriesUpgradesLeaves[1].level)
 	GrowingManager.set_leaf_add_mult_leaf_level(seriesUpgradesLeaves[2].level)
 	GrowingManager.set_leaf_multiplicative_mult_leaf_level(seriesUpgradesLeaves[3].level)
 @export var seriesUpgradesThcContainer : VBoxContainer
@@ -691,7 +702,7 @@ func updateUpgradesShop():
 	# var upgradeVBox = get_node("UpgradeShopContainer/UpgradeShop/U/ScrollContainer/UpgContainer/NormalUpgrades")
 	upgradeVBox.name = "VBoxContainer"
 	
-	# Reset the VBox to its' initial state
+		# Reset the VBox to its' initial state
 	for n in upgradeVBox.get_children():
 		upgradeVBox.remove_child(n)
 		n.queue_free()
@@ -837,6 +848,7 @@ func _ready():
 	updateMapsMenu()
 	refreshMapsEffects()
 	refreshBuildingsList()
+	prestigeManager.recalcToleranceUnlocks()
 	if(starting_THC != 1):
 		addTHC(starting_THC)
 	
@@ -919,10 +931,14 @@ func _on_burn_press():
 
 func addTHC(amount):
 	# Change the THCps label's text
-	var mult1 = snapped(globalMultiplier * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult * growingThcMultMultiplicative, 0.02)
+	var mult1 = snapped(globalMultiplier * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult, 0.01)
+	var detox_str = ""
+	if toleranceMult != 1:
+		detox_str = " × [color=purple]" + str(toleranceMult) + "[/color]"
+
 	globalTHCpSLabel.text = (
-		"THCpS: " + thcWithNumberAffix(THCpSbeforeMult) + " × " + str(mult1) + " × [color='orange']" + str(burnPercentage) + "[/color]" + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" 
-		+ thcWithNumberAffix(THCpS) + ")" + " "
+		thcWithNumberAffix(THCpSbeforeMult) + " × " + str(mult1) + " × " + str(snapped(growingThcMultMultiplicative,0.01)) + " × [color='orange']" + str(snapped(burnPercentage,0.01)) + "[/color]" + detox_str + " = " + thcWithNumberAffix(THCpS) + " THCpS"# + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" 
+		# + thcWithNumberAffix(THCpS) + ")" + " "
 	)
 
 	thcThisPrestige += godTHCmultiplier * amount
@@ -983,3 +999,13 @@ func handle_Burn_Button_release():
 
 func _on_map_switcher_map_change(map):
 	pass # Replace with function body.
+
+
+@export var topek_particles : GPUParticles3D
+@export var camera_topek_attractor : GPUParticlesAttractorSphere3D
+func update_topek_particles():
+	topek_particles.amount_ratio = max(0.01, (THCpS / 5000000000))
+	if burnPercentage > 0.7:
+		camera_topek_attractor.strength = 30
+	else:
+		camera_topek_attractor.strength = 0

@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bir62bcf71u7g"]
+[gd_scene load_steps=6 format=3 uid="uid://bir62bcf71u7g"]
 
 [ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_3l3xr"]
 [ext_resource type="PackedScene" uid="uid://p45mkorpxmbd" path="res://Models/bonio.dae" id="2_nwbsg"]
+[ext_resource type="PackedScene" uid="uid://ngr2bnl2ujkg" path="res://Models/topek_brylka.dae" id="3_ku2x0"]
+[ext_resource type="PackedScene" uid="uid://chanqc2g7lwr2" path="res://Scenes/Particles/topek_insert_particles.tscn" id="4_sq2v1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spsd3"]
 cull_mode = 2
@@ -23,5 +25,11 @@ transform = Transform3D(-2.37687, 0, -1.83044, 0, 3, 0, 1.83044, 0, -2.37687, 0,
 
 [node name="Circle" parent="bonio" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_spsd3")
+
+[node name="topek_brylka" parent="." index="4" instance=ExtResource("3_ku2x0")]
+transform = Transform3D(0.34, 0, 0, 0, 0.34, 0, 0, 0, 0.34, 2.57048, 1.61382, -4.86848)
+
+[node name="TopekInsert" parent="." index="5" instance=ExtResource("4_sq2v1")]
+transform = Transform3D(-0.517519, 0, -0.855672, 0, 1, 0, 0.855672, 0, -0.517519, 3.47176, 1.62967, -6.1705)
 
 [editable path="bonio"]

@@ -2,14 +2,13 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce7on4x8sa0nr"
+uid="uid://km40x1m3mshr"
 path.s3tc="res://.godot/imported/lufka_TexturesCom_Grass0193_S.png-71a9364bcd8a051b8e8dfbf8b87f5af2.s3tc.ctex"
 path.etc2="res://.godot/imported/lufka_TexturesCom_Grass0193_S.png-71a9364bcd8a051b8e8dfbf8b87f5af2.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
-generator_parameters={}
 
 [deps]
 

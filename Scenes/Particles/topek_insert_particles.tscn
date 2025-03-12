@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://chanqc2g7lwr2"]
+
+[ext_resource type="ArrayMesh" uid="uid://bei2v685hf1wi" path="res://Models/topek_brylka.obj" id="1_a2x1s"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x703y"]
+spread = 10.0
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 8.0
+
+[node name="TopekInsert" type="GPUParticles3D"]
+emitting = false
+amount = 6
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.2
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_x703y")
+draw_pass_1 = ExtResource("1_a2x1s")

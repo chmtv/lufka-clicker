@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dgxxlxt4mn1iw"]
+[gd_scene load_steps=8 format=3 uid="uid://dgxxlxt4mn1iw"]
 
 [ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_ut07a"]
 [ext_resource type="PackedScene" uid="uid://7l3h03biq6mn" path="res://Models/apple.dae" id="2_7b4p6"]
 [ext_resource type="Texture2D" uid="uid://hmvuaomr5ga1" path="res://Textures/food_0006_color_1k.jpg" id="3_5wcie"]
+[ext_resource type="PackedScene" uid="uid://chanqc2g7lwr2" path="res://Scenes/Particles/topek_insert_particles.tscn" id="4_k2jy1"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_uotse"]
 
@@ -32,5 +33,8 @@ transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.107381
 
 [node name="BurnParticles" parent="." index="2"]
 transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -0.0716482, 1.93989, 0.0424292)
+
+[node name="TopekInsert" parent="." index="4" instance=ExtResource("4_k2jy1")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.0131789, 3.10183, -0.0405233)
 
 [editable path="apple"]

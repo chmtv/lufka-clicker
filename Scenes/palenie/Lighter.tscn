@@ -1,9 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvbaeva83aiif"]
+[gd_scene load_steps=4 format=3 uid="uid://bvbaeva83aiif"]
 
 [ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_o2som"]
+[ext_resource type="PackedScene" uid="uid://cl7en8dy4suj4" path="res://Models/lighter.dae" id="2_wtfya"]
+[ext_resource type="PackedScene" uid="uid://chanqc2g7lwr2" path="res://Scenes/Particles/topek_insert_particles.tscn" id="3_rnevj"]
 
 [node name="Palenie" instance=ExtResource("1_o2som")]
-visible = false
+
+[node name="Smoke Spawner" parent="." index="0"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.0105987, -0.153466, -0.0324419)
 
 [node name="FireLight" parent="Smoke Spawner" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0367314, 0.140825, -0.114764)
+
+[node name="BurnParticles" parent="." index="1"]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, 0.0107591, -0.0175147, -0.545008)
+
+[node name="lighter" parent="." index="3" instance=ExtResource("2_wtfya")]
+transform = Transform3D(0.73221, 0.681079, 0, -0.681079, 0.73221, 0, 0, 0, 1, -1.98847, -2.94534, 0.601596)
+
+[node name="TopekInsert" parent="." index="4" instance=ExtResource("3_rnevj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1, 5)
 visible = false

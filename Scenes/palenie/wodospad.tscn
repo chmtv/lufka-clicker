@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ds4ylnrjh3lds"]
+[gd_scene load_steps=7 format=3 uid="uid://ds4ylnrjh3lds"]
 
 [ext_resource type="PackedScene" uid="uid://jwjrlipwod68" path="res://Scenes/palenie/Base.tscn" id="1_krh3b"]
 [ext_resource type="PackedScene" uid="uid://canjen04wqy13" path="res://Models/wodospad.dae" id="2_dfjjn"]
 [ext_resource type="Material" uid="uid://c2c4xv4h08yf0" path="res://Materials/water.tres" id="3_tgtrm"]
+[ext_resource type="PackedScene" uid="uid://chanqc2g7lwr2" path="res://Scenes/Particles/topek_insert_particles.tscn" id="4_0rnu1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_00mh3"]
 albedo_color = Color(0.435294, 0.635294, 0.713726, 1)
@@ -29,8 +30,8 @@ transform = Transform3D(-1.32697, 0, -0.884977, 0, 1.595, 0, 0.884977, 0, -1.326
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.58327, 0)
 surface_material_override/0 = SubResource("StandardMaterial3D_00mh3")
 
-[node name="CPUParticles3D" type="CPUParticles3D" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.649382, -6.07432, -1.50847)
+[node name="CPUParticles3D" type="CPUParticles3D" parent="wodospad" index="4"]
+transform = Transform3D(-0.521601, 0, 0.347864, 0, 0.626959, 0, -0.347864, 0, -0.521601, -1.3301, -5.41153, 1.83855)
 amount = 100
 lifetime = 2.96
 explosiveness = 0.01
@@ -42,5 +43,8 @@ flatness = 1.0
 gravity = Vector3(0, -30, 0)
 initial_velocity_min = 18.0
 initial_velocity_max = 20.0
+
+[node name="TopekInsert" parent="." index="4" instance=ExtResource("4_0rnu1")]
+transform = Transform3D(1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0, 1, 0.380569, 14.7217, 2.0218)
 
 [editable path="wodospad"]

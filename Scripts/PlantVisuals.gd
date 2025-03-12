@@ -145,14 +145,19 @@ func refreshPlant(phs : float):
 		Plant.resetRng()
 	var phsRatio = phs / 2000
 	var leavesToCheck = Plant.getAllSubleaves()
-
 	# Set the leaves' growth value
-	var totalGrowth = phsRatio * 19
-	for i in range(0,leavesToCheck.size()):
-		var growth = max( min(1, totalGrowth), 0) # Choose totalGrowth but bounded by 0 and 1 (I fucking hate the word bounded)
+	var totalGrowth = phsRatio * 19 / 3
+	for i in range(0,leavesToCheck.size() - 2, 3):
+		var growth : float = max( min(1, totalGrowth), 0)# Choose totalGrowth but bounded by 0 and 1 (I fucking hate the word bounded), uhhhh wtf
 		totalGrowth -= growth
 		leavesToCheck[i].growth = growth
-		# leavesToCheck[i].growth += 0.1
+		leavesToCheck[i+1].growth = growth
+		leavesToCheck[i+2].growth = growth
+		# i is values 0-19
+		# phs is values 0-2000
+
+
+
 	prevPhs = phs
 	queue_redraw()
 func regeneratePlant(phs : float):
@@ -176,7 +181,7 @@ const stemColor = Color(0.14,0.63,0.4,1.0)
 var lightCoeff = 0.0;
 
 func _draw():
-	var viewport_size = get_rect().size
+	var plant_area = get_rect().size
 	# I have no idea what the fuck is this code in the comment:
 	# draw_set_transform(Vector2.ZERO, 0.0, Vector2(10.0, 10.0))
 	var _drawColor = Color(1,1,1,1) + Color(1,1,1,1).lerp(ledTint, lightCoeff)
@@ -198,26 +203,26 @@ func _draw():
 			
 			
 			target_pos = root_pos.lerp(target_pos, growth)
-			target_pos.x *= viewport_size.x
-			target_pos.y *= viewport_size.y
+			target_pos.x *= plant_area.x
+			target_pos.y *= plant_area.y
 			
 			# Stem rendering
 			var stemCurve = Curve2D.new()
-			var line_start_pos = root_pos * viewport_size
+			var line_start_pos = root_pos * plant_area
 			stemCurve.add_point(line_start_pos)
-			for j in range(1,curvePointsAmount):
-				var lerped = line_start_pos.lerp(target_pos, 1.0 * j / curvePointsAmount)
-				var curvePoint = lerped + lerped.orthogonal().normalized() * 10
-				# what the fuck am i even doing here
-				# what the fuck am i doing with my life it's 2:12 7.05.2024 and i have another fucking calculus test
-				stemCurve.add_point(curvePoint)
+			# for j in range(1,curvePointsAmount):
+			# 	var lerped = line_start_pos.lerp(target_pos, 1.0 * j / curvePointsAmount)
+			# 	var curvePoint = lerped + lerped.orthogonal().normalized() * 10
+			# 	# what the fuck am i even doing here
+				
+			# 	stemCurve.add_point(curvePoint)
 			stemCurve.add_point(target_pos)
 			var line_points = stemCurve.get_baked_points()
 			
 			draw_polyline(line_points, stemColor, 3)
 			draw_texture(leafTexture, target_pos-Vector2(16,16))
 			connectionTuples.append([subleaf, subleaf.getSubleaves()])
-	draw_texture(doniczkaTexture, Plant.pos * viewport_size - Vector2(16,9))
+	draw_texture(doniczkaTexture, Plant.pos * plant_area - Vector2(16,9))
 
 
 
@@ -237,3 +242,9 @@ func _ready():
 	var plantRandSeed = randi()
 	Plant = Leaf.new([], Vector2(0.5,0.7), Vector2(0.5,0.7), plantRandSeed)
 	Plant.generateSubleaves()
+
+
+
+
+
+# what the fuck am i doing with my life it's 2:12 7.05.2024 and i have another fucking calculus test
