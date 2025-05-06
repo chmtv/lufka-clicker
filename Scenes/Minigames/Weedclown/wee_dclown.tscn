@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=3 uid="uid://6rrw0kkvau8n"]
+
+[ext_resource type="Script" path="res://Scenes/Minigames/Weedclown/wee_dclown.gd" id="1_h0qo0"]
+[ext_resource type="PackedScene" uid="uid://qpst8s63ursb" path="res://Scenes/Minigames/Weedclown/topek.tscn" id="1_wi8hj"]
+[ext_resource type="Texture2D" uid="uid://lm73jj7bvol0" path="res://Sprites/stonerPortrait/circleProgress.png" id="3_jh1r1"]
+[ext_resource type="AudioStream" uid="uid://bhcu1jmfpxn1r" path="res://SFX/fnaf_game_win.wav" id="4_e61h1"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_mbulk"]
+b = Vector2(0, 500)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0akhi"]
+radius = 55.0
+
+[node name="Wee dclown" type="Node2D" node_paths=PackedStringArray("topex_container", "catch_area", "catch_button", "win_sound", "gamewin_label")]
+script = ExtResource("1_h0qo0")
+topek = ExtResource("1_wi8hj")
+topex_container = NodePath("Topex")
+catch_area = NodePath("Catcher/Area2D")
+catch_button = NodePath("CatchButton")
+win_sound = NodePath("GAME WIN !!!!!!!! sound")
+gamewin_label = NodePath("GAME WIN!!!")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+position = Vector2(-24, -36)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2(13, 26)
+shape = SubResource("SegmentShape2D_mbulk")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-53, 26)
+rotation = -1.5708
+shape = SubResource("SegmentShape2D_mbulk")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-40, 428)
+rotation = -1.5708
+shape = SubResource("SegmentShape2D_mbulk")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(430, 19)
+shape = SubResource("SegmentShape2D_mbulk")
+
+[node name="Catcher" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.737255)
+position = Vector2(197, 190)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("3_jh1r1")
+
+[node name="Area2D" type="Area2D" parent="Catcher"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Catcher/Area2D"]
+shape = SubResource("CircleShape2D_0akhi")
+
+[node name="CatchButton" type="Button" parent="."]
+offset_left = 44.0
+offset_top = 278.0
+offset_right = 340.0
+offset_bottom = 351.0
+text = "! ŁAP KURWA BUCHA !"
+
+[node name="Topex" type="Node2D" parent="."]
+
+[node name="GAME WIN!!!" type="Label" parent="."]
+offset_top = 60.0
+offset_right = 406.0
+offset_bottom = 223.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.309804)
+theme_override_font_sizes/font_size = 60
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GAME WIN !!!!!!!! sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_e61h1")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+bus = &"Samara"
+
+[connection signal="pressed" from="CatchButton" to="." method="_on_catch_button_pressed"]

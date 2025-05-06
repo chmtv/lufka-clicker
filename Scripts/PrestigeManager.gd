@@ -3,22 +3,38 @@ extends Node
 @export var mainManager : Node
 @export var detoxLabel : RichTextLabel
 
-func calcPrestigeReward(prevTolerance : int):
+func calcPrestigeReward(prevTolerance : int = 0):
 	var thc = mainManager.thcLifetime
 	var reward = roundi(
 		pow( (thc/pow(1000000.,1.)), 1./2. )
 	)
 	return reward
+@export var progressBar : ProgressBar
+@export var progressBarLabel : RichTextLabel
+# Function to update the ProgressBar and it's label
+func updateProgressInfo():
+	var tolerance = mainManager.tolerance
+	var progressStr = ""
+	progressBar.visible = false
+	if tolerance <= 50:
+		progressBar.visible = true
+		progressStr = "[center][color=#E0B0FF] Growbox " + str(tolerance) + "/50"
+	progressBarLabel.text = progressStr
+	progressBar.value = tolerance
+		
+		
+
 func updateLabel():
 	var reward = calcPrestigeReward(mainManager.tolerance)
 	var rewardStr = str(reward)
 	detoxLabel.text = (
-		"[center][color=#990099]" + 
+		"[center][color=#E0B0FF]" + 
 		"Aktualna Tolerancja: " + str(mainManager.tolerance) +
 		"\n Tolerancja po zrobieniu detoxu: " + rewardStr + 
 		"\n Spalone THC od ostatniego detoxu: " + mainManager.thcWithNumberAffix(mainManager.thcThisPrestige) +
 		"\n THCpS% za Tolerancję: " + Globals.float_to_pct_str(mainManager.toleranceMult)
 		)
+	updateProgressInfo()
 
 func recalculateToleranceMult():
 	mainManager.toleranceMult = 1 + (mainManager.tolerance * 1)
@@ -45,8 +61,10 @@ func doPrestigeReset():
 		building.recalculateTHCpS()
 	mainManager.boughtUpgradesIds = []
 	mainManager.boughtMaps = []
+	mainManager.globalMultiplier = 1
 	mainManager.addMap(0, "Piwnica", "piwnica.jpg", "Nie jest najlepsza. ale od czegoś trzeba zacząć")
 	mainManager.currentMapPath = "res://Sprites/Maps/piwnica.jpg"
+	mainManager.playtime_since_detox = 0.0
 	#for upg in mainManager.seriesUpgradesThc:
 	#	upg.level = 0
 	# for upg in mainManager.seriesUpgradesLeaves:

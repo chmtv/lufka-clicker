@@ -3,11 +3,13 @@ extends Control
 
 const saveslotpath = "user://lufkaClickerSlot.sav"
 @export var slotIndicator : Label
-func setSlot(slot):
+func setSlot(slot = ""):
 	var saveFile = FileAccess.open(saveslotpath, FileAccess.WRITE)
-	saveFile.store_line(JSON.stringify(str(slot)))
+	saveFile.store_line(str(slot))
 	get_tree().quit()
 	slotIndicator.text = str(slot)
+	if not slot: # checks if the slot is empty (case of slot 1)
+		slotIndicator.text = "1"
 
 const saveSlotFilePath = "user://lufkaClickerSlot.sav"
 func _ready():
@@ -18,7 +20,7 @@ func _ready():
 		slotIndicator.text = slotnum
 
 func setslot1():
-	setSlot(1)
+	setSlot()
 	
 	
 

@@ -13,8 +13,8 @@ config_version=5
 config/name="Lufka Clicker"
 run/main_scene="res://Scenes/LoadingScreen.tscn"
 config/features=PackedStringArray("4.2")
-boot_splash/show_image=false
 boot_splash/image="res://Topek.icon.png"
+boot_splash/fullsize=false
 config/icon="res://Topek.icon.png"
 
 [audio]
@@ -24,6 +24,7 @@ general/text_to_speech=true
 [autoload]
 
 Globals="*res://globals.gd"
+Achievements="*res://Scripts/achievements.gd"
 
 [display]
 

@@ -1,8 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://bn1uq28s62224"]
+[gd_scene load_steps=8 format=3 uid="uid://bn1uq28s62224"]
 
 [ext_resource type="Theme" uid="uid://dvrbpvnjt7j30" path="res://Theme.tres" id="1"]
+[ext_resource type="Texture2D" uid="uid://c22xnly5dcmxy" path="res://Textures/mapBorderBox.png" id="1_lqdv0"]
 [ext_resource type="Script" path="res://Scripts/MapChange.gd" id="2"]
 [ext_resource type="Script" path="res://Scenes/ShopButtonResize.gd" id="3"]
+[ext_resource type="StyleBox" uid="uid://c0omymulwrafl" path="res://Theme/MapBorderBox.tres" id="4_mw45m"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ua34s"]
+texture = ExtResource("1_lqdv0")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 2
+modulate_color = Color(0.67069, 0.670689, 0.67069, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v3ol0"]
+texture = ExtResource("1_lqdv0")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
 
 [node name="MapPanel" type="Panel"]
 custom_minimum_size = Vector2(140, 90)
@@ -13,6 +32,7 @@ offset_right = 0.0319977
 offset_bottom = 0.0319977
 size_flags_horizontal = 3
 mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxTexture_ua34s")
 script = ExtResource("3")
 
 [node name="Change Button" type="Button" parent="."]
@@ -25,7 +45,13 @@ offset_left = 0.0239944
 offset_top = 0.0139999
 offset_right = -0.0479889
 offset_bottom = -0.0139999
+focus_mode = 0
 theme = ExtResource("1")
+theme_override_colors/font_color = Color(1, 0.172549, 0.333333, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = ExtResource("4_mw45m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v3ol0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_v3ol0")
 text = "Zmień"
 script = ExtResource("2")
 
@@ -40,6 +66,8 @@ anchor_bottom = 0.337
 offset_left = 0.02
 offset_right = -0.0200043
 offset_bottom = -0.00400162
+theme_override_colors/font_color = Color(0.768627, 0.117647, 0.239216, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -54,6 +82,8 @@ offset_left = -0.0599999
 offset_top = 0.00799942
 offset_right = -0.0200043
 offset_bottom = 0.360001
+theme_override_colors/font_color = Color(0.768627, 0.117647, 0.239216, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 autowrap_mode = 2
 
 [connection signal="pressed" from="Change Button" to="Change Button" method="_on_Buy_Button_pressed"]

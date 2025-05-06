@@ -118,6 +118,8 @@ var leavesPerCollect = 4
 func collect():
 	isCollectable = false
 	photosynthesis = 0
+	airflowLevel = 0
+	light = 0
 	var totalMult = get_total_mult()
 	addLeaves(leavesPerCollect * totalMult)
 	# No boilerplate as I once again forgot how to do it with nodes lmao and im not sure whether it was the usual method of a simple if

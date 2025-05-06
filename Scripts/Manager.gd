@@ -61,7 +61,8 @@ func instaBank(minutes : float = 1.0):
 @export var popupManager : Node
 @export var prestigeManager : Node
 var THCpSToDisplay
-var elapsedTime = 0
+var playtime := 0.0
+var playtime_since_detox := 0.0
 
 var afterBuyRef = Callable(self, "updateBuildingShop")
 var Upgrades = preload("res://Scripts/Upgrades.gd").new()
@@ -130,12 +131,12 @@ func getSaveFilePath():
 	# TODO 
 
 	var saveslotfile = FileAccess.open(saveSlotFilePath, FileAccess.READ)
-	var slotnum = "1"
+	var slotnum = ""
 	if saveslotfile:
 		slotnum = saveslotfile.get_line()
-		print("gurwa ppliczke")
-		print(slotnum)
 	return "user://lufkaClicker" + slotnum + ".sav"
+var elapsed_since_save : float = 0.0
+var elapsed_since_prestige : float = 0.0
 func saveGame():
 	if godmode:
 		return
@@ -166,7 +167,9 @@ func saveGame():
 		"seriesThcLevels": seriesThcLevels,
 		"seriesLeafLevels": seriesLeafLevels,
 		"leaves": leaves,
-		"phs": GrowingManager.get_phs()
+		"phs": GrowingManager.get_phs(),
+		"playtime": playtime,
+		"playtime_since_detox": playtime_since_detox
 	}
 	var saveFile = FileAccess.open(getSaveFilePath(), FileAccess.WRITE)
 	saveFile.store_line(JSON.stringify(saveData))
@@ -216,6 +219,10 @@ func loadGame():
 	thcLifetime = dataToLoad["thcLifetime"]
 	tolerance = dataToLoad["tolerance"]
 	leaves = dataToLoad["leaves"]
+	if "playtime" in dataToLoad:
+		playtime = float(dataToLoad["playtime"])
+	if "playtime_since_detox" in dataToLoad:
+		playtime_since_detox = float(dataToLoad["playtime_since_detox"])
 	GrowingManager.set_leaves(leaves)
 	GrowingManager.set_phs(dataToLoad["phs"])
 	lastDate = dataToLoad["lastDate"]
@@ -278,7 +285,7 @@ var boughtMaps = [
 #	# assets.set_small_text("W3333333d")
 #o
 #	var timestamps = activity.get_timestamps()
-#	timestamps.set_start(OS.get_unix_time() - elapsedTime)
+#	timestamps.set_start(OS.get_unix_time() - kurwa playrtime zajebany)
 #
 #
 #	var result = yield(Discord.activity_manager.update_activity(activity), "result").result
@@ -338,6 +345,7 @@ func setMapButton(map, button):
 	button.get_node("Name").text = map.name
 	button.get_node("Description").text = map.description
 @export var mapVBox : Node
+@onready var mapStyleBox : StyleBoxTexture = load("res://Theme/MapBorderBox.tres")
 func updateMapsMenu():
 	# var mapVBox = get_node("UpgradeShopContainer/UpgradeShop/M/ScrollContainer/VBoxContainer")
 	# Reset the VBox to its' initial state
@@ -360,17 +368,19 @@ func updateMapsMenu():
 	for i in Upgrades.mapUpgrades.size():
 		if !Upgrades.mapUpgrades[i].bought:
 			var currentButton = load("res://Scenes/UpgradeButton.tscn").instantiate()
-			currentButton.get_node("Buy Button").index = i
-			currentButton.get_node("Buy Button").isMapUpgrade = true
+			var buyButton = currentButton.get_node("Buy Button")
+			buyButton.index = i
+			buyButton.isMapUpgrade = true
 			currentButton.get_node("Name").text = Upgrades.mapUpgrades[i].name
+			currentButton.set_style_map()
 			var THCpStext = ""
 			if Upgrades.mapUpgrades[i].globalMultiplier:
-				THCpStext += "+" + str(Upgrades.mapUpgrades[i].globalMultiplier * 100) + "%" + " THCpS "
+				THCpStext += "+" + str(Upgrades.mapUpgrades[i].globalMultiplier * 100) + "%" + " THC/s "
 			else:
 				THCpStext = ""
 			currentButton.get_node("THCpS").text = THCpStext
-			currentButton.get_node("Buy Button").text = thcWithNumberAffix(Upgrades.mapUpgrades[i].cost)
-			currentButton.get_node("Buy Button").connect(
+			buyButton.text = thcWithNumberAffix(Upgrades.mapUpgrades[i].cost)
+			buyButton.connect(
 				"UpgradeBuy", 
 				_on_UpgradeBuy)
 			mapVBox.add_child(currentButton)
@@ -559,7 +569,7 @@ func makeBuildingShop():
 			thcDifference = building.baseTHCpSWhileBurning * building.upgradeAdditiveMultiplier * building.upgradeMultiplicativeMultiplier
 			thcDiffStr = thcWithNumberAffix(thcDifference)
 			
-			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
+			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THC/s "
 		currentButton.get_node("Buy Button").showCost(thcWithNumberAffix(building.cost))
 		# Set the progress bar
 		var progressBar = currentButton.get_node("Upgrade Progress")
@@ -602,7 +612,7 @@ func updateBuildingShop():
 			thcDifference = building.baseTHCpSWhileBurning * building.upgradeAdditiveMultiplier * building.upgradeMultiplicativeMultiplier
 			thcDiffStr = thcWithNumberAffix(thcDifference)
 			
-			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THCpS "
+			THCpSLabel.text = thcWithNumberAffix(building.THCpSWhileBurning) + ("[color=#555555] (+%s)" % thcDiffStr) + "[/color] Akt. THC/s "
 		currentButton.get_node("Buy Button").showCost(thcWithNumberAffix(building.cost))
 		# Set the progress bar
 		var progressBar = currentButton.get_node("Upgrade Progress")
@@ -713,21 +723,23 @@ func updateUpgradesShop():
 		var buildingIndex = upgrade.buildingID
 		var buildingLevel = upgrade.buildingLevel
 		if ((buildingIndex != null and buildings[buildingIndex].level >= buildingLevel and not upgrade.bought)
-			or 
+			or # JA PIERDOLE JAKI TEN IF JEST POPIERDOLONY CO TO KURWA JEST XDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
 			(buildingIndex == null and not upgrade.bought and thc >= upgrade.cost/10.0)
 			):
 				var currentButton = buttonNode.instantiate()
 				currentButton.get_node("Buy Button").index = i
 				currentButton.get_node("Name").text = upgrade.name
 				var THCpStext = ""
-				if buildingIndex:
+				if buildingIndex != null: # Kinda bugged i guess, the multiplicative upgrade for lighter is fucked
 					THCpStext = buildings[upgrade.buildingID].name + " "
 				if upgrade.additiveMultiplier:
-					THCpStext += "+" + str(upgrade.additiveMultiplier * 100) + "%" + " THCpS "
+					THCpStext += "+" + str(upgrade.additiveMultiplier * 100) + "%" + " THC/s "
 				if upgrade.multiplicativeMultiplier:
-					THCpStext += str(upgrade.multiplicativeMultiplier * 100) + "%" + " THCpS"
+					THCpStext += str(upgrade.multiplicativeMultiplier * 100) + "%" + " THC/s"
 				currentButton.get_node("THCpS").text = THCpStext
 				currentButton.get_node("Description").text = upgrade.description
+				if not buildingIndex:
+					currentButton.set_style_special()
 				currentButton.get_node("Buy Button").text = thcWithNumberAffix(upgrade.cost)
 				currentButton.get_node("Buy Button").connect(
 					"UpgradeBuy",
@@ -862,6 +874,7 @@ func refreshBuildingsList():
 			buildingButtonList.append(button)
 func _process(delta):
 	# Code for changing the burn percentage based on the percentage
+	elapsed_since_save += delta
 	if isBurning:
 		var added = burnPercentage + (burnPctPerSec * samaraBurnPctBonus) * delta
 		burnPercentage = min(added, 1)
@@ -869,7 +882,8 @@ func _process(delta):
 		var drained = burnPercentage - burnPctDrainPerSec * delta
 		burnPercentage = max(burnPctMinimum, drained)
 	burnChange()
-	elapsedTime += delta
+	playtime += delta
+	playtime_since_detox += delta
 	THCpSToDisplay = THCpS
 	addOpalanie(burnPercentage*0.01)
 	addTHC(THCpS*delta)
@@ -878,7 +892,7 @@ func _on_Topek_burning(delta):
 	addTHC(THCpSWhileBurning * delta)
 
 func THCpStext(THCpS):
-	return "+" + "dsadsadsa" + "%" + " THCpS "
+	return "+" + "dsadsadsa" + "%" + " THC/s "
 
 func refreshTHCpS():
 	recalculateTHCpS()
@@ -931,13 +945,20 @@ func _on_burn_press():
 
 func addTHC(amount):
 	# Change the THCps label's text
-	var mult1 = snapped(globalMultiplier * samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult, 0.01)
+	# retarded naming scheme alert: globalMultiplier = map multiplier
+	var mult1 = snapped(samaraTHCPSbonus * thcSeriesAddMult * thcSeriesMultMultiplicative * growingThcAddMult, 0.01)
 	var detox_str = ""
 	if toleranceMult != 1:
-		detox_str = " × [color=purple]" + str(toleranceMult) + "[/color]"
+		detox_str = " × [color=#E0B0FF]" + str(toleranceMult) + "[/color]"
 
 	globalTHCpSLabel.text = (
-		thcWithNumberAffix(THCpSbeforeMult) + " × " + str(mult1) + " × " + str(snapped(growingThcMultMultiplicative,0.01)) + " × [color='orange']" + str(snapped(burnPercentage,0.01)) + "[/color]" + detox_str + " = " + thcWithNumberAffix(THCpS) + " THCpS"# + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" 
+		thcWithNumberAffix(THCpSbeforeMult) + 
+		" × " + str(mult1) + 
+		" × " + "[color=#800020]" + str(snapped(globalMultiplier, 0.01)) + "[/color]" + 
+		" × " + str(snapped(growingThcMultMultiplicative,0.01)) + 
+		" × [color='orange']" + str(snapped(burnPercentage,0.01)) + "[/color]" + 
+		detox_str + 
+		" = " + thcWithNumberAffix(THCpS) + " THC/s"# + thcWithNumberAffix(THCpS/burnPercentage) + "\n (" 
 		# + thcWithNumberAffix(THCpS) + ")" + " "
 	)
 

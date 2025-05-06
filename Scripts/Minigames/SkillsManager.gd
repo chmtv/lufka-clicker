@@ -18,6 +18,10 @@ func start_wiadro_minigame():
 	# A lot of this code will probabaly have to be rewritten when I add more skills and minigames
 	# BTW this thing is now directly connected to the wiadro button
 	# First the background gets made visible
+	
+	# NIE MA KURWA CPANIA WIADRA KURWO
+	return
+	
 	minigame_viewportcontainer.visible = true
 	var wiadro_minigame_instance = wiadro_minigame_scene.instantiate()
 	wiadro_minigame_instance.position = minigame_camera.position

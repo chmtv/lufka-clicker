@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://xakdhc3g0mwf"]
+
+[ext_resource type="Texture2D" uid="uid://bxumyajkir7f5" path="res://Sprites/Particles/star1.png" id="1_j3gy8"]
+[ext_resource type="Texture2D" uid="uid://16uegoifsu5b" path="res://Sprites/Particles/star2.png" id="2_rhfdj"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_yp5m7"]
+frames = 2
+frame_0/texture = ExtResource("1_j3gy8")
+frame_0/duration = 0.2
+frame_1/texture = ExtResource("2_rhfdj")
+frame_1/duration = 0.2
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+position = Vector2(26, 19)
+amount = 5
+lifetime = 0.5
+explosiveness = 1.0
+texture = SubResource("AnimatedTexture_yp5m7")
+emission_shape = 3
+emission_rect_extents = Vector2(100, 30)
+gravity = Vector2(0, 0)

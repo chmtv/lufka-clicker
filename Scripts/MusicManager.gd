@@ -40,12 +40,19 @@ func growingMusic():
 	setPitchScale(0.8)
 func getRandomTrack():
 	return musicStreams[randi() % musicStreams.size()]
+@export var buildingsVisualManager : Node
 func changeMusic():
-	stream = getRandomTrack()
+	# stream = getRandomTrack()
+	buildingsVisualManager.next_minor_beat = 0
+	buildingsVisualManager.next_major_beat = 0
+	buildingsVisualManager.next_rotation_beat = 0
+	buildingsVisualManager.rotationSpeed = 0.6
+	stream = musicStreams[5]
 	play()
+	seek(0)
 
 func _ready():
-	changeMusic()
+	get_tree().create_timer(1.0).timeout.connect(changeMusic)
 
 
 func _on_finished():
